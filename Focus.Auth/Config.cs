@@ -29,7 +29,11 @@ namespace Focus.Auth
                     ClientSecrets = {
                         new Secret("focus_secret".Sha256())
                     },
-                    AllowedScopes = { "focus_api" }
+                    RedirectUris = { "http://localhost:8002/signin-oidc"},
+                    PostLogoutRedirectUris = { "http://localhost:8002/signout-callback-oidc"},
+                    AllowedScopes = { "focus_api" },
+                    AllowOfflineAccess = true,
+                    AllowAccessTokensViaBrowser = true
                 }
             };
         }

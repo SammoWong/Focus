@@ -41,6 +41,8 @@ namespace Focus.Auth
             }
 
             app.UseIdentityServer();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
             app.UseMvc();
         }
     }
