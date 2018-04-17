@@ -13,7 +13,6 @@ namespace Focus.Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        [Authorize]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };

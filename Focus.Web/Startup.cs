@@ -37,7 +37,7 @@ namespace Focus.Web
                 options.RequireHttpsMetadata = false;
                 options.ClientId = "focus_client";
                 options.ClientSecret = "focus_secret";
-                options.ResponseType = "id_token token";
+                options.ResponseType = "id_token code";
                 options.Scope.Add("focus_api");
                 options.Scope.Add("offline_access");
                 options.SaveTokens = true;
