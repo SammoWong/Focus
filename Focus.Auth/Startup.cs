@@ -27,7 +27,8 @@ namespace Focus.Auth
                     .AddDeveloperSigningCredential()
                     .AddInMemoryApiResources(Config.GetApiResources())
                     .AddInMemoryClients(Config.GetClients())
-                    .AddTestUsers(Config.GetTestUsers().ToList());
+                    .AddTestUsers(Config.GetTestUsers().ToList())
+                    .AddInMemoryIdentityResources(Config.GetIdentityResources());
 
             services.AddMvc();
         }

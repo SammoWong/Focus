@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
@@ -25,13 +26,18 @@ namespace Focus.Auth
                 {
                     ClientId = "focus_client",
                     ClientName = "Focus管理系统",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = {
                         new Secret("focus_secret".Sha256())
                     },
                     RedirectUris = { "http://localhost:8002/signin-oidc"},
                     PostLogoutRedirectUris = { "http://localhost:8002/signout-callback-oidc"},
-                    AllowedScopes = { "focus_api" },
+                    AllowedScopes =
+                    {
+                        "focus_api",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true
                 }
@@ -52,6 +58,15 @@ namespace Focus.Auth
                     Username = "username",
                     Password = "password"
                 }
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
             };
         }
     }
