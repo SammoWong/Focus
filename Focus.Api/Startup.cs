@@ -34,6 +34,16 @@ namespace Focus.Api
                         options.Authority = "http://localhost:8000";
                         options.ApiName = "focus_api";
                     });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder =>
+                {
+                    builder.AllowAnyOrigin()//允许任何来源的主机访问
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +53,7 @@ namespace Focus.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("default");
             app.UseAuthentication();
             app.UseMvc();
         }
