@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Focus.Repository.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,6 +40,7 @@ namespace Focus.Api
                         options.ApiName = "focus_api";
                     });
 
+            //添加跨域支持
             services.AddCors(options =>
             {
                 options.AddPolicy("default", builder =>
@@ -48,6 +51,11 @@ namespace Focus.Api
                 });
             });
 
+            //添加数据库连接
+            var connectionString = Configuration["ConnectionStrings:FocusDbConnectionString"];
+            services.AddDbContext<FocusDbContext>(o => o.UseSqlServer(connectionString));
+
+            //添加Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Focus API", Version = "v1" });
