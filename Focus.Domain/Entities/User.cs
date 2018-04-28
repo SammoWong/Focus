@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities.Interfaces;
+using Focus.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,11 +12,13 @@ namespace Focus.Domain.Entities
 
         public string RealName { get; set; }
 
+        public string Email { get; set; }
+
         public string Password { get; set; }
 
         public string Salt { get; set; }
 
-        public short? Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         public string Avatar { get; set; }
 
@@ -24,6 +27,8 @@ namespace Focus.Domain.Entities
         public string Mobile { get; set; }
 
         public string IdCard { get; set; }
+
+        public string CompanyId { get; set; }
 
         public string DepartmentId { get; set; }
 
