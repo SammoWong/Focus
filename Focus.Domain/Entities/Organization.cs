@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities.Interfaces;
+using Focus.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Focus.Domain.Entities
 
         public string Code { get; set; }
 
-        public short Category { get; set; }
+        public OrganizationCategory Category { get; set; }
 
         public int? SortNumber { get; set; }
 

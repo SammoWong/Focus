@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities.Interfaces;
+using Focus.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Focus.Domain.Entities
 
         public string Code { get; set; }
 
-        public short Category { get; set; }
+        public ModuleCategory Category { get; set; }
 
         public string Url { get; set; }
 
@@ -23,7 +24,7 @@ namespace Focus.Domain.Entities
 
         public int? SortNumber { get; set; }
 
-        public bool IsExpanded { get; set; }
+        public bool? IsExpanded { get; set; }
 
         public string Remark { get; set; }
 

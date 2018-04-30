@@ -8,19 +8,26 @@ using System.Text;
 
 namespace Focus.Repository.EntityFrameworkCore.Configurations
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class CompanyConfiguration : IEntityTypeConfiguration<Company>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<Company> builder)
         {
             //设置表名
-            builder.ToTable("Role");
+            builder.ToTable("Company");
 
             //设置主键
             builder.HasKey(e => e.Id);
 
             //设置字段属性
             builder.Property(e => e.Id).HasColumnName("Id").IsRequired().HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.Name).HasColumnName("Name").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralEntityNameLength);
+            builder.Property(e => e.FullName).HasColumnName("FullName").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralEntityNameLength);
+            builder.Property(e => e.ShortName).HasColumnName("ShortName").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralEntityNameLength);
+            builder.Property(e => e.Nature).HasColumnName("Nature").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
+            builder.Property(e => e.Website).HasColumnName("Website").HasMaxLength(FocusConstants.Validation.EntityValidator.UrlStringLength);
+            builder.Property(e => e.Email).HasColumnName("Website").HasMaxLength(FocusConstants.Validation.EntityValidator.EmailStringLength);
+            builder.Property(e => e.Contact).HasColumnName("Contact").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
+            builder.Property(e => e.Mobile).HasColumnName("Mobile").HasMaxLength(FocusConstants.Validation.EntityValidator.MobileStringLength);
+            builder.Property(e => e.Address).HasColumnName("Address").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralLongerStringLength);
             builder.Property(e => e.Description).HasColumnName("Description").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralDescriptionLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
