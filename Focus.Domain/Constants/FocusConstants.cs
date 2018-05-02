@@ -29,6 +29,7 @@ namespace Focus.Domain.Constants
                 public const int EncryptedPasswordLength = 64;
                 public const int SaltStringLength = 64;
                 public const int MobileStringLength = 11;
+                public const int PhoneStringLength = 20;
                 public const int IdCardStringLength = 20;
                 public const int UrlStringLength = 1024;
                 public const int PathStringLength = 512;

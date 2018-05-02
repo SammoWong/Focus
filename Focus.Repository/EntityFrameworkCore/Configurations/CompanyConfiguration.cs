@@ -24,9 +24,11 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.ShortName).HasColumnName("ShortName").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralEntityNameLength);
             builder.Property(e => e.Nature).HasColumnName("Nature").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.Website).HasColumnName("Website").HasMaxLength(FocusConstants.Validation.EntityValidator.UrlStringLength);
-            builder.Property(e => e.Email).HasColumnName("Website").HasMaxLength(FocusConstants.Validation.EntityValidator.EmailStringLength);
+            builder.Property(e => e.Email).HasColumnName("Email").HasMaxLength(FocusConstants.Validation.EntityValidator.EmailStringLength);
+            builder.Property(e => e.Creator).HasColumnName("Creator").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.Contact).HasColumnName("Contact").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.Mobile).HasColumnName("Mobile").HasMaxLength(FocusConstants.Validation.EntityValidator.MobileStringLength);
+            builder.Property(e => e.Phone).HasColumnName("Phone").HasMaxLength(FocusConstants.Validation.EntityValidator.PhoneStringLength);
             builder.Property(e => e.Address).HasColumnName("Address").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralLongerStringLength);
             builder.Property(e => e.Description).HasColumnName("Description").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralDescriptionLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");

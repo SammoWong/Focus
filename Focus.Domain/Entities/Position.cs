@@ -9,7 +9,11 @@ namespace Focus.Domain.Entities
     {
         public string Name { get; set; }
 
+        public string DepartmentId { get; set; }
+
         public int? SortNumber { get; set; }
+
+        public string Remark { get; set; }
 
         public bool Enabled { get; set; }
 

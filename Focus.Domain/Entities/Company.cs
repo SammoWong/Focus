@@ -17,9 +17,13 @@ namespace Focus.Domain.Entities
 
         public string Email { get; set; }
 
+        public string Creator { get; set; }
+
         public string Contact { get; set; }
 
         public string Mobile { get; set; }
+
+        public string Phone { get; set; }
 
         public string Address { get; set; }
 

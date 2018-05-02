@@ -11,6 +11,8 @@ namespace Focus.Domain.Entities
 
         public string Code { get; set; }
 
+        public string JsEvent { get; set; }
+
         public string Url { get; set; }
 
         public string Icon { get; set; }

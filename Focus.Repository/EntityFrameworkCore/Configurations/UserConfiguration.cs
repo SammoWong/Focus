@@ -22,6 +22,7 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.Id).HasColumnName("Id").IsRequired().HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Account).HasColumnName("Account").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.RealName).HasColumnName("RealName").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
+            builder.Property(e => e.IdCard).HasColumnName("IdCard").HasMaxLength(FocusConstants.Validation.EntityValidator.IdCardStringLength);
             builder.Property(e => e.Email).HasColumnName("Email").HasMaxLength(FocusConstants.Validation.EntityValidator.EmailStringLength);
             builder.Property(e => e.Password).HasColumnName("Password").HasMaxLength(FocusConstants.Validation.EntityValidator.EncryptedPasswordLength);
             builder.Property(e => e.Salt).HasColumnName("Salt").HasMaxLength(FocusConstants.Validation.EntityValidator.SaltStringLength);
@@ -29,7 +30,6 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.Avatar).HasColumnName("Avatar").HasMaxLength(FocusConstants.Validation.EntityValidator.PathStringLength);
             builder.Property(e => e.Birthday).HasColumnName("Birthday");
             builder.Property(e => e.Mobile).HasColumnName("Mobile").HasMaxLength(FocusConstants.Validation.EntityValidator.MobileStringLength);
-            builder.Property(e => e.IdCard).HasColumnName("IdCard").HasMaxLength(FocusConstants.Validation.EntityValidator.IdCardStringLength);
             builder.Property(e => e.CompanyId).HasColumnName("CompanyId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.DepartmentId).HasColumnName("DepartmentId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.WorkgroupId).HasColumnName("WorkgroupId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);

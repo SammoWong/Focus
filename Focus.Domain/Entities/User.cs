@@ -12,6 +12,8 @@ namespace Focus.Domain.Entities
 
         public string RealName { get; set; }
 
+        public string IdCard { get; set; }
+
         public string Email { get; set; }
 
         public string Password { get; set; }
@@ -25,8 +27,6 @@ namespace Focus.Domain.Entities
         public DateTime? Birthday { get; set; }
 
         public string Mobile { get; set; }
-
-        public string IdCard { get; set; }
 
         public string CompanyId { get; set; }
 
