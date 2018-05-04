@@ -50,6 +50,8 @@ namespace Focus.Domain.Entities
 
         public DateTime? ModifiedTime { get; set; }
 
+        public string RoleId { get; set; }
+
         public virtual Role Role { get; set; }
 
         public virtual Company Company { get; set; }

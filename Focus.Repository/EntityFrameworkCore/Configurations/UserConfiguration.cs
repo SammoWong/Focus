@@ -41,9 +41,10 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime");
             builder.Property(e => e.ModifiedBy).HasColumnName("ModifiedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime");
-
+            builder.Property(e => e.RoleId).HasColumnName("RoleId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             //设置表之间关系
-            
+
+            builder.HasOne(e => e.Role).WithMany(e => e.Users).HasForeignKey(e => e.RoleId);
         }
     }
 }
