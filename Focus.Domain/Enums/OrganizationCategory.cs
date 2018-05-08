@@ -2,7 +2,7 @@
 
 namespace Focus.Domain.Enums
 {
-    public enum OrganizationCategory : short
+    public enum OrganizationCategory : byte
     {
         [Display(Name = "部门")]
         Department = 1,

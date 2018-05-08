@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Focus.Domain.Enums
 {
-    public enum ModuleCategory : short
+    public enum ModuleCategory : byte
     {
         [Display(Name = "目录")]
         Male = 1,

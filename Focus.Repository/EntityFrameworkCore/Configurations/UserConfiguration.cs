@@ -28,23 +28,20 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.Salt).HasColumnName("Salt").HasMaxLength(FocusConstants.Validation.EntityValidator.SaltStringLength);
             builder.Property(e => e.Gender).HasColumnName("Gender");
             builder.Property(e => e.Avatar).HasColumnName("Avatar").HasMaxLength(FocusConstants.Validation.EntityValidator.PathStringLength);
-            builder.Property(e => e.Birthday).HasColumnName("Birthday");
+            builder.Property(e => e.Birthday).HasColumnName("Birthday").HasColumnType("DATETIME");
             builder.Property(e => e.Mobile).HasColumnName("Mobile").HasMaxLength(FocusConstants.Validation.EntityValidator.MobileStringLength);
             builder.Property(e => e.CompanyId).HasColumnName("CompanyId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.DepartmentId).HasColumnName("DepartmentId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.WorkgroupId).HasColumnName("WorkgroupId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime");
+            builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime").HasColumnType("DATETIME");
             builder.Property(e => e.IsDeleted).HasColumnName("IsDeleted");
             builder.Property(e => e.DeletedBy).HasColumnName("DeletedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime");
+            builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime").HasColumnType("DATETIME");
             builder.Property(e => e.ModifiedBy).HasColumnName("ModifiedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime");
+            builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime").HasColumnType("DATETIME");
             builder.Property(e => e.RoleId).HasColumnName("RoleId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            //设置表之间关系
-
-            builder.HasOne(e => e.Role).WithMany(e => e.Users).HasForeignKey(e => e.RoleId);
         }
     }
 }

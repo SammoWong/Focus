@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Focus.Domain.Enums
 {
-    public enum Gender : short
+    public enum Gender : byte
     {
         [Display(Name = "男性")]
         Male = 1,

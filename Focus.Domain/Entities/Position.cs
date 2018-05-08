@@ -15,6 +15,8 @@ namespace Focus.Domain.Entities
 
         public string Remark { get; set; }
 
+        public string CompanyId { get; set; }
+
         public bool Enabled { get; set; }
 
         public string CreatedBy { get; set; }
@@ -34,5 +36,7 @@ namespace Focus.Domain.Entities
         public virtual Company Company { get; set; }
 
         public virtual Organization Organization { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

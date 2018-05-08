@@ -33,12 +33,16 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.Description).HasColumnName("Description").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralDescriptionLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime");
+            builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime").HasColumnType("DATETIME");
             builder.Property(e => e.IsDeleted).HasColumnName("IsDeleted");
             builder.Property(e => e.DeletedBy).HasColumnName("DeletedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime");
+            builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime").HasColumnType("DATETIME");
             builder.Property(e => e.ModifiedBy).HasColumnName("ModifiedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime");
+            builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime").HasColumnType("DATETIME");
+
+            //设置表之间关系
+            builder.HasMany(e => e.Users).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
+            builder.HasMany(e => e.Roles).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
         }
     }
 }

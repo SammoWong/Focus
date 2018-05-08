@@ -13,6 +13,8 @@ namespace Focus.Domain.Entities
 
         public string Description { get; set; }
 
+        public string CompanyId { get; set; }
+
         public bool Enabled { get; set; }
 
         public string CreatedBy { get; set; }

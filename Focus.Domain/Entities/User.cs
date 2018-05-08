@@ -34,6 +34,10 @@ namespace Focus.Domain.Entities
 
         public string WorkgroupId { get; set; }
 
+        public string RoleId { get; set; }
+
+        public string PositionId { get; set; }
+
         public bool Enabled { get; set; }
 
         public string CreatedBy { get; set; }
@@ -50,10 +54,12 @@ namespace Focus.Domain.Entities
 
         public DateTime? ModifiedTime { get; set; }
 
-        public string RoleId { get; set; }
-
         public virtual Role Role { get; set; }
 
         public virtual Company Company { get; set; }
+
+        public virtual Organization Organization { get; set; }
+
+        public virtual Position Position { get; set; }
     }
 }
