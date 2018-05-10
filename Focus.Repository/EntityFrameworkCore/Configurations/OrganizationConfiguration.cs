@@ -20,11 +20,12 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
 
             //设置字段属性
             builder.Property(e => e.Id).HasColumnName("Id").IsRequired().HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
-            builder.Property(e => e.ParentId).HasColumnName("ParentId").IsRequired().HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
+            builder.Property(e => e.ParentId).HasColumnName("ParentId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Name).HasColumnName("Name").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralEntityNameLength);
             builder.Property(e => e.Code).HasColumnName("Code").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.Category).HasColumnName("Category");
             builder.Property(e => e.SortNumber).HasColumnName("SortNumber");
+            builder.Property(e => e.CompanyId).HasColumnName("CompanyId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime").HasColumnType("DATETIME");
@@ -33,6 +34,10 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime").HasColumnType("DATETIME");
             builder.Property(e => e.ModifiedBy).HasColumnName("ModifiedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime").HasColumnType("DATETIME");
+
+            //设置表之间关系
+            builder.HasMany(e => e.Positions).WithOne(e => e.Organization).HasForeignKey(e => e.DepartmentId);
+            builder.HasMany(e => e.Users).WithOne(e => e.Organization).HasForeignKey(e => new { e.DepartmentId, e.WorkgroupId});
         }
     }
 }

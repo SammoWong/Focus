@@ -24,6 +24,7 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.Icon).HasColumnName("Icon").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralStringLength);
             builder.Property(e => e.SortNumber).HasColumnName("SortNumber");
             builder.Property(e => e.Remark).HasColumnName("Remark").HasMaxLength(FocusConstants.Validation.EntityValidator.GeneralDescriptionLength);
+            builder.Property(e => e.ModuleId).HasColumnName("ModuleId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime").HasColumnType("DATETIME");

@@ -33,6 +33,8 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.CompanyId).HasColumnName("CompanyId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.DepartmentId).HasColumnName("DepartmentId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.WorkgroupId).HasColumnName("WorkgroupId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
+            builder.Property(e => e.RoleId).HasColumnName("RoleId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
+            builder.Property(e => e.PositionId).HasColumnName("PositionId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.Enabled).HasColumnName("Enabled");
             builder.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.CreatedTime).HasColumnName("CreatedTime").HasColumnType("DATETIME");
@@ -41,7 +43,6 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.Property(e => e.DeletedTime).HasColumnName("DeletedTime").HasColumnType("DATETIME");
             builder.Property(e => e.ModifiedBy).HasColumnName("ModifiedBy").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
             builder.Property(e => e.ModifiedTime).HasColumnName("ModifiedTime").HasColumnType("DATETIME");
-            builder.Property(e => e.RoleId).HasColumnName("RoleId").HasMaxLength(FocusConstants.Validation.EntityValidator.GuidStringLength);
         }
     }
 }

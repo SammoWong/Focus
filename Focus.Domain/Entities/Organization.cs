@@ -18,6 +18,8 @@ namespace Focus.Domain.Entities
 
         public int? SortNumber { get; set; }
 
+        public string CompanyId { get; set; }
+
         public bool Enabled { get; set; }
 
         public string CreatedBy { get; set; }
@@ -37,5 +39,7 @@ namespace Focus.Domain.Entities
         public virtual Company Company { get; set; }
 
         public virtual ICollection<Position> Positions { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -21,6 +21,8 @@ namespace Focus.Domain.Entities
 
         public string Remark { get; set; }
 
+        public string ModuleId { get; set; }
+
         public bool Enabled { get; set; }
 
         public string CreatedBy { get; set; }
