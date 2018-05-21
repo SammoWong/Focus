@@ -37,7 +37,9 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
 
             //设置表之间关系
             builder.HasMany(e => e.Positions).WithOne(e => e.Organization).HasForeignKey(e => e.DepartmentId);
-            builder.HasMany(e => e.Users).WithOne(e => e.Organization).HasForeignKey(e => new { e.DepartmentId, e.WorkgroupId});
+            //builder.HasMany(e => e.Users).WithOne(e => e.Organization).HasForeignKey(e => new { e.DepartmentId, e.WorkgroupId});
+            builder.HasMany(e => e.Users).WithOne(e => e.Organization).HasForeignKey(e => e.DepartmentId);
+            builder.HasMany(e => e.Users).WithOne(e => e.Organization).HasForeignKey(e => e.WorkgroupId);
         }
     }
 }
