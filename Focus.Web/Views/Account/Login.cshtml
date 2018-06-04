@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -21,131 +21,54 @@
             </div>
             <form class="form">
                 <div class="row">
-                    <input id="txt_account" type="text" placeholder="用户名/手机号/邮箱">
+                    <input id="account" type="text" placeholder="用户名/手机号/邮箱">
                     <i class="fa fa-user"></i>
                 </div>
                 <div class="row">
-                    <input id="txt_password" type="password" placeholder="登录密码">
+                    <input id="password" type="password" placeholder="登录密码">
                     <i class="fa fa-key"></i>
                 </div>
                 <div class="row">
-                    <input id="txt_code" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;">
+                    <input id="verificationCode" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;">
                     <div style="width: 110px; float: right; padding-top: 14px; padding-left: 14px;">
                         看不清？<a id="switchCode" href="javascript:void();" style="text-decoration: none;">换一张</a>
-                        <img id="imgcode" class="authcode" src="~/Login/GetAuthCode" width="80" height="25" />
+                        @*<img id="imgcode" class="authcode" src="~/Account/VerificationCode" width="80" height="25" />*@
                     </div>
                 </div>
                 <div class="row">
-                    <button id="login_button" type="button"><span>登录</span></button>
+                    <button id="login" type="button"><span>登录</span></button>
                 </div>
                 <div class="row">
                 </div>
             </form>
-            <div class="login_tips"></div>
+            <div class="loginTips"></div>
         </div>
-        <ul class="bg-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
     </div>
     <div class="copyright">
         适用浏览器：IE8以上、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.
     </div>
-    <script type="text/javascript">
-        (function ($) {
-            $.login = {
-                formMessage: function (msg) {
-                    $('.login_tips').find('.tips_msg').remove();
-                    $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + msg + '</div>');
-                },
-                loginClick: function () {
-                    var $username = $("#txt_account");
-                    var $password = $("#txt_password");
-                    var $code = $("#txt_code");
-                    if ($username.val() == "") {
-                        $username.focus();
-                        $.login.formMessage('请输入用户名/手机号/邮箱。');
-                        return false;
-                    } else if ($password.val() == "") {
-                        $password.focus();
-                        $.login.formMessage('请输入登录密码。');
-                        return false;
-                    } else if ($code.val() == "") {
-                        $code.focus();
-                        $.login.formMessage('请输入验证码。');
-                        return false;
-                    } else {
-                        $("#login_button").attr('disabled', 'disabled').find('span').html("loading...");
-                        $.ajax({
-                            url: "/Login/CheckLogin",
-                            data: { username: $.trim($username.val()), password: $.md5($.trim($password.val())), code: $.trim($code.val()) },
-                            type: "post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.state == "success") {
-                                    $("#login_button").find('span').html("登录成功，正在跳转...");
-                                    window.setTimeout(function () {
-                                        window.location.href = "/Home/Index";
-                                    }, 500);
-                                } else {
-                                    $("#login_button").removeAttr('disabled').find('span').html("登录");
-                                    $("#switchCode").trigger("click");
-                                    $code.val('');
-                                    $.login.formMessage(data.message);
-                                }
-                            }
-                        });
-                    }
-                },
-                init: function () {
+    <script>
+        var viewModel = function () {
+            return {
+                initPage: function () {
                     $('.wrapper').height($(window).height());
                     $(".container").css("margin-top", ($(window).height() - $(".container").height()) / 2 - 50);
                     $(window).resize(function (e) {
                         $('.wrapper').height($(window).height());
                         $(".container").css("margin-top", ($(window).height() - $(".container").height()) / 2 - 50);
                     });
-                    $("#switchCode").click(function () {
-                        $("#imgcode").attr("src", "/Login/GetAuthCode?time=" + Math.random());
-                    });
-                    var login_error = top.$.cookie('nfine_login_error');
-                    if (login_error != null) {
-                        switch (login_error) {
-                            case "overdue":
-                                $.login.formMessage("系统登录已超时,请重新登录");
-                                break;
-                            case "OnLine":
-                                $.login.formMessage("您的帐号已在其它地方登录,请重新登录");
-                                break;
-                            case "-1":
-                                $.login.formMessage("系统未知错误,请重新登录");
-                                break;
-                        }
-                        top.$.cookie('nfine_login_error', '', { path: "/", expires: -1 });
-                    }
-                    $("#login_button").click(function () {
-                        $.login.loginClick();
-                    });
-                    document.onkeydown = function (e) {
-                        if (!e) e = window.event;
-                        if ((e.keyCode || e.which) == 13) {
-                            document.getElementById("login_button").focus();
-                            document.getElementById("login_button").click();
-                        }
-                    }
+                },
+                initEvents: function () {
+
+
                 }
-            };
-            $(function () {
-                $.login.init();
-            });
-        })(jQuery);
+
+            }
+
+        }();
+        $(function () {
+            viewModel.initPage();
+        })
     </script>
 </body>
 </html>
