@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Focus.Infrastructure\Focus.Infrastructure.csproj" />
     <ProjectReference Include="..\Focus.Repository\Focus.Repository.csproj" />
   </ItemGroup>
 

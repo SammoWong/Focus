@@ -21,7 +21,7 @@
             </div>
             <form class="form">
                 <div class="row">
-                    <input id="account" type="text" placeholder="用户名/手机号/邮箱">
+                    <input id="account" type="text" placeholder="账号/手机号/邮箱">
                     <i class="fa fa-user"></i>
                 </div>
                 <div class="row">
@@ -32,7 +32,7 @@
                     <input id="verificationCode" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;">
                     <div style="width: 110px; float: right; padding-top: 14px; padding-left: 14px;">
                         看不清？<a id="switchCode" href="javascript:void();" style="text-decoration: none;">换一张</a>
-                        @*<img id="imgcode" class="authcode" src="~/Account/VerificationCode" width="80" height="25" />*@
+                        <img id="codeUrl" class="authcode" src="http://localhost:8001/api/Account/VerificationCode" width="80" height="25" />
                     </div>
                 </div>
                 <div class="row">
@@ -41,7 +41,7 @@
                 <div class="row">
                 </div>
             </form>
-            <div class="loginTips"></div>
+            <div class="login_tips"></div>
         </div>
     </div>
     <div class="copyright">
@@ -50,6 +50,38 @@
     <script>
         var viewModel = function () {
             return {
+                init: function () {
+                    this.initPage();
+                    this.initEvents();
+                },
+                methods: {
+                    showLoginMessage: function (message) {
+                        $('.login_tips').find('.tips_msg').remove();
+                        $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + message + '</div>');
+                    },
+                    login: function () {
+                        var account = $('#account').val();
+                        var password = $('#password').val();
+                        var verificationCode = $('#verificationCode').val();
+                        if (account == '') {
+                            this.showLoginMessage('请输入账号/手机号/邮箱');
+                            return false;
+                        }
+                        if (password == '') {
+                            this.showLoginMessage('请输入密码');
+                            return false;
+                        }
+                        if (verificationCode == '') {
+                            this.showLoginMessage('请输入验证码');
+                            return false;
+                        }
+                        $('#login').attr('disabled', 'disabled').find('span').html('loading...');
+                    },
+                    getVerificationCode: function () {
+                        $("#codeUrl").attr("src", "http://localhost:8001/api/Account/VerificationCode?time=" + Math.random());
+                    }
+
+                },
                 initPage: function () {
                     $('.wrapper').height($(window).height());
                     $(".container").css("margin-top", ($(window).height() - $(".container").height()) / 2 - 50);
@@ -59,15 +91,18 @@
                     });
                 },
                 initEvents: function () {
-
-
+                    var methods = this.methods;
+                    $("#login").click(function () {
+                        methods.login();
+                    });
+                    $("#switchCode").click(function () {
+                        methods.getVerificationCode();
+                    });
                 }
-
             }
-
         }();
         $(function () {
-            viewModel.initPage();
+            viewModel.init();
         })
     </script>
 </body>
