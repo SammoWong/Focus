@@ -43,7 +43,7 @@ namespace Focus.Web
                 options.Scope.Add("offline_access");
                 options.SaveTokens = true;
             });
-            //services.AddOptions().Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
+            AppSettings.ApiUrl = Configuration["AppSettings:apiUrl"];
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +58,7 @@ namespace Focus.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>
