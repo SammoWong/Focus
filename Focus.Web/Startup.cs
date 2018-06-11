@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Focus.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,7 @@ namespace Focus.Web
                 options.Scope.Add("offline_access");
                 options.SaveTokens = true;
             });
+            //services.AddOptions().Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
