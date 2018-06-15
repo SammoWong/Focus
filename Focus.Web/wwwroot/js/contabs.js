@@ -276,7 +276,8 @@ $(function () {
 
     //刷新iframe
     function refreshTab() {
-        var target = $('.J_iframe[data-id="' + $(this).data('id') + '"]');
+        var currentId = $('.page-tabs-content').find('.active').attr('data-id');
+        var target = $('.J_iframe[data-id="' + currentId + '"]');
         var url = target.attr('src');
 //        //显示loading提示
 //        var loading = layer.load();
@@ -284,9 +285,13 @@ $(function () {
 //            //关闭loading提示
 //            layer.close(loading);
 //        });
+        target.attr('src', url).load(function () {
+            //$.loading(false);
+        });
     }
 
     $('.J_menuTabs').on('dblclick', '.J_menuTab', refreshTab);
+    $('.J_tabReload').on('click', refreshTab);
 
     // 左移按扭
     $('.J_tabLeft').on('click', scrollTabLeft);
