@@ -17,6 +17,11 @@ namespace Focus.Web.Controllers
             return View();
         }
 
+        public IActionResult Default()
+        {
+            return View();
+        }
+
         [Authorize]
         public IActionResult About()
         {
