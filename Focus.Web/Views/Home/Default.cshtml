@@ -4,9 +4,13 @@
 Default
 <br />
 <button type="button" class="btn btn-primary" id="showtoast">显示Toast</button>
+<button type="button" class="btn btn-primary" id="showloading">显示loading</button>
+<button type="button" class="btn btn-primary" id="hideloading">隐藏loading</button>
+
+
 
 @section scripts
-{
+    {
     <script>
         $(document).ready(function () {
             $('#showtoast').click(function () {
@@ -15,6 +19,18 @@ Default
                 //toastr.warning("这是一个Warning toastr");
                 toastr.error("这是一个error toastr");
             })
+
+            $('#showloading').click(function () {
+                showLoading();
+                setTimeout(function () {
+                    hideLoading();
+                }, 3000);
+            })
+
+            $('#hideloading').click(function () {
+                hideLoading();
+            })
         });
+
     </script>
 }
