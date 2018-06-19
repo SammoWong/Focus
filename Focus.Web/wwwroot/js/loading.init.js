@@ -1,4 +1,4 @@
-﻿function showLoading(title, description) {
+﻿function showLoading() {
     $('body').loading({
         loadingWidth: 120,
         title: '',
