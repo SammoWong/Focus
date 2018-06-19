@@ -2,3 +2,19 @@
     ViewData["Title"] = "404";
 }
 Default
+<br />
+<button type="button" class="btn btn-primary" id="showtoast">显示Toast</button>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#showtoast').click(function () {
+                //toastr.success("这是一个success toastr");
+                //toastr.info("这是一个info toastr");
+                //toastr.warning("这是一个Warning toastr");
+                toastr.error("这是一个error toastr");
+            })
+        });
+    </script>
+}
