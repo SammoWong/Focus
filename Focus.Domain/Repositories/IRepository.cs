@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Focus.Domain.Repositories
 {
-    interface IRepository<T> where T : EntityBase
+    public interface IRepository<T> where T : EntityBase
     {
         IQueryable<T> Find(Expression<Func<T, bool>> filter);
 
