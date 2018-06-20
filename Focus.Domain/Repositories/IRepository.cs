@@ -24,10 +24,10 @@ namespace Focus.Domain.Repositories
 
         Task UpdateAsync(T entity);
 
-        Task UpdateAsync(Expression<Func<T, object>> filter, T entity);
-
         Task UpdateAsync(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity);
 
         Task DeleteAsync(T entity);
+
+        Task<int> ExecuteSqlAsync(string sql);
     }
 }

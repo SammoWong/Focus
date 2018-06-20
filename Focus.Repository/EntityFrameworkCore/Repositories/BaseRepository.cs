@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace Focus.Repository.EntityFrameworkCore.Repositories
 {
@@ -36,14 +37,24 @@ namespace Focus.Repository.EntityFrameworkCore.Repositories
             await _focusDbContext.SaveChangesAsync();
         }
 
+        public async Task<int> ExecuteSqlAsync(string sql)
+        {
+            return await _focusDbContext.Database.ExecuteSqlCommandAsync(sql);
+        }
+
         public IQueryable<T> Find(Expression<Func<T, bool>> filter)
         {
             return Filter(filter);
         }
 
+        /// <summary>
+        /// 单个查询，且不被追踪
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public async Task<T> FindSingleAsync(Expression<Func<T, bool>> filter)
         {
-            return await _focusDbContext.Set<T>().FirstOrDefaultAsync(filter);
+            return await _focusDbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter);
         }
 
         public async Task<int> GetCountAsync(Expression<Func<T, bool>> filter)
@@ -51,9 +62,9 @@ namespace Focus.Repository.EntityFrameworkCore.Repositories
             return await Filter(filter).CountAsync();
         }
 
-        public Task<bool> IsExistsAsync(Expression<Func<T, bool>> filter)
+        public async Task<bool> IsExistsAsync(Expression<Func<T, bool>> filter)
         {
-            return _focusDbContext.Set<T>().AnyAsync(filter);
+            return await _focusDbContext.Set<T>().AnyAsync(filter);
         }
 
         public async Task UpdateAsync(T entity)
@@ -62,20 +73,15 @@ namespace Focus.Repository.EntityFrameworkCore.Repositories
             entry.State = EntityState.Modified;
             await _focusDbContext.SaveChangesAsync();
         }
-
-        public async Task UpdateAsync(Expression<Func<T, object>> filter, T entity)
-        {
-            throw new Exception();
-        }
-
+        
         public async Task UpdateAsync(Expression<Func<T, bool>> where, Expression<Func<T, T>> entity)
         {
-            throw new Exception();
+            await _focusDbContext.Set<T>().Where(where).UpdateAsync(entity);
         }
 
         private IQueryable<T> Filter(Expression<Func<T, bool>> filter)
         {
-            var dbSet = _focusDbContext.Set<T>().AsQueryable();
+            var dbSet = _focusDbContext.Set<T>().AsNoTracking().AsQueryable();
             if (dbSet != null)
                 dbSet = dbSet.Where(filter);
 
