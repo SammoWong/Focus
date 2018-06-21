@@ -9,7 +9,7 @@ namespace Focus.Repository.EntityFrameworkCore
     public class UnitOfWork : IUnitOfWork
     {
         private readonly FocusDbContext _focusDbContext;
-
+        
         public UnitOfWork(FocusDbContext focusDbContext)
         {
             _focusDbContext = focusDbContext;

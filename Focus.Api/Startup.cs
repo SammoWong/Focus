@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
+using Focus.Api.Middlewares;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Configuration;
 using Focus.Repository.EntityFrameworkCore;
@@ -62,6 +64,8 @@ namespace Focus.Api
             {
                 c.SwaggerDoc("v1", new Info { Title = "Focus API", Version = "v1" });
             });
+
+            new AutofacServiceProvider(IoCConfig.Register(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
