@@ -14,7 +14,7 @@ namespace Focus.Service
         {
             using(var db = base.NewDbContext())
             {
-                await db.Role.AddAsync(role);
+                await db.Roles.AddAsync(role);
                 await db.SaveChangesAsync();
             }
         }
@@ -23,7 +23,7 @@ namespace Focus.Service
         {
             using (var db = base.NewDbContext())
             {
-                return await db.Role.ToListAsync();
+                return await db.Roles.ToListAsync();
             }
         }
     }

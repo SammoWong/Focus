@@ -15,7 +15,7 @@ namespace Focus.Api.Middlewares
         /// <param name="context"></param>
         public static void EnsureSeedDataForContext(this FocusDbContext context)
         {
-            if (!context.Role.Any())
+            if (!context.Roles.Any())
             {
                 var roles = new List<Role>()
                 {
@@ -32,7 +32,7 @@ namespace Focus.Api.Middlewares
                         CreatedTime = DateTime.Now
                     }
                 };
-                context.Role.AddRange(roles);
+                context.Roles.AddRange(roles);
                 context.SaveChanges();
             }
         }

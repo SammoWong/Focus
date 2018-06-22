@@ -10,7 +10,7 @@ namespace Focus.Service
         {
             using(var db = base.NewDbContext())
             {
-                await db.User.AddAsync(user);
+                await db.Users.AddAsync(user);
                 await db.SaveChangesAsync();
             }
         }

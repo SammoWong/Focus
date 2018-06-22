@@ -18,21 +18,21 @@ namespace Focus.Repository.EntityFrameworkCore
         //    Database.EnsureCreated();
         //}
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
-        public DbSet<Company> Company { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
-        public DbSet<Organization> Organization { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
-        public DbSet<Position> Position { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
-        public DbSet<Module> Module { get; set; }
+        public DbSet<Module> Modules { get; set; }
 
-        public DbSet<Button> Button { get; set; }
+        public DbSet<Button> Buttons { get; set; }
 
-        public DbSet<Permission> Permission { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
