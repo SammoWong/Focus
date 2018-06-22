@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities;
+using Focus.Infrastructure;
 using Focus.Repository.EntityFrameworkCore.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,10 +13,10 @@ namespace Focus.Repository.EntityFrameworkCore
         {
         }
 
-        public FocusDbContext(DbContextOptions<FocusDbContext> options) : base()
-        {
-            Database.EnsureCreated();
-        }
+        //public FocusDbContext(DbContextOptions<FocusDbContext> options) : base()
+        //{
+        //    Database.EnsureCreated();
+        //}
 
         public DbSet<User> User { get; set; }
 
@@ -53,6 +54,14 @@ namespace Focus.Repository.EntityFrameworkCore
             modelBuilder.ApplyConfiguration(new ModuleConfiguration());
             modelBuilder.ApplyConfiguration(new ButtonConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
+            }
         }
     }
 }

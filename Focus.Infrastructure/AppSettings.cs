@@ -14,5 +14,7 @@ namespace Focus.Infrastructure
         public static string WebUrl { get; set; }
 
         public static string AuthUrl { get; set; }
+
+        public static string ConnectionString { get; set; }
     }
 }

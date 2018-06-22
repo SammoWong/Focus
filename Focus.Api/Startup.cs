@@ -56,8 +56,9 @@ namespace Focus.Api
             });
 
             //添加数据库连接
-            var connectionString = Configuration["ConnectionStrings:FocusDbConnectionString"];
-            services.AddDbContext<FocusDbContext>(o => o.UseSqlServer(connectionString));
+            AppSettings.ConnectionString = Configuration["ConnectionStrings:FocusDbConnectionString"];
+            //services.AddDbContext<FocusDbContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<FocusDbContext>();
 
             //添加Swagger
             services.AddSwaggerGen(c =>
