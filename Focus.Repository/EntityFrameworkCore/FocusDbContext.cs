@@ -8,7 +8,11 @@ namespace Focus.Repository.EntityFrameworkCore
 {
     public class FocusDbContext : DbContext
     {
-        public FocusDbContext(DbContextOptions<FocusDbContext> options) : base(options)
+        public FocusDbContext()
+        {
+        }
+
+        public FocusDbContext(DbContextOptions<FocusDbContext> options) : base()
         {
             Database.EnsureCreated();
         }

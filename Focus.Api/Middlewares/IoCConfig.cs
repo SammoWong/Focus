@@ -1,13 +1,16 @@
 ﻿using Autofac;
+using Focus.Application;
 using Focus.Domain;
 using Focus.Domain.Repositories;
 using Focus.Domain.Services;
 using Focus.Repository.EntityFrameworkCore;
 using Focus.Repository.EntityFrameworkCore.Repositories;
+using Focus.Service;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Focus.Api.Middlewares
@@ -22,7 +25,15 @@ namespace Focus.Api.Middlewares
             builder.RegisterType(typeof(FocusDbContext)).As(typeof(FocusDbContext)).InstancePerLifetimeScope();
             //注册数据库基础操作和工作单元
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
-            builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork));
+
+            //注册ApplicationService
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(RoleAppService)));
+
+            //注册领域服务
+            builder.RegisterAssemblyTypes(typeof(RoleService).Assembly)
+                .Where(a => a.Name.EndsWith("Service"))
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             //注册领域服务
             builder.RegisterAssemblyTypes(typeof(UserService).Assembly)

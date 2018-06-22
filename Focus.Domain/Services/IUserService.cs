@@ -1,7 +1,7 @@
 ﻿using Focus.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace Focus.Domain.Services.Interfaces
+namespace Focus.Domain.Services
 {
     public interface IUserService
     {

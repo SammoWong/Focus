@@ -25,8 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Focus.Application\Focus.Application.csproj" />
     <ProjectReference Include="..\Focus.Infrastructure\Focus.Infrastructure.csproj" />
     <ProjectReference Include="..\Focus.Repository\Focus.Repository.csproj" />
+    <ProjectReference Include="..\Focus.Service\Focus.Service.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
