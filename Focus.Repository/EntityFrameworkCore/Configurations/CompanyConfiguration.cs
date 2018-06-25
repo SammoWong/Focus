@@ -46,6 +46,7 @@ namespace Focus.Repository.EntityFrameworkCore.Configurations
             builder.HasMany(e => e.Modules).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
             builder.HasMany(e => e.Organizations).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
             builder.HasMany(e => e.Positions).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
+            builder.HasMany(e => e.DictionaryTypes).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
         }
     }
 }

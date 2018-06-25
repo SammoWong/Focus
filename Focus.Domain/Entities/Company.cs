@@ -54,5 +54,7 @@ namespace Focus.Domain.Entities
         public virtual ICollection<Position> Positions { get; set; }
 
         public virtual ICollection<Module> Modules { get; set; }
+
+        public virtual ICollection<DictionaryType> DictionaryTypes { get; set; }
     }
 }
