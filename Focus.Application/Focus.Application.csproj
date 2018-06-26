@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Focus.Domain\Focus.Domain.csproj" />
+    <ProjectReference Include="..\Focus.Service\Focus.Service.csproj" />
   </ItemGroup>
 
 </Project>

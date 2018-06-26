@@ -76,7 +76,7 @@ namespace Focus.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            focusDbContext.EnsureSeedDataForContext();
+            focusDbContext.EnsureSeedDataForContext();//添加种子数据
             app.UseCors("default");
             app.UseAuthentication();
             app.UseSwagger();
