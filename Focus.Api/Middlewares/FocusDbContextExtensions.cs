@@ -18,14 +18,16 @@ namespace Focus.Api.Middlewares
         {
             if (!context.Users.Any())
             {
+                var salt = SaltHelper.CreateSalt(24);
                 var user = new User
                 {
                     Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
                     Account = "admin",
-                    Salt = SaltHelper.CreateSalt(24),
-                    Password = SaltHelper.GenerateSaltedHash("123456", SaltHelper.CreateSalt(24)),
+                    Salt = salt,
+                    Password = SaltHelper.GenerateSaltedHash("123456", salt),
                     RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
-                    CreatedTime = DateTime.Now
+                    CreatedTime = DateTime.Now,
+                    Enabled = true
                 };
                 context.Users.Add(user);
             }
@@ -37,13 +39,15 @@ namespace Focus.Api.Middlewares
                     {
                         Id = "938858c1-e722-4360-a645-7ace8b1cf683",
                         Name = "管理员",
-                        CreatedTime = DateTime.Now
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
                     },
                     new Role
                     {
                         Id = "d3390e64-0ea4-47dc-9159-07c16ca905aa",
                         Name = "超级管理员",
-                        CreatedTime = DateTime.Now
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
                     }
                 };
                 context.Roles.AddRange(roles);

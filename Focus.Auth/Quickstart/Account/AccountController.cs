@@ -135,7 +135,7 @@ namespace IdentityServer4.Quickstart.UI
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
 
-                ModelState.AddModelError("", AccountOptions.InvalidCredentialsErrorMessage);
+                ModelState.AddModelError("", result.Item1);
             }
 
             // something went wrong, show form with error
