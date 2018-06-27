@@ -1,5 +1,6 @@
 ﻿using Focus.Domain.Entities;
 using Focus.Infrastructure;
+using Focus.Infrastructure.Security;
 using Focus.Repository.EntityFrameworkCore.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -60,7 +61,7 @@ namespace Focus.Repository.EntityFrameworkCore
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
+                optionsBuilder.UseSqlServer(SqlConnectionHelper.SqlConnectionString);
             }
         }
     }

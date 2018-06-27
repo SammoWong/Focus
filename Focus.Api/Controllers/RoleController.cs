@@ -24,9 +24,10 @@ namespace Focus.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _roleAppService.GetAllAsync();
-            //var temp = await ExecuteAsync(() => _roleAppService.GetAllAsync().Result.ToList());
-            return Ok(new StandardJsonResult<List<Domain.Entities.Role>> { Data = result.ToList(), State = true });
+            var roles = await _roleAppService.GetAllAsync();
+            var result = await ExecuteAsync(async () => await (_roleAppService.GetAllAsync()));
+            return Ok(result);
+            //return Ok(new StandardJsonResult<List<Domain.Entities.Role>> { Data = result.ToList(), State = true });
             //return Ok(await _roleAppService.GetAllAsync());
         }
     }

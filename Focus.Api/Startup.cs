@@ -6,6 +6,7 @@ using Autofac.Extensions.DependencyInjection;
 using Focus.Api.Middlewares;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Configuration;
+using Focus.Infrastructure.Security;
 using Focus.Repository.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,12 @@ namespace Focus.Api
         {
             services.AddMvcCore()
                     .AddAuthorization()
-                    .AddJsonFormatters();
+                    .AddJsonFormatters()
+                    .AddJsonOptions(options =>//全局配置Json序列化处理
+                    {
+                        //设置时间格式
+                        options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+                    });
 
             services.AddMvc();
 
@@ -56,7 +62,7 @@ namespace Focus.Api
             });
 
             //添加数据库连接
-            AppSettings.ConnectionString = Configuration["ConnectionStrings:FocusDbConnectionString"];
+            AppSettings.ConnectionString = SqlConnectionHelper.SqlConnectionString;
             //services.AddDbContext<FocusDbContext>(o => o.UseSqlServer(connectionString));
             services.AddDbContext<FocusDbContext>();
 

@@ -27,13 +27,14 @@ namespace Focus.Api.Middlewares
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>));
 
             //注册ApplicationService
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(RoleAppService)));
+            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(RoleAppService)));
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserAppService)));
 
             //注册领域服务
-            builder.RegisterAssemblyTypes(typeof(RoleService).Assembly)
-                .Where(a => a.Name.EndsWith("Service"))
-                .AsImplementedInterfaces()
-                .SingleInstance();
+            //builder.RegisterAssemblyTypes(typeof(RoleService).Assembly)
+            //    .Where(a => a.Name.EndsWith("Service"))
+            //    .AsImplementedInterfaces()
+            //    .SingleInstance();
 
             //注册领域服务
             builder.RegisterAssemblyTypes(typeof(UserService).Assembly)
