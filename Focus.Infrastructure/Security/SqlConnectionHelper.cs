@@ -6,7 +6,7 @@ namespace Focus.Infrastructure.Security
 {
     public class SqlConnectionHelper
     {
-        //public static string SqlConnectionString => "Server = (localdb)\\MSSQLLocalDB; Database = FocusDb; Trusted_Connection = True";
-        public static string SqlConnectionString => "Server=.;Database=FocusDb;Trusted_Connection=True";
+        public static string SqlConnectionString => "Server = (localdb)\\MSSQLLocalDB; Database = FocusDb; Trusted_Connection = True";
+        //public static string SqlConnectionString => "Server=.;Database=FocusDb;Trusted_Connection=True";
     }
 }

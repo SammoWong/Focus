@@ -42,6 +42,7 @@ namespace Focus.Web
                 options.Scope.Add("focus_api");
                 options.Scope.Add("offline_access");
                 options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
             });
             AppSettings.ApiUrl = Configuration["AppSettings:apiUrl"];
         }

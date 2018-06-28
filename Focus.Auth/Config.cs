@@ -39,7 +39,8 @@ namespace Focus.Auth
                         IdentityServerConstants.StandardScopes.Profile
                     },
                     AllowOfflineAccess = true,
-                    AllowAccessTokensViaBrowser = true
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false
                 }
             };
         }

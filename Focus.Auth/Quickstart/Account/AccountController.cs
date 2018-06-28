@@ -133,7 +133,7 @@ namespace IdentityServer4.Quickstart.UI
                     return Redirect("~/");
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "µÇÂ½Ê§°Ü"));
 
                 ModelState.AddModelError("", result.Item1);
             }

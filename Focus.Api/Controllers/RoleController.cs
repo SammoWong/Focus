@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Focus.Api.Middlewares;
 using Focus.Application;
 using Focus.Infrastructure.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace Focus.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var roles = await _roleAppService.GetAllAsync();
