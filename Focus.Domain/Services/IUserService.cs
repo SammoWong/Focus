@@ -9,5 +9,7 @@ namespace Focus.Domain.Services
         Task AddAsync(User user);
 
         Task<Tuple<string, User>> LoginAsync(string account, string password);
+
+        Task<User> GetUserById(string id);
     }
 }

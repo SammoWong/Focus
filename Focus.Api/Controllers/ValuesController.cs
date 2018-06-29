@@ -13,9 +13,9 @@ namespace Focus.Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return new JsonResult(from c in HttpContext.User.Claims select new { c.Type, c.Value });
         }
 
         // GET api/values/5

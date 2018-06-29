@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Focus.Domain.Services;
 using Focus.Infrastructure;
+using Focus.Service;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +35,10 @@ namespace Focus.Auth
                     .AddInMemoryClients(Config.GetClients())
                     //.AddTestUsers(Config.GetTestUsers().ToList())
                     .AddInMemoryIdentityResources(Config.GetIdentityResources());
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>()
+                    .AddTransient<IProfileService, ProfileService>();
+
+            services.AddSingleton<IUserService, UserService>();
 
             services.AddMvc();
         }

@@ -14,7 +14,7 @@ namespace Focus.Auth
         {
             return new List<ApiResource>()
             {
-                new ApiResource("focus_api","Focus管理系统")
+                new ApiResource("focus_api", "Focus管理系统")
             };
         }
 
@@ -36,7 +36,7 @@ namespace Focus.Auth
                     {
                         "focus_api",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,

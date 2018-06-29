@@ -39,5 +39,14 @@ namespace Focus.Service
 
             return new Tuple<string, User>("登陆成功", user);
         }
+
+        public async Task<User> GetUserById(string id)
+        {
+            using (var db = NewDbContext())
+            {
+                var user = await db.Users.Include(u => u.Role).Where(u => u.Id == id).FirstOrDefaultAsync();
+                return user;
+            }
+        }
     }
 }

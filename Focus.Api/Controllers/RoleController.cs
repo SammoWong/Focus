@@ -13,6 +13,7 @@ namespace Focus.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/Role")]
+    [Authorize]
     public class RoleController : FocusControllerBase
     {
         private readonly RoleAppService _roleAppService;
@@ -23,7 +24,6 @@ namespace Focus.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var roles = await _roleAppService.GetAllAsync();
