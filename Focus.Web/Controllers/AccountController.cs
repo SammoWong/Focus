@@ -8,6 +8,7 @@ namespace Focus.Web.Controllers
 {
     public class AccountController : Controller
     {
+        //TODO:登陆页面，目前放Auth项目里
         public IActionResult Login()
         {
             return View();

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace Focus.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -22,7 +23,6 @@ namespace Focus.Web.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
