@@ -6,13 +6,37 @@ Default
 <button type="button" class="btn btn-primary" id="showtoast">显示Toast</button>
 <button type="button" class="btn btn-primary" id="showloading">显示loading</button>
 <button type="button" class="btn btn-primary" id="hideloading">隐藏loading</button>
+<button type="button" class="btn btn-primary" id="api">API</button>
+<button type="button" class="btn btn-primary" id="login">LOGIN</button>
 
+<pre id="results"></pre>
 
-
-@section scripts
-    {
+@section scripts{
     <script>
+        function log() {
+            document.getElementById('results').innerText = '';
+
+            Array.prototype.forEach.call(arguments, function (msg) {
+                if (msg instanceof Error) {
+                    msg = "Error: " + msg.message;
+                }
+                else if (typeof msg !== 'string') {
+                    msg = JSON.stringify(msg, null, 2);
+                }
+                document.getElementById('results').innerHTML += msg + '\r\n';
+            });
+        }
+
         $(document).ready(function () {
+            mgr.getUser().then(function (user) {
+                if (user) {
+                    log("User logged in", user.profile);
+                }
+                else {
+                    log("User not logged in");
+                    mgr.signinRedirect();
+                }
+            });
             $('#showtoast').click(function () {
                 //toastr.success("这是一个success toastr");
                 //toastr.info("这是一个info toastr");
@@ -30,7 +54,23 @@ Default
             $('#hideloading').click(function () {
                 hideLoading();
             })
-        });
 
+            $('#login').click(function () {
+                mgr.signinRedirect();
+            })
+
+            $('#api').click(function () {
+                mgr.getUser().then(function (user) {
+                    var url = "http://localhost:8000/connect/userinfo";
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", url);
+                    xhr.onload = function () {
+                        log(xhr.status, JSON.parse(xhr.responseText));
+                    }
+                    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+                    xhr.send();
+                });
+            })
+        });
     </script>
 }

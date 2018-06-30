@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Callback";
+}
+
+<h2>Callback</h2>
+@section scripts{ 
+    <script>
+        new Oidc.UserManager().signinRedirectCallback().then(function () {
+            //window.location = "/Home/Index";
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
+}
+

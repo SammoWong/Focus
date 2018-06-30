@@ -41,6 +41,27 @@ namespace Focus.Auth
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "focus_jsclient",
+                    ClientName = "Focus管理系统",
+                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+                    ClientSecrets = {
+                        new Secret("focus_secret".Sha256())
+                    },
+                    RedirectUris = { "http://localhost:8002/signin-oidc","http://localhost:8002/Account/Callback"},
+                    PostLogoutRedirectUris = { "http://localhost:8002/signout-callback-oidc","http://localhost:8002/"},
+                    AllowedScopes =
+                    {
+                        "focus_api",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                    AllowOfflineAccess = true
                 }
             };
         }

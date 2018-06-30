@@ -28,7 +28,21 @@ namespace Focus.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //添加跨域支持
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder =>
+                {
+                    builder.AllowAnyOrigin()//允许任何来源的主机访问
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             AppSettings.ApiUrl = Configuration["AppSettings:apiUrl"];
+            AppSettings.AuthUrl = Configuration["AppSettings:authUrl"];
+            AppSettings.WebUrl = Configuration["AppSettings:webUrl"];
+
             services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
                     .AddInMemoryApiResources(Config.GetApiResources())
@@ -50,7 +64,7 @@ namespace Focus.Auth
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("default");
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

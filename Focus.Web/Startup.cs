@@ -31,20 +31,35 @@ namespace Focus.Web
                 options.DefaultChallengeScheme = "oidc";
             })
             .AddCookie("Cookies")
+            //.AddOpenIdConnect("oidc", options =>
+            //{
+            //    options.SignInScheme = "Cookies";
+            //    options.Authority = "http://localhost:8000";
+            //    options.RequireHttpsMetadata = false;
+            //    options.ClientId = "focus_client";
+            //    options.ClientSecret = "focus_secret";
+            //    options.ResponseType = "id_token code";
+            //    options.Scope.Add("focus_api");
+            //    options.Scope.Add("offline_access");
+            //    options.SaveTokens = true;
+            //    options.GetClaimsFromUserInfoEndpoint = true;
+            //});
             .AddOpenIdConnect("oidc", options =>
             {
                 options.SignInScheme = "Cookies";
                 options.Authority = "http://localhost:8000";
                 options.RequireHttpsMetadata = false;
-                options.ClientId = "focus_client";
+                options.ClientId = "focus_jsclient";
                 options.ClientSecret = "focus_secret";
-                options.ResponseType = "id_token code";
+                options.ResponseType = "id_token token";
                 options.Scope.Add("focus_api");
                 options.Scope.Add("offline_access");
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
             });
             AppSettings.ApiUrl = Configuration["AppSettings:apiUrl"];
+            AppSettings.AuthUrl = Configuration["AppSettings:authUrl"];
+            AppSettings.WebUrl = Configuration["AppSettings:webUrl"];
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +74,7 @@ namespace Focus.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+            app.UseCors("default");
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>

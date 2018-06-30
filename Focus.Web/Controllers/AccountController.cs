@@ -13,5 +13,10 @@ namespace Focus.Web.Controllers
         {
             return View();
         }
+        //TODO:callback->HomeController
+        public IActionResult Callback()
+        {
+            return View();
+        }
     }
 }
