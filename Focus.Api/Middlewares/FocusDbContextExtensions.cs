@@ -16,7 +16,7 @@ namespace Focus.Api.Middlewares
         /// <param name="context"></param>
         public static void EnsureSeedDataForContext(this FocusDbContext context)
         {
-            if (!context.Users.Any())
+            if (!context.Users.Any())//添加用户种子数据
             {
                 var salt = SaltHelper.CreateSalt(24);
                 var user = new User
@@ -31,7 +31,7 @@ namespace Focus.Api.Middlewares
                 };
                 context.Users.Add(user);
             }
-            if (!context.Roles.Any())
+            if (!context.Roles.Any())//添加角色种子数据
             {
                 var roles = new List<Role>()
                 {
@@ -51,6 +51,83 @@ namespace Focus.Api.Middlewares
                     }
                 };
                 context.Roles.AddRange(roles);
+            }
+            if (!context.Modules.Any())//添加模块菜单种子数据
+            {
+                var modules = new List<Module>()
+                {
+                    new Module
+                    {
+                        Id = "1e8b7c2d-a72f-4a1b-b3fc-30edef4fda76",
+                        ParentId = string.Empty,
+                        Name = "基础配置",
+                        Url = string.Empty,
+                        Category = Domain.Enums.ModuleCategory.Catelog,
+                        Rank = 1,
+                        SortNumber = 1,
+                        IsExpanded = false,
+                        IsDeleted = false,
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    },
+                    new Module
+                    {
+                        Id = "6ae17edf-d645-43f0-b6f0-f081e27f7c4a",
+                        ParentId = string.Empty,
+                        Name = "系统管理",
+                        Url = string.Empty,
+                        Category = Domain.Enums.ModuleCategory.Catelog,
+                        Rank = 1,
+                        SortNumber = 2,
+                        IsExpanded = false,
+                        IsDeleted = false,
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    },
+                    new Module
+                    {
+                        Id = "1c863c82-5937-452c-b3e3-71710ac829ee",
+                        ParentId = "1e8b7c2d-a72f-4a1b-b3fc-30edef4fda76",
+                        Name = "数据字典",
+                        Url = "/Dictionary/Index",
+                        Category = Domain.Enums.ModuleCategory.Page,
+                        Rank = 2,
+                        SortNumber = 1,
+                        IsExpanded = false,
+                        IsDeleted = false,
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    },
+                    new Module
+                    {
+                        Id = "82cf950d-8d1c-40ec-a1cd-8b58a4818da0",
+                        ParentId = "6ae17edf-d645-43f0-b6f0-f081e27f7c4a",
+                        Name = "用户管理",
+                        Url = "/User/Index",
+                        Category = Domain.Enums.ModuleCategory.Page,
+                        Rank = 2,
+                        SortNumber = 1,
+                        IsExpanded = false,
+                        IsDeleted = false,
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    },
+                    new Module
+                    {
+                        Id = "530da57d-43a2-42f2-9cff-e21f766c334a",
+                        ParentId = "6ae17edf-d645-43f0-b6f0-f081e27f7c4a",
+                        Name = "角色管理",
+                        Url = "/Role/Index",
+                        Category = Domain.Enums.ModuleCategory.Page,
+                        Rank = 2,
+                        SortNumber = 2,
+                        IsExpanded = false,
+                        IsDeleted = false,
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    }
+                };
+                context.Modules.AddRange(modules);
             }
             context.SaveChanges();
         }

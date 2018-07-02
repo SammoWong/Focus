@@ -8,9 +8,9 @@ namespace Focus.Domain.Enums
     public enum ModuleCategory : byte
     {
         [Display(Name = "目录")]
-        Male = 1,
+        Catelog = 1,
 
         [Display(Name = "页面")]
-        Female = 2,
+        Page = 2,
     }
 }
