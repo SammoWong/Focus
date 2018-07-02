@@ -12,6 +12,7 @@ namespace Focus.Repository.EntityFrameworkCore
     {
         public FocusDbContext()
         {
+            //Database.Migrate();
         }
 
         //public FocusDbContext(DbContextOptions<FocusDbContext> options) : base()
@@ -35,6 +36,10 @@ namespace Focus.Repository.EntityFrameworkCore
 
         public DbSet<Permission> Permissions { get; set; }
 
+        public DbSet<DictionaryType> DictionaryTypes { get; set; }
+
+        public DbSet<DictionaryDetail> DictionaryDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //var typesToRegister = System.Reflection.Assembly.GetExecutingAssembly()
@@ -55,6 +60,8 @@ namespace Focus.Repository.EntityFrameworkCore
             modelBuilder.ApplyConfiguration(new ModuleConfiguration());
             modelBuilder.ApplyConfiguration(new ButtonConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new DictionaryTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DictionaryDetailConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

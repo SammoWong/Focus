@@ -182,6 +182,128 @@ namespace Focus.Repository.Migrations
                     b.ToTable("Company");
                 });
 
+            modelBuilder.Entity("Focus.Domain.Entities.DictionaryDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnName("CreatedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnName("CreatedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnName("DeletedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnName("DeletedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnName("Enabled");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnName("ModifiedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnName("ModifiedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("Name")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Remark")
+                        .HasColumnName("Remark")
+                        .HasMaxLength(512);
+
+                    b.Property<int?>("SortNumber")
+                        .HasColumnName("SortNumber");
+
+                    b.Property<string>("TypeId")
+                        .HasColumnName("TypeId")
+                        .HasMaxLength(36);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("DictionaryDetail");
+                });
+
+            modelBuilder.Entity("Focus.Domain.Entities.DictionaryType", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("CompanyId")
+                        .HasColumnName("CompanyId")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnName("CreatedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnName("CreatedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnName("DeletedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnName("DeletedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnName("Enabled");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnName("ModifiedBy")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnName("ModifiedTime")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("Name")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ParentId")
+                        .HasColumnName("ParentId")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("Remark")
+                        .HasColumnName("Remark")
+                        .HasMaxLength(512);
+
+                    b.Property<int?>("SortNumber")
+                        .HasColumnName("SortNumber");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("DictionaryType");
+                });
+
             modelBuilder.Entity("Focus.Domain.Entities.Module", b =>
                 {
                     b.Property<string>("Id")
@@ -630,6 +752,20 @@ namespace Focus.Repository.Migrations
                     b.HasOne("Focus.Domain.Entities.Module", "Module")
                         .WithMany("Buttons")
                         .HasForeignKey("ModuleId");
+                });
+
+            modelBuilder.Entity("Focus.Domain.Entities.DictionaryDetail", b =>
+                {
+                    b.HasOne("Focus.Domain.Entities.DictionaryType", "DictionaryType")
+                        .WithMany("DictionaryDetails")
+                        .HasForeignKey("TypeId");
+                });
+
+            modelBuilder.Entity("Focus.Domain.Entities.DictionaryType", b =>
+                {
+                    b.HasOne("Focus.Domain.Entities.Company", "Company")
+                        .WithMany("DictionaryTypes")
+                        .HasForeignKey("CompanyId");
                 });
 
             modelBuilder.Entity("Focus.Domain.Entities.Module", b =>
