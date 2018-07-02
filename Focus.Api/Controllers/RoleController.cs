@@ -24,7 +24,7 @@ namespace Focus.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             var roles = await _roleAppService.GetAllAsync();
             var result = await ExecuteAsync(async () => await (_roleAppService.GetAllAsync()));
