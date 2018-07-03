@@ -123,4 +123,31 @@
         </div>
         <!--右侧边栏结束-->
     </div>
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                },
+                methods: {
+                    loadModules: function () {
+                        $.ajax({
+                            url: '@Focus.Infrastructure.AppSettings.ApiUrl/api/Module',
+                            method: 'GET',
+                            success: function (data) {
+
+                            }
+                        })
+                    }
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    methods.loadModules();
+                }
+            }
+        }();
+        $(function () {
+            viewModel.init();
+        });
+    </script>
 </body>
