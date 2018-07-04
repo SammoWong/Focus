@@ -1,40 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Infrastructure.Mvc
 {
-    public class StandardResult : IStandardResult
+    public class StandardResult : ActionResult, IStandardResult
     {
-        public bool State { get; set; }
+        public StandardCode Code { get; set; }
 
         public string Message { get; set; }
 
-        public void Fail()
-        {
-            State = false;
-        }
+        public object Data { get; set; }
 
-        public void Fail(string message)
+        public IStandardResult Succeed(string message, object data = null)
         {
-            State = false;
+            Code = StandardCode.Success;
             Message = message;
+            Data = data;
+            return this;
         }
 
-        public void Succeed()
+        public IStandardResult Fail(StandardCode code, string message, object data = null)
         {
-            State = true;
-        }
-
-        public void Succeed(string message)
-        {
-            State = true;
+            Code = code;
             Message = message;
+            Data = data;
+            return this;
         }
-    }
-
-    public class StandardResult<T> : StandardResult, IStandardResult<T>
-    {
-        public T Data { get; set; }
     }
 }

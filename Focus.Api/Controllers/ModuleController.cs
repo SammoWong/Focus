@@ -24,10 +24,8 @@ namespace Focus.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            //var result = await ExecuteAsync(async () => await (_moduleAppService.GetAllAsync()));
-            //return Ok(result);
             var modules = (await _moduleAppService.GetAllAsync()).ToList();
-            return Ok(new StandardJsonResult<List<ModuleDto>> { Data = modules, State = true });
+            return Ok(new StandardResult().Succeed(null, modules));
         }
     }
 }

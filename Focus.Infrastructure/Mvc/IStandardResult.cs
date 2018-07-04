@@ -2,21 +2,14 @@
 {
     public interface IStandardResult
     {
-        bool State { get; set; }
+        StandardCode Code { get; set; }
 
         string Message { get; set; }
 
-        void Succeed();
+        object Data { get; set; }
 
-        void Fail();
+        IStandardResult Succeed(string message, object data = null);
 
-        void Succeed(string message);
-
-        void Fail(string message);
-    }
-
-    public interface IStandardResult<T> : IStandardResult
-    {
-        T Data { get; set; }
+        IStandardResult Fail(StandardCode code, string message, object data = null);
     }
 }

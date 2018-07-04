@@ -27,10 +27,7 @@ namespace Focus.Api.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var roles = await _roleAppService.GetAllAsync();
-            var result = await ExecuteAsync(async () => await (_roleAppService.GetAllAsync()));
-            return Ok(result);
-            //return Ok(new StandardJsonResult<List<Domain.Entities.Role>> { Data = result.ToList(), State = true });
-            //return Ok(await _roleAppService.GetAllAsync());
+            return Ok(new StandardResult().Succeed(null, roles));
         }
     }
 }
