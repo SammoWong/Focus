@@ -137,7 +137,7 @@
                             method: 'GET',
                             success: function (data) {
                                 for (var i = 0; i < data.data.length; i++) {
-                                    html += '<li><a href="#"><i class="fa fa-home"></i><span class="nav-label">' + data.data[i].name.trim() + '</span><span class="fa arrow"></span></a>';
+                                    html += '<li><a href="#"><i class="' + data.data[i].icon.trim() + '"></i><span class="nav-label">' + data.data[i].name.trim() + '</span><span class="fa arrow"></span></a>';
                                     for (var j = 0; j < data.data[i].children.length; j++) {
                                         if (j == 0) {
                                             html += '<ul class="nav nav-second-level">';

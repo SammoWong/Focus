@@ -22,26 +22,26 @@ namespace Focus.Auth
         {
             return new List<Client>
             {
-                new Client()
-                {
-                    ClientId = "focus_client",
-                    ClientName = "Focus管理系统",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                    ClientSecrets = {
-                        new Secret("focus_secret".Sha256())
-                    },
-                    RedirectUris = { "http://localhost:8002/signin-oidc"},
-                    PostLogoutRedirectUris = { "http://localhost:8002/signout-callback-oidc"},
-                    AllowedScopes =
-                    {
-                        "focus_api",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                    },
-                    AllowOfflineAccess = true,
-                    AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false
-                },
+                //new Client()
+                //{
+                //    ClientId = "focus_client",
+                //    ClientName = "Focus管理系统",
+                //    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                //    ClientSecrets = {
+                //        new Secret("focus_secret".Sha256())
+                //    },
+                //    RedirectUris = { "http://localhost:8002/signin-oidc"},
+                //    PostLogoutRedirectUris = { "http://localhost:8002/signout-callback-oidc"},
+                //    AllowedScopes =
+                //    {
+                //        "focus_api",
+                //        IdentityServerConstants.StandardScopes.OpenId,
+                //        IdentityServerConstants.StandardScopes.Profile,
+                //    },
+                //    AllowOfflineAccess = true,
+                //    AllowAccessTokensViaBrowser = true,
+                //    RequireConsent = false
+                //},
                 // JavaScript Client
                 new Client
                 {
