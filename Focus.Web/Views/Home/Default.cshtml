@@ -28,15 +28,6 @@ Default
         }
 
         $(document).ready(function () {
-            mgr.getUser().then(function (user) {
-                if (user) {
-                    log("User logged in", user.profile);
-                }
-                else {
-                    log("User not logged in");
-                    mgr.signinRedirect();
-                }
-            });
             $('#showtoast').click(function () {
                 //toastr.success("这是一个success toastr");
                 //toastr.info("这是一个info toastr");
@@ -60,16 +51,16 @@ Default
             })
 
             $('#api').click(function () {
-                mgr.getUser().then(function (user) {
+                
                     var url = "http://localhost:8000/connect/userinfo";
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", url);
                     xhr.onload = function () {
                         log(xhr.status, JSON.parse(xhr.responseText));
                     }
-                    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+                xhr.setRequestHeader("Authorization", "Bearer " + access_token);
                     xhr.send();
-                });
+                
             })
         });
     </script>

@@ -11,15 +11,3 @@
 <script src="~/lib/loading/js/loading.js"></script>
 <script src="~/js/loading.init.js"></script>
 <script src="~/lib/oidc-client/oidc-client.js"></script>
-<script>
-    var config = {
-        authority: "@Focus.Infrastructure.AppSettings.AuthUrl",
-        client_id: "focus_jsclient",
-        client_secret:"focus_secret",
-        redirect_uri: "@Focus.Infrastructure.AppSettings.WebUrl/Account/Callback",
-        response_type: "id_token token",
-        scope: "profile focus_api openid",
-        post_logout_redirect_uri: "@Focus.Infrastructure.AppSettings.WebUrl",
-    };
-    var mgr = new Oidc.UserManager(config);
-</script>
