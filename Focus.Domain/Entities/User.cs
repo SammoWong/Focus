@@ -1,8 +1,6 @@
 ﻿using Focus.Domain.Entities.Interfaces;
 using Focus.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Focus.Domain.Entities
 {

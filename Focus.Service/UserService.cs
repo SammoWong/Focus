@@ -1,9 +1,11 @@
 ﻿using Focus.Domain.Entities;
 using Focus.Domain.Services;
-using Focus.Infrastructure.Security;
+using Focus.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Focus.Service
@@ -12,7 +14,7 @@ namespace Focus.Service
     {
         public async Task AddAsync(User user)
         {
-            using(var db = base.NewDbContext())
+            using (var db = base.NewDbContext())
             {
                 await db.Users.AddAsync(user);
                 await db.SaveChangesAsync();
@@ -22,18 +24,18 @@ namespace Focus.Service
         public async Task<Tuple<string, User>> LoginAsync(string account, string password)
         {
             var user = new User();
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 user = await db.Users.FirstOrDefaultAsync(e => e.Account == account);
             }
-            if(user == null)
+            if (user == null)
                 return new Tuple<string, User>("账号不存在", null);
 
             if (!user.Enabled)
                 return new Tuple<string, User>("账号未激活", null);
 
             var salt = user.Salt;
-            password = SaltHelper.GenerateSaltedHash(password, salt);
+            password = PasswordHelper.ComputeHash(password, salt);
             if (password != user.Password)
                 return new Tuple<string, User>("密码不正确", null);
 

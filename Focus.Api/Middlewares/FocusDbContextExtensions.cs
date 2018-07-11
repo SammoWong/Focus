@@ -1,6 +1,6 @@
-﻿using Focus.Domain.Entities;
-using Focus.Infrastructure.Security;
-using Focus.Repository.EntityFrameworkCore;
+﻿using Focus.Domain;
+using Focus.Domain.Entities;
+using Focus.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +18,13 @@ namespace Focus.Api.Middlewares
         {
             if (!context.Users.Any())//添加用户种子数据
             {
-                var salt = SaltHelper.CreateSalt(24);
+                var salt = PasswordHelper.GenerateSalt();
                 var user = new User
                 {
                     Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
                     Account = "admin",
                     Salt = salt,
-                    Password = SaltHelper.GenerateSaltedHash("123456", salt),
+                    Password = PasswordHelper.ComputeHash("123456", salt),
                     RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
                     CreatedTime = DateTime.Now,
                     Enabled = true

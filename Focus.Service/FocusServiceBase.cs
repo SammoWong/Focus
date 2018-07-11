@@ -1,7 +1,4 @@
-﻿using Focus.Repository.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Focus.Domain;
 
 namespace Focus.Service
 {

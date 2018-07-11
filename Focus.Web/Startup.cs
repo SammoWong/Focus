@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using Focus.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,43 +23,15 @@ namespace Focus.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            services.AddAuthentication(options =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
-            })
-            .AddCookie("Cookies")
-            //.AddOpenIdConnect("oidc", options =>
-            //{
-            //    options.SignInScheme = "Cookies";
-            //    options.Authority = "http://localhost:8000";
-            //    options.RequireHttpsMetadata = false;
-            //    options.ClientId = "focus_client";
-            //    options.ClientSecret = "focus_secret";
-            //    options.ResponseType = "id_token code";
-            //    options.Scope.Add("focus_api");
-            //    options.Scope.Add("offline_access");
-            //    options.SaveTokens = true;
-            //    options.GetClaimsFromUserInfoEndpoint = true;
-            //});
-            .AddOpenIdConnect("oidc", options =>
-            {
-                options.SignInScheme = "Cookies";
-                options.Authority = "http://localhost:8000";
-                options.RequireHttpsMetadata = false;
-                options.ClientId = "focus_jsclient";
-                options.ClientSecret = "focus_secret";
-                options.ResponseType = "id_token token";
-                options.Scope.Add("focus_api");
-                options.Scope.Add("offline_access");
-                options.SaveTokens = true;
-                options.GetClaimsFromUserInfoEndpoint = true;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            AppSettings.ApiUrl = Configuration["AppSettings:apiUrl"];
-            AppSettings.AuthUrl = Configuration["AppSettings:authUrl"];
-            AppSettings.WebUrl = Configuration["AppSettings:webUrl"];
+
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,16 +39,16 @@ namespace Focus.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseCors("default");
+
             app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseCookiePolicy();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

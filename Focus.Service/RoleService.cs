@@ -3,7 +3,7 @@ using Focus.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Focus.Service
@@ -12,7 +12,7 @@ namespace Focus.Service
     {
         public async Task AddAsync(Role role)
         {
-            using(var db = base.NewDbContext())
+            using (var db = base.NewDbContext())
             {
                 await db.Roles.AddAsync(role);
                 await db.SaveChangesAsync();

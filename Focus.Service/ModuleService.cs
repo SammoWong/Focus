@@ -12,7 +12,7 @@ namespace Focus.Service
     {
         public async Task<IEnumerable<Module>> GetAllAsync()
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 return await db.Modules.ToListAsync();
             }
