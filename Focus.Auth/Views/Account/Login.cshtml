@@ -35,7 +35,7 @@
                     <input id="verificationCode" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;">
                     <div style="width: 110px; float: right; padding-top: 14px; padding-left: 14px;">
                         看不清？<a id="switchCode" href="javascript:void();" style="text-decoration: none;">换一张</a>
-                        <img id="codeUrl" class="authcode" src="@Focus.Infrastructure.AppSetting.ApiUrl/api/Account/VerificationCode" width="80" height="25" />
+                        <img id="codeUrl" class="authcode" src="@Focus.Infrastructure.AppSetting.AuthUrl/api/Account/VerificationCode" width="80" height="25" />
                     </div>
                 </div>
                 <div class="row">
@@ -81,7 +81,7 @@
                         $('#login').attr('disabled', 'disabled').find('span').html('loading...');
                     },
                     getVerificationCode: function () {
-                        $("#codeUrl").attr("src", "@Focus.Infrastructure.AppSetting.ApiUrl/api/Account/VerificationCode?time=" + Math.random());
+                        $("#codeUrl").attr("src", "@Focus.Infrastructure.AppSetting.AuthUrl/api/Account/VerificationCode?time=" + Math.random());
                     }
 
                 },
