@@ -1,6 +1,7 @@
 ﻿using Focus.Domain;
 using Focus.Domain.Entities;
 using Focus.Infrastructure;
+using Focus.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +15,28 @@ namespace Focus.Api.Middlewares
         /// 添加种子数据方便测试
         /// </summary>
         /// <param name="context"></param>
-        public static void EnsureSeedDataForContext(this FocusDbContext context)
+        public static void EnsureSeedDataForContext()
         {
-            if (!context.Users.Any())//添加用户种子数据
+            using (var context = new FocusDbContext())
             {
-                var salt = PasswordHelper.GenerateSalt();
-                var user = new User
+                if (!context.Users.Any())//添加用户种子数据
                 {
-                    Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
-                    Account = "admin",
-                    Salt = salt,
-                    Password = PasswordHelper.ComputeHash("123456", salt),
-                    RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
-                    CreatedTime = DateTime.Now,
-                    Enabled = true
-                };
-                context.Users.Add(user);
-            }
-            if (!context.Roles.Any())//添加角色种子数据
-            {
-                var roles = new List<Role>()
+                    var salt = PasswordHelper.GenerateSalt();
+                    var user = new User
+                    {
+                        Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
+                        Account = "admin",
+                        Salt = salt,
+                        Password = PasswordHelper.ComputeHash("123456", salt),
+                        RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
+                        CreatedTime = DateTime.Now,
+                        Enabled = true
+                    };
+                    context.Users.Add(user);
+                }
+                if (!context.Roles.Any())//添加角色种子数据
+                {
+                    var roles = new List<Role>()
                 {
                     new Role
                     {
@@ -50,11 +53,11 @@ namespace Focus.Api.Middlewares
                         Enabled = true
                     }
                 };
-                context.Roles.AddRange(roles);
-            }
-            if (!context.Modules.Any())//添加模块菜单种子数据
-            {
-                var modules = new List<Module>()
+                    context.Roles.AddRange(roles);
+                }
+                if (!context.Modules.Any())//添加模块菜单种子数据
+                {
+                    var modules = new List<Module>()
                 {
                     new Module
                     {
@@ -129,9 +132,11 @@ namespace Focus.Api.Middlewares
                         Enabled = true
                     }
                 };
-                context.Modules.AddRange(modules);
+                    context.Modules.AddRange(modules);
+                }
+                context.SaveChanges();
             }
-            context.SaveChanges();
+
         }
     }
 }

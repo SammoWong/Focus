@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
+using Focus.Infrastructure;
+using Focus.Service;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +35,18 @@ namespace Focus.Auth
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddIdentityServer()
+                    .AddDeveloperSigningCredential()
+                    .AddInMemoryApiResources(Config.GetApiResources())
+                    .AddInMemoryClients(Config.GetClients())
+                    .AddInMemoryIdentityResources(Config.GetIdentityResources());
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>()
+                    .AddTransient<IProfileService, ProfileService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            Ioc.RegisterAssemblyTypes(typeof(UserService).Assembly);
+            new AutofacServiceProvider(Ioc.GetContainer());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +63,7 @@ namespace Focus.Auth
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseIdentityServer();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

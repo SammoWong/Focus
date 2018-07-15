@@ -8,5 +8,8 @@
 
         public const string SqlConnectionString = "Server = (localdb)\\MSSQLLocalDB; Database = FocusDb; Trusted_Connection = True";
         //public const string SqlConnectionString = "Server=.;Database=FocusDb;Trusted_Connection=True";
+
+        public const string ClientSecret = "Focus.Secret";
+        public const string ApiName = "Focus.Api";
     }
 }

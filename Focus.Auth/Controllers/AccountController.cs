@@ -14,6 +14,12 @@ namespace Focus.Auth.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Login(string returnUrl)
+        {
+            return null;
+        }
+
         [HttpGet]
         [Route("api/[controller]/VerificationCode")]
         public IActionResult VerificationCode()

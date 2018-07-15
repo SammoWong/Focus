@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Focus.Api.Middlewares;
 using Focus.Domain;
+using Focus.Infrastructure;
+using Focus.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -54,17 +57,29 @@ namespace Focus.Api
             {
                 c.SwaggerDoc("v1", new Info { Title = "Focus API", Version = "v1" });
             });
+
+            services.AddAuthentication("Bearer")
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.Authority = AppSetting.AuthUrl;
+                        options.ApiName = AppSetting.ApiName;
+                    });
+
+            Ioc.RegisterAssemblyTypes(typeof(UserService).Assembly);
+            new AutofacServiceProvider(Ioc.GetContainer());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FocusDbContext focusDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            //focusDbContext.EnsureSeedDataForContext();//添加种子数据
+            FocusDbContextExtensions.EnsureSeedDataForContext();//添加种子数据
             app.UseCors("default");
+            app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
