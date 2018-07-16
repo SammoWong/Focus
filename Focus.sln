@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Api", "Focus.Api\Focus.Api.csproj", "{CD73B62D-1B9D-4113-A516-844FACB7123D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Api", "Focus.Api\Focus.Api.csproj", "{CD73B62D-1B9D-4113-A516-844FACB7123D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Auth", "Focus.Auth\Focus.Auth.csproj", "{3C3F5B10-7D25-4D18-AC2C-698A51CD4DA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Auth", "Focus.Auth\Focus.Auth.csproj", "{3C3F5B10-7D25-4D18-AC2C-698A51CD4DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Web", "Focus.Web\Focus.Web.csproj", "{41C6D4C1-A4D3-4791-B35D-48A8699CA294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Web", "Focus.Web\Focus.Web.csproj", "{41C6D4C1-A4D3-4791-B35D-48A8699CA294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Domain", "Focus.Domain\Focus.Domain.csproj", "{62E6D567-77BD-4095-A68A-D10CBFDEF177}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Domain", "Focus.Domain\Focus.Domain.csproj", "{62E6D567-77BD-4095-A68A-D10CBFDEF177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Infrastructure", "Focus.Infrastructure\Focus.Infrastructure.csproj", "{5DEB078F-4D7D-4577-A328-EBE1AA7BE0E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Infrastructure", "Focus.Infrastructure\Focus.Infrastructure.csproj", "{5DEB078F-4D7D-4577-A328-EBE1AA7BE0E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Service", "Focus.Service\Focus.Service.csproj", "{ADDDE241-44EC-45CE-8881-4CA0BBFEA720}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Focus.Service", "Focus.Service\Focus.Service.csproj", "{ADDDE241-44EC-45CE-8881-4CA0BBFEA720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Focus.Model", "Focus.Model\Focus.Model.csproj", "{11E56DDE-1A5E-4ACF-84D7-2E44ED6FD37F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{ADDDE241-44EC-45CE-8881-4CA0BBFEA720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADDDE241-44EC-45CE-8881-4CA0BBFEA720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADDDE241-44EC-45CE-8881-4CA0BBFEA720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E56DDE-1A5E-4ACF-84D7-2E44ED6FD37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E56DDE-1A5E-4ACF-84D7-2E44ED6FD37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E56DDE-1A5E-4ACF-84D7-2E44ED6FD37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E56DDE-1A5E-4ACF-84D7-2E44ED6FD37F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

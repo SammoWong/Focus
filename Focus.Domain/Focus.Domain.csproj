@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Focus.Infrastructure\Focus.Infrastructure.csproj" />
+    <ProjectReference Include="..\Focus.Model\Focus.Model.csproj" />
   </ItemGroup>
 
 </Project>

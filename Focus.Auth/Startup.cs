@@ -40,8 +40,8 @@ namespace Focus.Auth
                     .AddInMemoryApiResources(Config.GetApiResources())
                     .AddInMemoryClients(Config.GetClients())
                     .AddInMemoryIdentityResources(Config.GetIdentityResources());
-            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>()
-                    .AddTransient<IProfileService, ProfileService>();
+            //services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>()
+            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Services;
+using Focus.Infrastructure;
 using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -15,9 +16,9 @@ namespace Focus.Auth
     {
         private readonly IUserService _userService;
 
-        public ProfileService(IUserService userService)
+        public ProfileService()
         {
-            _userService = userService;
+            _userService = new Service.UserService();
         }
 
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
