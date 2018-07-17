@@ -1,23 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Focus.Auth.Models;
+using Focus.Domain.Services;
 using Focus.Infrastructure;
+using Focus.Infrastructure.Web.Common;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Auth.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Login()
+        private readonly IIdentityServerInteractionService _interaction;
+        public AccountController(IIdentityServerInteractionService interaction)
         {
+            _interaction = interaction;
+        }
+
+        public IActionResult Login(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(string returnUrl)
+        [Route("api/[controller]/Login")]
+        public async Task<IActionResult> Login(LoginInputModel model)
         {
-            return null;
+            if (ModelState.IsValid)
+            {
+                var userService = Ioc.Get<IUserService>();
+                var result = await userService.LoginAsync(model.Account, model.Password);
+                var user = result.Item2;
+                if (user != null)
+                {
+                    AuthenticationProperties props = null;
+                    if (model.RememberMe)
+                    {
+                        props = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(30))
+                        };
+                    }
+                    await HttpContext.SignInAsync(user.Id, user.Account, props);
+                    if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        //return Redirect(model.ReturnUrl);
+                        return Ok(new StandardResult().Succeed(result.Item1, model.ReturnUrl));
+                    }
+                    //return Redirect("~/");
+                    return Ok(new StandardResult().Succeed(result.Item1, "~/"));
+                }
+                return Json(new StandardResult().Fail(StandardCode.InternalError, result.Item1));
+            }
+            return Json(new StandardResult().Fail(StandardCode.ArgumentError, "参数有误"));
         }
 
         [HttpGet]

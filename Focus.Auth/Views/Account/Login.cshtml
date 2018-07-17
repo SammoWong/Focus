@@ -67,7 +67,7 @@
                         var password = $('#password').val();
                         var verificationCode = $('#verificationCode').val();
                         if (account == '') {
-                            this.showLoginMessage('请输入账号/手机号/邮箱');
+                            this.showLoginMessage('请输入账号');
                             return false;
                         }
                         if (password == '') {
@@ -79,6 +79,21 @@
                             return false;
                         }
                         $('#login').attr('disabled', 'disabled').find('span').html('loading...');
+                        $.ajax({
+                            url: '@Focus.Infrastructure.AppSetting.AuthUrl/api/Account/Login',
+                            method: "POST",
+                            data: { account: account, password: password, returnUrl:'@ViewData["ReturnUrl"]' },
+                            success: function (data) {
+                                if (data.code != 0) {
+                                    viewModel.methods.showLoginMessage(data.message);
+                                    $("#login").removeAttr('disabled').find('span').html("登录");
+                                } else {
+                                    window.setTimeout(function () {
+                                        window.location.href = '@Focus.Infrastructure.AppSetting.WebUrl';
+                                    }, 500);
+                                }
+                            }
+                        });
                     },
                     getVerificationCode: function () {
                         $("#codeUrl").attr("src", "@Focus.Infrastructure.AppSetting.AuthUrl/api/Account/VerificationCode?time=" + Math.random());
