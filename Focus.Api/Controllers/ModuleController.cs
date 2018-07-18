@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Focus.Domain.Services;
 using Focus.Infrastructure;
+using Focus.Infrastructure.Web.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Api.Controllers
@@ -14,7 +15,7 @@ namespace Focus.Api.Controllers
         {
             var moduleService = Ioc.Get<IModuleService>();
             var modules = await moduleService.GetAllAsync();
-            return Ok(modules);
+            return Ok(new StandardResult().Succeed(null, modules));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Focus.Auth
         {
             return new List<ApiResource>()
             {
-                new ApiResource(AppSetting.ApiName, "Focus管理系统")
+                new ApiResource(AppSetting.ApiName, AppSetting.DisplayName)
             };
         }
 
@@ -25,7 +25,7 @@ namespace Focus.Auth
                 new Client
                 {
                     ClientId = "Focus.Client.HybridAndClientCredentials",
-                    ClientName = "Focus管理系统",
+                    ClientName = AppSetting.DisplayName,
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = { new Secret(AppSetting.ClientSecret.Sha256()) },
                     RedirectUris = { AppSetting.WebUrl + "/signin-oidc" },
