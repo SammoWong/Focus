@@ -1,0 +1,1 @@
+﻿toastr.options = { closeButton: true };
