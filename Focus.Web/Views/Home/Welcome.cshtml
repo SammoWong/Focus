@@ -7,7 +7,9 @@
 @section scripts{
     <script>
         $(function () {
-            alert(_.trim("  jjk  "));
+            @*_.get('@Focus.Infrastructure.AppSetting.ApiUrl/api/Module', null, function (response) {
+                alert(JSON.stringify(response));
+            });*@
         });
     </script>
 }

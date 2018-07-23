@@ -6,6 +6,7 @@ using Autofac.Extensions.DependencyInjection;
 using Focus.Api.Middlewares;
 using Focus.Domain;
 using Focus.Infrastructure;
+using Focus.Infrastructure.Web.Filters;
 using Focus.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,11 @@ namespace Focus.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options=> 
+            {
+                options.Filters.Add(typeof(FocusActionFilter));
+                options.Filters.Add(typeof(FocusExceptionFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddMvcCore()
                     .AddAuthorization()
