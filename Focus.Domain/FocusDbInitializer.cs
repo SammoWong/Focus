@@ -1,21 +1,19 @@
-﻿using Focus.Domain;
-using Focus.Domain.Entities;
+﻿using Focus.Domain.Entities;
 using Focus.Infrastructure;
-using Focus.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Focus.Api.Middlewares
+namespace Focus.Domain
 {
-    public static class FocusDbContextExtensions
+    public static class FocusDbInitializer
     {
         /// <summary>
         /// 添加种子数据方便测试
         /// </summary>
         /// <param name="context"></param>
-        public static void EnsureSeedDataForContext()
+        public static void SeedData()
         {
             using (var context = new FocusDbContext())
             {

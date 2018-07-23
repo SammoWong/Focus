@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
-using Focus.Api.Middlewares;
 using Focus.Domain;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Filters;
@@ -82,7 +81,7 @@ namespace Focus.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            FocusDbContextExtensions.EnsureSeedDataForContext();//添加种子数据
+            FocusDbInitializer.SeedData();//添加种子数据
             app.UseCors("default");
             app.UseAuthentication();
             app.UseSwagger();
