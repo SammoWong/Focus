@@ -35,7 +35,11 @@ namespace Focus.Auth
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(options =>
+                    {
+                        options.UserInteraction.LoginUrl = "/Account/Login";
+                        options.UserInteraction.LogoutUrl = "/Account/Logout";
+                    })
                     .AddDeveloperSigningCredential()
                     .AddInMemoryApiResources(Config.GetApiResources())
                     .AddInMemoryClients(Config.GetClients())
