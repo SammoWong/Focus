@@ -9,7 +9,6 @@ namespace Focus.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ModuleController : ControllerBase
     {
         [HttpGet]

@@ -9,14 +9,14 @@ namespace Focus.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<string>> Get()
         {
-            throw new Exception("一个已知的异常");
+            //throw new Exception("一个已知的异常");
             return new string[] { "value1", "value2" };
         }
 

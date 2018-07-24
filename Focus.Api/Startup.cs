@@ -32,6 +32,7 @@ namespace Focus.Api
         {
             services.AddMvc(options=> 
             {
+                options.Filters.Add(typeof(FocusAuthorizationFilter));
                 options.Filters.Add(typeof(FocusActionFilter));
                 options.Filters.Add(typeof(FocusExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
