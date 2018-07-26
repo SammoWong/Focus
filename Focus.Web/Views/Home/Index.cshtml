@@ -17,9 +17,13 @@
         </div>
         <!--右侧部分结束-->
         <!--右侧边栏开始-->
-        @await  Html.PartialAsync("_RightSidebar")
+        @await Html.PartialAsync("_RightSidebar")
         <!--右侧边栏结束-->
     </div>
+</body>
+@section scripts{
+    <script src="~/js/hplus.min.js"></script>
+    <script src="~/js/contabs.js"></script>
     <script>
         var viewModel = function () {
             return {
@@ -27,34 +31,11 @@
                     this.initPage();
                 },
                 methods: {
-                    loadModules: function () {
-                        var html = '';
-                        _.get(
-                            '@Focus.Infrastructure.AppSetting.ApiUrl/api/Module',null,
-                            function (data) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    html += '<li><a href="#"><i class="' + data.data[i].icon.trim() + '"></i><span class="nav-label">' + data.data[i].name.trim() + '</span><span class="fa arrow"></span></a>';
-                                    for (var j = 0; j < data.data[i].children.length; j++) {
-                                        if (j == 0) {
-                                            html += '<ul class="nav nav-second-level">';
-                                        }
-                                        html += '<li><a class="J_menuItem" href="' + data.data[i].children[j].url + '">' + data.data[i].children[j].name + '</a></li>';
-                                        if (j == data.data[i].children.length - 1) {
-                                            html += '</ul>';
-                                        }
-                                    }
-                                    html += '</li>';
-                                }
-                                $('#side-menu').append(html);
-                                //折叠菜单
-                                $('#side-menu').metisMenu();
-                            }
-                        )
-                    }
+
                 },
                 initPage: function () {
                     var methods = this.methods;
-                    methods.loadModules();
+
                 }
             }
         }();
@@ -62,4 +43,4 @@
             viewModel.init();
         }
     </script>
-</body>
+}

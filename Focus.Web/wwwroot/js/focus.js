@@ -188,12 +188,12 @@
      * @param {any} data
      * @param {any} success
      */
-    var get = function (url, data, success) {
+    var get = function (url, data, success, async) {
         var conf;
         if (isFunction(data)) {
-            conf = { url: url, method: 'get', success: data, async: true, dataType: 'json' };
+            conf = { url: url, method: 'get', success: data, async: async, dataType: 'json' };
         } else {
-            conf = { url: url, method: 'get', data: data, success: success, async: true, dataType: 'json' };
+            conf = { url: url, method: 'get', data: data, success: success, async: async, dataType: 'json' };
         }
         conf.headers = { 'Authorization': "Bearer " + access_token };
         $.ajax(conf);
@@ -205,12 +205,12 @@
      * @param {any} data
      * @param {any} success
      */
-    var post = function (url, data, success) {
+    var post = function (url, data, success, async) {
         var conf;
         if (isFunction(data)) {
-            conf = { url: url, method: 'post', success: data, async: true, dataType: 'json' };
+            conf = { url: url, method: 'post', success: data, async: async, dataType: 'json' };
         } else {
-            conf = { url: url, method: 'post', data: data, success: success, async: true, dataType: 'json' };
+            conf = { url: url, method: 'post', data: data, success: success, async: async, dataType: 'json' };
         }
         conf.headers = { 'Authorization': "Bearer " + access_token };
         $.ajax(conf);
