@@ -132,6 +132,43 @@ namespace Focus.Domain
                     };
                     context.Modules.AddRange(modules);
                 }
+                if (!context.DictionaryTypes.Any())
+                {
+                    var dictionaryTypes = new List<DictionaryType>
+                    {
+                        new DictionaryType
+                        {
+                            Id = "3fa89a89-9a5f-4dc6-886d-edc6b9d074ee",
+                            ParentId = string.Empty,
+                            Name = "通用数据字典",
+                            SortNumber = 1,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryType
+                        {
+                            Id = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            ParentId = "3fa89a89-9a5f-4dc6-886d-edc6b9d074ee",
+                            Name = "性别",
+                            SortNumber = 2,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryType
+                        {
+                            Id = "8f54f12f-3154-4312-8595-4e5f341c0387",
+                            ParentId = "3fa89a89-9a5f-4dc6-886d-edc6b9d074ee",
+                            Name = "学历",
+                            SortNumber = 3,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        }
+                    };
+                    context.DictionaryTypes.AddRange(dictionaryTypes);
+                }
                 context.SaveChanges();
             }
         }
