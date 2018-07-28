@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities;
+using Focus.Model.Dictionary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Focus.Domain.Services
 {
     public interface IDictionaryService
     {
-        Task<IEnumerable<DictionaryType>> GetDictionaryTypesAsync();
+        Task<IEnumerable<Model.TreeJsonModel>> GetDictionaryTypesAsync();
     }
 }

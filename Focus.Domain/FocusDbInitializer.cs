@@ -150,7 +150,7 @@ namespace Focus.Domain
                         {
                             Id = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
                             ParentId = "3fa89a89-9a5f-4dc6-886d-edc6b9d074ee",
-                            Name = "性别",
+                            Name = "婚姻",
                             SortNumber = 2,
                             Enabled = true,
                             CreatedTime = DateTime.Now,

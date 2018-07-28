@@ -9,7 +9,7 @@
     @await Html.PartialAsync("_Style")
     @RenderSection("css", required: false)
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<body class="fixed-sidebar full-height-layout gray-bg" >
     <script>
         var access_token = "@await ViewContext.HttpContext.GetTokenAsync("access_token")";
         var apiUrl = '@Focus.Infrastructure.AppSetting.ApiUrl';
@@ -17,6 +17,7 @@
     @RenderBody()
     @*Script*@
     @await Html.PartialAsync("_Script")
+    <script src="~/js/common.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

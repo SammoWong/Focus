@@ -16,7 +16,7 @@ namespace Focus.Service
         {
             using (var db = NewDbContext())
             {
-                var modules = (await db.Modules.ToListAsync()).Select(m => new ModuleOutputModel()
+                var modules = (await db.Modules.Where(e => e.Enabled == true).OrderBy(e => e.SortNumber).ToListAsync()).Select(m => new ModuleOutputModel()
                 {
                     Id = m.Id,
                     Name = m.Name,
