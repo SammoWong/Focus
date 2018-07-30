@@ -5,7 +5,6 @@
 <body class="gray-bg">
 
 
-
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
             <div class="col-sm-3">
@@ -41,7 +40,10 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <div id="using_json"></div>
+                        <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i> 添加</button>
+                        <button class="btn btn-info" type="button"><i class="fa fa-paste"></i> 编辑</button>
+                        <button class="btn btn-danger" type="button"><i class="fa fa-times"></i> 删除</button>
+                        <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,8 @@
                                     <th data-field="name">名称</th>
                                     <th data-field="createdTime">创建时间</th>
                                     <th data-field="sortNumber">排序码</th>
-                                    <th data-field="enabled">是否可用</th>
+                                    <th data-field="enabled">有效</th>
+                                    <th data-field="remark">备注</th>
                                 </tr>
                             </thead>
                         </table>
@@ -90,7 +93,7 @@
                         bindJsTree('jstree', apiUrl + '/api/DictionaryTypes');
                     },
                     getDictionaryDetails: function (typeId) {
-                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, bindBootstrapTable, false);
+                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, bindSimpleBootstrapTable, false);
                     },
                 },
                 initPage: function () {

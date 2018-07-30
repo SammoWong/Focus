@@ -74,7 +74,11 @@
     }
 }
 
-function bindBootstrapTable(data) {
+/**
+ * 绑定简易的表格内容，用于简单展示
+ * @param {any} data
+ */
+function bindSimpleBootstrapTable(data) {
     if (data.code != 0) {
         toastr.error(data.message);
         return;

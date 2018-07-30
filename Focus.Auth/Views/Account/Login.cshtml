@@ -32,7 +32,7 @@
                     <i class="fa fa-key"></i>
                 </div>
                 <div class="row">
-                    <input id="verificationCode" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;">
+                    <input id="verificationCode" maxlength="4" type="text" placeholder="验证码" style="width: 190px; float: left;" value="1234">
                     <div style="width: 110px; float: right; padding-top: 14px; padding-left: 14px;">
                         看不清？<a id="switchCode" href="javascript:void();" style="text-decoration: none;">换一张</a>
                         <img id="codeUrl" class="authcode" src="@Focus.Infrastructure.AppSetting.AuthUrl/api/Account/VerificationCode" width="80" height="25" />
@@ -116,6 +116,12 @@
                     $("#switchCode").click(function () {
                         methods.getVerificationCode();
                     });
+                    document.onkeydown = function (e) {
+                        if (!e) e = window.event;
+                        if ((e.keyCode || e.which) == 13) {
+                            methods.login();
+                        }
+                    }
                 }
             }
         }();

@@ -38,7 +38,8 @@ namespace Focus.Auth
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AccessTokenLifetime = 3600 * 24
                 }
             };
         }
