@@ -16,12 +16,15 @@ namespace Focus.Service
         {
             using(var db = NewDbContext())
             {
-                var types = (await db.DictionaryTypes.Where(e => e.Enabled == true).OrderBy(e => e.SortNumber).ToListAsync()).Select(d => new Model.TreeJsonModel()
-                {
-                    Id = d.Id,
-                    Text = d.Name,
-                    ParentId = d.ParentId
-                }).ToList();
+                var types = (await db.DictionaryTypes.Where(e => e.Enabled == true && e.IsDeleted == false)
+                                                     .OrderBy(e => e.SortNumber).ToListAsync())
+                                                     .Select(d => new Model.TreeJsonModel()
+                                                     {
+                                                         Id = d.Id,
+                                                         Text = d.Name,
+                                                         ParentId = d.ParentId
+                                                     }).ToList();
+
                 var dictionaryTypeList = new List<Model.TreeJsonModel>();
                 foreach (var parent in types.Where(d => d.ParentId == string.Empty))
                 {
@@ -35,6 +38,16 @@ namespace Focus.Service
                     dictionaryTypeList.Add(parent);
                 }
                 return dictionaryTypeList;
+            }
+        }
+
+        public async Task<IEnumerable<DictionaryDetail>> GetDictionaryDetailsByTypeIdAsync(string typeId)
+        {
+            using(var db = NewDbContext())
+            {
+                var dictionaryDetails = await db.DictionaryDetails.Where(e => e.TypeId == typeId && e.Enabled == true && e.IsDeleted == false)
+                                                                  .OrderBy(e => e.SortNumber).ToListAsync();
+                return dictionaryDetails;
             }
         }
     }

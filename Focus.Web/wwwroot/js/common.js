@@ -73,3 +73,27 @@
         });
     }
 }
+
+function bindBootstrapTable(data) {
+    if (data.code != 0) {
+        toastr.error(data.message);
+        return;
+    }
+    $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
+        data: data.data.length == 0 ? [] : data.data,
+        search: true,
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 10,   
+        pageList: [10, 20, 50],
+        showRefresh: true,
+        showToggle: true,
+        showColumns: true,
+        iconSize: 'outline',
+        icons: {
+            refresh: 'glyphicon-repeat',
+            toggle: 'glyphicon-list-alt',
+            columns: 'glyphicon-list'
+        }
+    });
+}

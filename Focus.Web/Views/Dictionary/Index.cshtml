@@ -45,6 +45,35 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-9">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>详情</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table id="bootstrapTable" data-mobile-responsive="true">
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-checkbox="true"></th>
+                                    <th data-field="id">ID</th>
+                                    <th data-field="name">名称</th>
+                                    <th data-field="createdTime">创建时间</th>
+                                    <th data-field="sortNumber">排序码</th>
+                                    <th data-field="enabled">是否可用</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -54,19 +83,27 @@
             return {
                 init: function () {
                     this.initPage();
+                    this.bindEvents();
                 },
                 methods: {
                     loadDictionaryTypes: function () {
                         bindJsTree('jstree', apiUrl + '/api/DictionaryTypes');
-                        $('#jstree').on("changed.jstree", function (e, data) {
-                            var id = data.node.id;
-                            toastr.error(id);
-                        });
-                    }
+                    },
+                    getDictionaryDetails: function (typeId) {
+                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, bindBootstrapTable, false);
+                    },
                 },
                 initPage: function () {
                     var methods = this.methods;
                     methods.loadDictionaryTypes();
+                    $('#bootstrapTable').bootstrapTable();
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+                    $('#jstree').on("changed.jstree", function (e, data) {
+                        var id = data.node.id;
+                        methods.getDictionaryDetails(id);
+                    });
                 }
             }
         }();

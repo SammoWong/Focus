@@ -169,6 +169,63 @@ namespace Focus.Domain
                     };
                     context.DictionaryTypes.AddRange(dictionaryTypes);
                 }
+                if (!context.DictionaryDetails.Any())
+                {
+                    var dictionaryDetails = new List<DictionaryDetail>()
+                    {
+                        new DictionaryDetail
+                        {
+                            TypeId = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            Id = "2d861175-8632-410a-80f2-a8f634ced7a7",
+                            Name = "未婚",
+                            SortNumber = 1,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryDetail
+                        {
+                            TypeId = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            Id = "def9ecc7-d7cd-4a84-be40-efcfdd44cba4",
+                            Name = "已婚",
+                            SortNumber = 2,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryDetail
+                        {
+                            TypeId = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            Id = "672a39d8-954b-499c-8b37-d8d03ad966c0",
+                            Name = "离异",
+                            SortNumber = 3,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryDetail
+                        {
+                            TypeId = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            Id = "e9776b4e-ac6e-4c2a-a3e6-9b56cbce7f6d",
+                            Name = "丧偶",
+                            SortNumber = 4,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        },
+                        new DictionaryDetail
+                        {
+                            TypeId = "0435ebf6-71a8-466b-a7a5-fada1638eaca",
+                            Id = "82bccc1a-2f50-40c9-9f14-945d148e1e16",
+                            Name = "其他",
+                            SortNumber = 5,
+                            Enabled = true,
+                            CreatedTime = DateTime.Now,
+                            IsDeleted = false
+                        }
+                    };
+                    context.DictionaryDetails.AddRange(dictionaryDetails);
+                }
                 context.SaveChanges();
             }
         }
