@@ -2,84 +2,144 @@
 @{
     ViewData["Title"] = "数据字典";
 }
-<body class="gray-bg">
 
-
-    <div class="wrapper wrapper-content  animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>数据字典 <small>数据字典类型</small></h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div id="jstree">
-                        </div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>数据字典 <small>数据字典类型</small></h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-9">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>操作</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i> 添加</button>
-                        <button class="btn btn-info" type="button"><i class="fa fa-paste"></i> 编辑</button>
-                        <button class="btn btn-danger" type="button"><i class="fa fa-times"></i> 删除</button>
-                        <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>详情</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <table id="bootstrapTable" data-mobile-responsive="true">
-                            <thead>
-                                <tr>
-                                    <th data-field="state" data-checkbox="true"></th>
-                                    <th data-field="id">ID</th>
-                                    <th data-field="name">名称</th>
-                                    <th data-field="createdTime">创建时间</th>
-                                    <th data-field="sortNumber">排序码</th>
-                                    <th data-field="enabled">有效</th>
-                                    <th data-field="remark">备注</th>
-                                </tr>
-                            </thead>
-                        </table>
+                <div class="ibox-content">
+                    <div id="jstree">
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>操作</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#myModal" data-toggle="modal"><i class="fa fa-paste"></i> 编辑</button>
+                    <button class="btn btn-danger" type="button"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table id="bootstrapTable" data-mobile-responsive="true">
+                        <thead>
+                            <tr>
+                                <th data-field="state" data-checkbox="true"></th>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">名称</th>
+                                <th data-field="createdTime">创建时间</th>
+                                <th data-field="sortNumber">排序码</th>
+                                <th data-field="enabled">有效</th>
+                                <th data-field="remark">备注</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
+</div>
+
+<div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">修改字典</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal m-t" id="dictionaryDetailForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Id：</label>
+                        <div class="col-sm-8">
+                            <input id="id" name="id" type="text" class="form-control" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">名称：</label>
+                        <div class="col-sm-8">
+                            <input id="name" type="text" class="form-control" name="name" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">创建时间：</label>
+                        <div class="col-sm-8">
+                            <input id="createdTime" type="text" class="form-control" name="createdTime">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排序码：</label>
+                        <div class="col-sm-8">
+                            <input id="sortNumber" type="text" class="form-control" name="sortNumber">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">有效：</label>
+                        <div class="col-sm-8">
+                            @*<input id="enabled" type="url" class="form-control" name="enabled">*@
+                            <div class="radio i-checks">
+                                <label>
+                                    <input type="radio" value="true" name="enabled"> <i></i> 有效
+                                </label>
+                                <label>
+                                    <input type="radio" value="false" name="enabled"> <i></i> 无效
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            <textarea id="remark" name="remark" class="form-control" required="" aria-required="true"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
         var viewModel = function () {
@@ -106,6 +166,11 @@
                     $('#jstree').on("changed.jstree", function (e, data) {
                         var id = data.node.id;
                         methods.getDictionaryDetails(id);
+                    });
+                    
+                    $('#btnEdit').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        $("#dictionaryDetailForm").setForm(selections[0]);
                     });
                 }
             }
