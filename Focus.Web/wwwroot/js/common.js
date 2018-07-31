@@ -189,7 +189,7 @@ $.fn.setForm = function (jsonValue) {
             $oinput.each(function () {
                 var radioObj = $("[name=" + name + "]");
                 for (var i = 0; i < radioObj.length; i++) {
-                    if (radioObj[i].value == ival) {
+                    if (radioObj[i].value == ival.toString()) {
                         radioObj[i].click();
                     }
                 }
@@ -202,4 +202,54 @@ $.fn.setForm = function (jsonValue) {
             obj.find("[name=" + name + "]").val(ival);
         }
     })
-}  
+} 
+
+$.fn.formSerialize = function (formdata) {
+    var element = $(this);
+    if (!!formdata) {
+        for (var key in formdata) {
+            var $id = element.find('#' + key);
+            var value = $.trim(formdata[key]).replace(/&nbsp;/g, '');
+            var type = $id.attr('type');
+            if ($id.hasClass("select2-hidden-accessible")) {
+                type = "select";
+            }
+            switch (type) {
+                case "checkbox":
+                    if (value == "true") {
+                        $id.attr("checked", 'checked');
+                    } else {
+                        $id.removeAttr("checked");
+                    }
+                    break;
+                case "select":
+                    $id.val(value).trigger("change");
+                    break;
+                default:
+                    $id.val(value);
+                    break;
+            }
+        };
+        return false;
+    }
+    var postdata = {};
+    element.find('input,select,textarea').each(function (r) {
+        var $this = $(this);
+        var id = $this.attr('id');
+        var type = $this.attr('type');
+        switch (type) {
+            case "checkbox":
+                postdata[id] = $this.is(":checked");
+                break;
+            default:
+                var value = $this.val() == "" ? "&nbsp;" : $this.val();
+                if (!$.request("keyValue")) {
+                    value = value.replace(/&nbsp;/g, '');
+                }
+                postdata[id] = value;
+                break;
+        }
+    });
+    
+    return postdata;
+};

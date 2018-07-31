@@ -9,7 +9,7 @@
     @await Html.PartialAsync("_Style")
     @RenderSection("css", required: false)
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg" >
+<body class="fixed-sidebar full-height-layout gray-bg">
     <script>
         var access_token = "@await ViewContext.HttpContext.GetTokenAsync("access_token")";
         var apiUrl = '@Focus.Infrastructure.AppSetting.ApiUrl';
@@ -19,5 +19,13 @@
     @await Html.PartialAsync("_Script")
     <script src="~/js/common.js"></script>
     @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
 </body>
 </html>
