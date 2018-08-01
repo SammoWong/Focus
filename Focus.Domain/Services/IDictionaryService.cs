@@ -12,5 +12,9 @@ namespace Focus.Domain.Services
         Task<IEnumerable<Model.TreeJsonModel>> GetDictionaryTypesAsync();
 
         Task<IEnumerable<DictionaryDetail>> GetDictionaryDetailsByTypeIdAsync(string typeId);
+
+        Task<DictionaryDetail> GetDictionaryDetailById(string id);
+
+        Task UpdateDictionaryDetailAsync(DictionaryDetail entity);
     }
 }

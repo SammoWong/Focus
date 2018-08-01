@@ -93,6 +93,7 @@ function bindSimpleBootstrapTable(data) {
         showRefresh: true,
         showToggle: true,
         showColumns: true,
+        clickToSelect: true,
         iconSize: 'outline',
         icons: {
             refresh: 'glyphicon-repeat',

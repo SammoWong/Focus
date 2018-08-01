@@ -45,9 +45,30 @@ namespace Focus.Service
         {
             using(var db = NewDbContext())
             {
-                var dictionaryDetails = await db.DictionaryDetails.Where(e => e.TypeId == typeId && e.Enabled == true && e.IsDeleted == false)
+                var dictionaryDetails = await db.DictionaryDetails.Where(e => e.TypeId == typeId && e.IsDeleted == false)
                                                                   .OrderBy(e => e.SortNumber).ToListAsync();
                 return dictionaryDetails;
+            }
+        }
+
+        public async Task<DictionaryDetail> GetDictionaryDetailById(string id)
+        {
+            using(var db = NewDbContext())
+            {
+                var dictionaryDetail = await db.DictionaryDetails.FirstOrDefaultAsync(e => e.Id == id);
+                return dictionaryDetail;
+            }
+        }
+
+        public async Task UpdateDictionaryDetailAsync(DictionaryDetail entity)
+        {
+            using(var db = NewDbContext())
+            {
+                var entry = db.Entry(entity);
+                entry.State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                //db.DictionaryDetails.Update(entity);
+                //await db.SaveChangesAsync();
             }
         }
     }

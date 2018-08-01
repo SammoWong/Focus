@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "数据字典";
 }
 
@@ -60,17 +59,18 @@
                 </div>
                 <div class="ibox-content">
                     <table id="bootstrapTable" data-mobile-responsive="true">
-                        <thead>
-                            <tr>
-                                <th data-field="state" data-checkbox="true"></th>
-                                <th data-field="id">ID</th>
-                                <th data-field="name">名称</th>
-                                <th data-field="createdTime">创建时间</th>
-                                <th data-field="sortNumber">排序码</th>
-                                <th data-field="enabled">有效</th>
-                                <th data-field="remark">备注</th>
-                            </tr>
-                        </thead>
+                        @*
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-checkbox="true"></th>
+                                    <th data-field="id">ID</th>
+                                    <th data-field="name">名称</th>
+                                    <th data-field="createdTime">创建时间</th>
+                                    <th data-field="sortNumber">排序码</th>
+                                    <th data-field="enabled">有效</th>
+                                    <th data-field="remark">备注</th>
+                                </tr>
+                            </thead>*@
                     </table>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Id：</label>
                         <div class="col-sm-8">
-                            <input id="id" name="id" type="text" class="form-control" required="" aria-required="true">
+                            <input id="id" name="id" type="text" class="form-control" required="" aria-required="true" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,7 +102,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">创建时间：</label>
                         <div class="col-sm-8">
-                            <input id="createdTime" type="text" class="form-control" name="createdTime">
+                            <input id="createdTime" type="text" class="form-control" name="createdTime" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -118,10 +118,6 @@
                                 <option value="true">有效</option>
                                 <option value="false">无效</option>
                             </select>
-                            @*<div class="radio i-checks">
-                                    <label><input type="radio" value=true id="id1" name="enabled"> <i></i> 有效</label>
-                                    <label><input type="radio" value=false id="id2" name="enabled"> <i></i> 无效</label>
-                                </div>*@
                         </div>
                     </div>
                     <div class="form-group">
@@ -134,7 +130,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="btnSave" data-dismiss="modal">保存</button>
             </div>
         </div>
     </div>
@@ -152,8 +148,65 @@
                         bindJsTree('jstree', apiUrl + '/api/DictionaryTypes');
                     },
                     getDictionaryDetails: function (typeId) {
-                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, bindSimpleBootstrapTable, false);
+                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, this.bindDictionaryDetails, false);
                     },
+                    bindDictionaryDetails: function (data) {
+                        if (data.code != 0) {
+                            toastr.error(data.message);
+                            return;
+                        }
+                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
+                            data: data.data.length == 0 ? [] : data.data,
+                            search: true,
+                            pagination: true,
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 20, 50],
+                            sortable: true,
+                            sortOrder: "asc",
+                            showRefresh: true,
+                            showToggle: true,
+                            showColumns: true,
+                            clickToSelect: true,
+                            iconSize: 'outline',
+                            icons: {
+                                refresh: 'glyphicon-repeat',
+                                toggle: 'glyphicon-list-alt',
+                                columns: 'glyphicon-list'
+                            },
+                            columns: [
+                                {
+                                    checkbox: true,
+                                }, {
+                                    field: 'id',
+                                    title: 'Id',
+                                    width: '25%'
+                                }, {
+                                    field: 'name',
+                                    title: '名称',
+                                    sortable: true,
+                                }, {
+                                    field: 'createdTime',
+                                    title: '创建时间',
+                                    sortable: true,
+                                }, {
+                                    field: 'sortNumber',
+                                    title: '排序码',
+                                    sortable: true
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-toggle-on\">有效</i>" : "<i class=\"fa fa-toggle-off\">无效</i>";
+                                    }
+                                }, {
+                                    field: 'remark',
+                                    title: '备注'
+                                }
+                            ]
+                        });
+                    }
                 },
                 initPage: function () {
                     var methods = this.methods;
@@ -172,6 +225,16 @@
                         //$("#dictionaryDetailForm").setForm(selections[0]);
                         $("#dictionaryDetailForm").formSerialize(selections[0]);
                     });
+
+                    $('#btnSave').click(function () {
+                        //var data = $('#dictionaryDetailForm').serializeArray();
+                        ////var result = JSON.parse(data);
+                        //_.post(apiUrl + '/api/DictionaryDetail/Update', data, function (data) {
+                        //    if (data.code != 0) {
+                        //        toastr.error(data.message);
+                        //    }
+                        //}, true);
+                    })
                 }
             }
         }();
