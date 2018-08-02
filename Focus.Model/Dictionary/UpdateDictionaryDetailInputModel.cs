@@ -13,6 +13,8 @@ namespace Focus.Model.Dictionary
         [Display(Name = "名称"), Required(ErrorMessage = "{0}不能为空")]
         public string Name { get; set; }
 
+        public DateTime CreatedTime { get; set; }
+
         public int SortNumber { get; set; }
 
         public bool Enabled { get; set; }

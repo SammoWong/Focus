@@ -35,7 +35,7 @@ namespace Focus.Api.Controllers
 
         [HttpPost]
         [Route("api/DictionaryDetail/Update")]
-        public async Task<IActionResult> UpdateDictionaryDetail(UpdateDictionaryDetailInputModel model)
+        public async Task<IActionResult> UpdateDictionaryDetail([FromForm]UpdateDictionaryDetailInputModel model)
         {
             var dictionaryService = Ioc.Get<IDictionaryService>();
             var dictionaryDetail = await dictionaryService.GetDictionaryDetailById(model.Id);
@@ -51,6 +51,7 @@ namespace Focus.Api.Controllers
         {
             entity.Id = model.Id;
             entity.Name = model.Name;
+            entity.CreatedTime = model.CreatedTime;
             entity.SortNumber = model.SortNumber;
             entity.Enabled = model.Enabled;
             entity.Remark = model.Remark;

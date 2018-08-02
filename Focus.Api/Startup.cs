@@ -37,6 +37,11 @@ namespace Focus.Api
                 options.Filters.Add(typeof(FocusExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;//禁用验证错误会自动触发 HTTP 400 响应
+            });
+
             services.AddMvcCore()
                     .AddAuthorization()
                     .AddJsonFormatters()
