@@ -16,5 +16,9 @@ namespace Focus.Domain.Services
         Task<DictionaryDetail> GetDictionaryDetailById(string id);
 
         Task UpdateDictionaryDetailAsync(DictionaryDetail entity);
+
+        Task<bool> IsDictionaryDetailExistAsync(string name);
+
+        Task AddDictionaryDetailAsync(DictionaryDetail entity);
     }
 }

@@ -47,6 +47,29 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("更新成功"));
         }
 
+        [HttpPost]
+        [Route("api/DictionaryDetail/Add")]
+        public async Task<IActionResult> AddDictionaryDetail([FromForm]AddDictionaryDetailInputModel model)
+        {
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            if(await dictionaryService.IsDictionaryDetailExistAsync(model.Name))
+            {
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "此数据字典详情已存在"));
+            }
+            var dictionaryDetail = new DictionaryDetail()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = model.Name,
+                TypeId = model.TypeId,
+                SortNumber = model.SortNumber,
+                Enabled = model.Enabled,
+                Remark = model.Remark,
+                CreatedTime = DateTime.Now
+            };
+            await dictionaryService.AddDictionaryDetailAsync(dictionaryDetail);
+            return Ok(new StandardResult().Succeed("添加成功"));
+        }
+
         private void MapToEntity(UpdateDictionaryDetailInputModel model, DictionaryDetail entity)
         {
             entity.Id = model.Id;

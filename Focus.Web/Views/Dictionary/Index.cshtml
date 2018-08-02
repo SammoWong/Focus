@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#myModal" data-toggle="modal"><i class="fa fa-paste"></i> 编辑</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-paste"></i> 编辑</button>
                     <button class="btn btn-danger" type="button"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
@@ -58,26 +58,14 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <table id="bootstrapTable" data-mobile-responsive="true">
-                        @*
-                            <thead>
-                                <tr>
-                                    <th data-field="state" data-checkbox="true"></th>
-                                    <th data-field="id">ID</th>
-                                    <th data-field="name">名称</th>
-                                    <th data-field="createdTime">创建时间</th>
-                                    <th data-field="sortNumber">排序码</th>
-                                    <th data-field="enabled">有效</th>
-                                    <th data-field="remark">备注</th>
-                                </tr>
-                            </thead>*@
-                    </table>
+                    <table id="bootstrapTable" data-mobile-responsive="true"></table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @await Html.PartialAsync("_UpdateDetail")
+@await Html.PartialAsync("_AddDetail")
 
 @section scripts{
     <script>
@@ -167,12 +155,11 @@
 
                     $('#btnEdit').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
-                        //$("#dictionaryDetailForm").setForm(selections[0]);
-                        $("#dictionaryDetailForm").formSerialize(selections[0]);
+                        $("#updateDetailForm").formSerialize(selections[0]);
                     });
 
-                    $('#btnSave').click(function () {
-                        var data = $('#dictionaryDetailForm').formSerialize();
+                    $('#btnSaveUpdateDetailForm').click(function () {
+                        var data = $('#updateDetailForm').formSerialize();
                         _.post(apiUrl + '/api/DictionaryDetail/Update', data, function (data) {
                             if (data.code == 0) {
                                 methods.getDictionaryDetails(id);

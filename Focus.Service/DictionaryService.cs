@@ -71,5 +71,22 @@ namespace Focus.Service
                 //await db.SaveChangesAsync();
             }
         }
+
+        public async Task<bool> IsDictionaryDetailExistAsync(string name)
+        {
+            using(var db = NewDbContext())
+            {
+                return await db.DictionaryDetails.AnyAsync(e => e.Name == name);
+            }
+        }
+
+        public async Task AddDictionaryDetailAsync(DictionaryDetail entity)
+        {
+            using(var db = NewDbContext())
+            {
+                await db.DictionaryDetails.AddAsync(entity);
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }
