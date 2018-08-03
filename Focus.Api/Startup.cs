@@ -39,6 +39,8 @@ namespace Focus.Api
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
+                //options.SuppressConsumesConstraintForFormFileParameters = true;
+                //options.SuppressInferBindingSourcesForParameters = true;
                 options.SuppressModelStateInvalidFilter = true;//禁用验证错误会自动触发 HTTP 400 响应
             });
 

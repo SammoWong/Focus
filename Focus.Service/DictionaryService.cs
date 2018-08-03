@@ -14,7 +14,7 @@ namespace Focus.Service
     {
         public async Task<IEnumerable<Model.TreeJsonModel>> GetDictionaryTypesAsync()
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 var types = (await db.DictionaryTypes.Where(e => e.Enabled == true && e.IsDeleted == false)
                                                      .OrderBy(e => e.SortNumber).ToListAsync())
@@ -43,9 +43,9 @@ namespace Focus.Service
 
         public async Task<IEnumerable<DictionaryDetail>> GetDictionaryDetailsByTypeIdAsync(string typeId)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
-                var dictionaryDetails = await db.DictionaryDetails.Where(e => e.TypeId == typeId && e.IsDeleted == false)
+                var dictionaryDetails = await db.DictionaryDetails.Where(e => e.TypeId == typeId)
                                                                   .OrderBy(e => e.SortNumber).ToListAsync();
                 return dictionaryDetails;
             }
@@ -53,7 +53,7 @@ namespace Focus.Service
 
         public async Task<DictionaryDetail> GetDictionaryDetailById(string id)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 var dictionaryDetail = await db.DictionaryDetails.FirstOrDefaultAsync(e => e.Id == id);
                 return dictionaryDetail;
@@ -62,7 +62,7 @@ namespace Focus.Service
 
         public async Task UpdateDictionaryDetailAsync(DictionaryDetail entity)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 var entry = db.Entry(entity);
                 entry.State = EntityState.Modified;
@@ -74,7 +74,7 @@ namespace Focus.Service
 
         public async Task<bool> IsDictionaryDetailExistAsync(string name)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 return await db.DictionaryDetails.AnyAsync(e => e.Name == name);
             }
@@ -82,9 +82,24 @@ namespace Focus.Service
 
         public async Task AddDictionaryDetailAsync(DictionaryDetail entity)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 await db.DictionaryDetails.AddAsync(entity);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task BatchDeleteDictionaryDetailsAsync(List<string> ids)
+        {
+            using (var db = NewDbContext())
+            {
+                var entities = db.DictionaryDetails.Where(e => ids.Contains(e.Id));
+                await entities.ForEachAsync(e =>
+                {
+                    e.IsDeleted = true;
+                    e.DeletedTime = DateTime.Now;
+                });
+                await entities.ForEachAsync(e => db.Entry(e).State = EntityState.Modified);
                 await db.SaveChangesAsync();
             }
         }

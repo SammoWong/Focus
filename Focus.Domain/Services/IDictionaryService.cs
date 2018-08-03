@@ -20,5 +20,7 @@ namespace Focus.Domain.Services
         Task<bool> IsDictionaryDetailExistAsync(string name);
 
         Task AddDictionaryDetailAsync(DictionaryDetail entity);
+
+        Task BatchDeleteDictionaryDetailsAsync(List<string> ids);
     }
 }

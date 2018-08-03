@@ -39,7 +39,7 @@
                 <div class="ibox-content">
                     <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
                     <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-paste"></i> 编辑</button>
-                    <button class="btn btn-danger" type="button"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
@@ -133,12 +133,23 @@
                                         return value ? "<i class=\"fa fa-toggle-on\">有效</i>" : "<i class=\"fa fa-toggle-off\">无效</i>";
                                     }
                                 }, {
+                                    field: 'isDeleted',
+                                    title: '是否删除',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-toggle-off\">已删除</i>" : "<i class=\"fa fa-toggle-on\">未删除</i>";
+                                    }
+                                }, {
+                                    field: 'deletedTime',
+                                    title: '删除时间',
+                                    sortable: true,
+                                }, {
                                     field: 'remark',
                                     title: '备注'
                                 }
                             ]
                         });
-                    }
+                    },
                 },
                 initPage: function () {
                     var methods = this.methods;
@@ -159,6 +170,9 @@
                     });
 
                     $('#btnSaveUpdateDetailForm').click(function () {
+                        if (!$('#updateDetailForm').formValid()) {
+                            return false;
+                        }
                         var data = $('#updateDetailForm').formSerialize();
                         _.post(apiUrl + '/api/DictionaryDetail/Update', data, function (data) {
                             if (data.code == 0) {
@@ -168,6 +182,43 @@
                                 toastr.error(data.message);
                             }
                         });
+                    });
+
+                    $('#btnSaveAddDetailForm').click(function () {
+                        if (!$('#addDetailForm').formValid()) {
+                            toastr.error('error');
+                            return false;
+                        }
+                        var data = $('#addDetailForm').formSerialize();
+                        data['TypeId'] = id;
+                        _.post(apiUrl + '/api/DictionaryDetail/Add', data, function (data) { 
+                            if (data.code == 0) {
+                                methods.getDictionaryDetails(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnDelete').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的字典详情');
+                            return false;
+                        }
+                        var data = '';
+                        for (var i = 0; i < selections.length; i++) {
+                            data += selections[i].id + ',';
+                        }
+                        _.get(apiUrl + '/api/DictionaryDetail/Delete?idStr=' + data, function (data) {
+                            if (data.code == 0) {
+                                methods.getDictionaryDetails(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
                     });
                 }
             }

@@ -52,7 +52,7 @@ namespace Focus.Api.Controllers
         public async Task<IActionResult> AddDictionaryDetail([FromForm]AddDictionaryDetailInputModel model)
         {
             var dictionaryService = Ioc.Get<IDictionaryService>();
-            if(await dictionaryService.IsDictionaryDetailExistAsync(model.Name))
+            if (await dictionaryService.IsDictionaryDetailExistAsync(model.Name))
             {
                 return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "此数据字典详情已存在"));
             }
@@ -68,6 +68,20 @@ namespace Focus.Api.Controllers
             };
             await dictionaryService.AddDictionaryDetailAsync(dictionaryDetail);
             return Ok(new StandardResult().Succeed("添加成功"));
+        }
+
+        //TODO:修改POST请求
+        [HttpGet]
+        [Route("api/DictionaryDetail/Delete")]
+        public async Task<IActionResult> DeleteDictionaryDetail(string idStr)
+        {
+            if(string.IsNullOrEmpty(idStr))
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "字典详情不能为空"));
+            
+            var ids = idStr.Substring(0, idStr.Length - 1).Split(',').ToList();
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            await dictionaryService.BatchDeleteDictionaryDetailsAsync(ids);
+            return Ok(new StandardResult().Succeed("删除成功"));
         }
 
         private void MapToEntity(UpdateDictionaryDetailInputModel model, DictionaryDetail entity)
