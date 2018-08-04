@@ -21,6 +21,6 @@ namespace Focus.Domain.Services
 
         Task AddDictionaryDetailAsync(DictionaryDetail entity);
 
-        Task BatchDeleteDictionaryDetailsAsync(List<string> ids);
+        Task BatchDeleteDictionaryDetailsAsync(List<string> ids, string currentUserId);
     }
 }

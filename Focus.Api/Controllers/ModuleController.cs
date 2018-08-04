@@ -9,7 +9,7 @@ namespace Focus.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ModuleController : ControllerBase
+    public class ModuleController : FocusApiControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()

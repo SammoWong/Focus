@@ -89,7 +89,7 @@ namespace Focus.Service
             }
         }
 
-        public async Task BatchDeleteDictionaryDetailsAsync(List<string> ids)
+        public async Task BatchDeleteDictionaryDetailsAsync(List<string> ids, string currentUserId)
         {
             using (var db = NewDbContext())
             {
@@ -98,6 +98,7 @@ namespace Focus.Service
                 {
                     e.IsDeleted = true;
                     e.DeletedTime = DateTime.Now;
+                    e.DeletedBy = currentUserId;
                 });
                 await entities.ForEachAsync(e => db.Entry(e).State = EntityState.Modified);
                 await db.SaveChangesAsync();

@@ -9,7 +9,7 @@ namespace Focus.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : FocusApiControllerBase
     {
         // GET api/values
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Focus.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return CurrentUserId;
         }
 
         // POST api/values

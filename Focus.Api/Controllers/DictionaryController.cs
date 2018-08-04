@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Focus.Api.Controllers
 {
     [ApiController]
-    public class DictionaryController : ControllerBase
+    public class DictionaryController : FocusApiControllerBase
     {
         [Route("api/DictionaryTypes")]
         [HttpGet]
@@ -43,6 +43,8 @@ namespace Focus.Api.Controllers
                 return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "数据字典不存在"));
 
             MapToEntity(model, dictionaryDetail);
+            dictionaryDetail.ModifiedBy = CurrentUserId;
+            dictionaryDetail.ModifiedTime = DateTime.Now;
             await dictionaryService.UpdateDictionaryDetailAsync(dictionaryDetail);
             return Ok(new StandardResult().Succeed("更新成功"));
         }
@@ -64,7 +66,8 @@ namespace Focus.Api.Controllers
                 SortNumber = model.SortNumber,
                 Enabled = model.Enabled,
                 Remark = model.Remark,
-                CreatedTime = DateTime.Now
+                CreatedTime = DateTime.Now,
+                CreatedBy = CurrentUserId
             };
             await dictionaryService.AddDictionaryDetailAsync(dictionaryDetail);
             return Ok(new StandardResult().Succeed("添加成功"));
@@ -80,7 +83,7 @@ namespace Focus.Api.Controllers
             
             var ids = idStr.Substring(0, idStr.Length - 1).Split(',').ToList();
             var dictionaryService = Ioc.Get<IDictionaryService>();
-            await dictionaryService.BatchDeleteDictionaryDetailsAsync(ids);
+            await dictionaryService.BatchDeleteDictionaryDetailsAsync(ids, CurrentUserId);
             return Ok(new StandardResult().Succeed("删除成功"));
         }
 
