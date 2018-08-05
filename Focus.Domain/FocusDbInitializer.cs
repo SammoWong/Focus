@@ -128,6 +128,20 @@ namespace Focus.Domain
                             IsDeleted = false,
                             CreatedTime = DateTime.Now,
                             Enabled = true
+                        },
+                        new Module
+                        {
+                            Id = "ad368108-4777-4672-b56d-104b6d227168",
+                            ParentId = "6ae17edf-d645-43f0-b6f0-f081e27f7c4a",
+                            Name = "公司管理",
+                            Url = "/Company/Index",
+                            Category = Domain.Enums.ModuleCategory.Page,
+                            Rank = 2,
+                            SortNumber = 3,
+                            IsExpanded = false,
+                            IsDeleted = false,
+                            CreatedTime = DateTime.Now,
+                            Enabled = true
                         }
                     };
                     context.Modules.AddRange(modules);
@@ -225,6 +239,27 @@ namespace Focus.Domain
                         }
                     };
                     context.DictionaryDetails.AddRange(dictionaryDetails);
+                }
+                if (!context.Companies.Any())
+                {
+                    var company = new Company
+                    {
+                        Id = "b735380d-e292-4bf4-b735-1286b165d5e1",
+                        FullName = "Focus集团",
+                        ShortName = "Focus Group",
+                        Nature = string.Empty,
+                        Website = "https://cn.bing.com/",
+                        Email = "123456@abc.com",
+                        Creator = "focus",
+                        Contact = "focus",
+                        Phone = "123456789",
+                        Address = "中国广东深圳",
+                        Enabled = true,
+                        CreatedBy = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
+                        CreatedTime = DateTime.Now,
+                        IsDeleted = false
+                    };
+                    context.Companies.Add(company);
                 }
                 context.SaveChanges();
             }

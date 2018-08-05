@@ -38,7 +38,7 @@
                 </div>
                 <div class="ibox-content">
                     <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-paste"></i> 编辑</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
@@ -108,7 +108,7 @@
                             },
                             columns: [
                                 {
-                                    checkbox: true,
+                                    checkbox: true
                                 }, {
                                     field: 'id',
                                     title: 'Id',
@@ -130,14 +130,14 @@
                                     title: '是否有效',
                                     sortable: true,
                                     formatter: function (value, row, index) {
-                                        return value ? "<i class=\"fa fa-toggle-on\">有效</i>" : "<i class=\"fa fa-toggle-off\">无效</i>";
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
                                     }
                                 }, {
                                     field: 'isDeleted',
                                     title: '是否删除',
                                     sortable: true,
                                     formatter: function (value, row, index) {
-                                        return value ? "<i class=\"fa fa-toggle-off\">已删除</i>" : "<i class=\"fa fa-toggle-on\">未删除</i>";
+                                        return value ? "<i class=\"fa fa-toggle-off text-danger\">已删除</i>" : "<i class=\"fa fa-toggle-on text-navy\">未删除</i>";
                                     }
                                 }, {
                                     field: 'deletedTime',
@@ -166,6 +166,14 @@
 
                     $('#btnEdit').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要编辑的数据字典');
+                            return false;
+                        }
+                        if (selections.length > 1) {
+                            toastr.error('只能选择一条要编辑的数据字典');
+                            return false;
+                        }
                         $("#updateDetailForm").formSerialize(selections[0]);
                     });
 
