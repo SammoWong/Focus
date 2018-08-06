@@ -12,6 +12,14 @@ namespace Focus.Service
 {
     public class UserService : FocusServiceBase, IUserService
     {
+        public async Task<bool> IsAccountExist(string account)
+        {
+            using(var db = NewDbContext())
+            {
+                return await db.Users.AnyAsync(e => e.Account == account);
+            }
+        }
+
         public async Task AddAsync(User user)
         {
             using (var db = base.NewDbContext())
@@ -48,6 +56,23 @@ namespace Focus.Service
             {
                 var user = await db.Users.Include(u => u.Role).Where(u => u.Id == id).FirstOrDefaultAsync();
                 return user;
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.Users.ToListAsync();
+            }
+        }
+
+        public async Task UpdateAsync(User user)
+        {
+            using(var db = NewDbContext())
+            {
+                db.Users.Update(user);
+                await db.SaveChangesAsync();
             }
         }
     }

@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewData["Title"] = "用户管理";
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>操作</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addUserModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateUserModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table id="bootstrapTable" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_AddUser")
+@await Html.PartialAsync("_UpdateUser")
+
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    getUsers: function () {
+                        _.get(apiUrl + '/api/Users/', null, this.bindUsers, false);
+                    },
+                    bindUsers: function (data) {
+                        if (data.code != 0) {
+                            toastr.error(data.message);
+                            return;
+                        }
+                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
+                            data: data.data.length == 0 ? [] : data.data,
+                            search: true,
+                            pagination: true,
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 20, 50],
+                            sortable: true,
+                            sortOrder: "asc",
+                            showRefresh: true,
+                            showToggle: true,
+                            showColumns: true,
+                            clickToSelect: true,
+                            iconSize: 'outline',
+                            icons: {
+                                refresh: 'glyphicon-repeat',
+                                toggle: 'glyphicon-list-alt',
+                                columns: 'glyphicon-list'
+                            },
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'account',
+                                    title: '账号',
+                                    sortable: true,
+                                }, {
+                                    field: 'realName',
+                                    title: '姓名',
+                                    sortable: true,
+                                }, {
+                                    field: 'idCard',
+                                    title: '身份证',
+                                    sortable: true,
+                                }, {
+                                    field: 'gender',
+                                    title: '性别',
+                                    sortable: true,
+                                }, {
+                                    field: 'mobile',
+                                    title: '手机号码',
+                                    sortable: true,
+                                }, {
+                                    field: 'email',
+                                    title: '邮箱',
+                                    sortable: true,
+                                }, {
+                                    field: 'createdTime',
+                                    title: '创建时间',
+                                    sortable: true,
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+                                    }
+                                }, {
+                                    field: 'isDeleted',
+                                    title: '是否删除',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-toggle-off text-danger\">已删除</i>" : "<i class=\"fa fa-toggle-on text-navy\">未删除</i>";
+                                    }
+                                }
+                            ]
+                        });
+                    },
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    $('#bootstrapTable').bootstrapTable();
+                    methods.getUsers();
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+
+                    $('#btnAdd').click(function () {
+                        $('#addUserForm')[0].reset();
+                    });
+
+                    $('#btnSaveAddUserForm').click(function () {
+                        if (!$('#addUserForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addUserForm').formSerialize();
+                        _.post(apiUrl + '/api/User/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.getUsers();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnEdit').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要编辑的用户');
+                            return false;
+                        }
+                        $("#updateUserForm").formSerialize(selections[0]);
+                    });
+
+                    $('#btnSaveUpdateUserForm').click(function () {
+                        if (!$('#updateUserForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateUserForm').formSerialize();
+                        _.post(apiUrl + '/api/User/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.getUsers();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
+                    });
+
+                    $('#btnDelete').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的用户');
+                            return false;
+                        }
+                        _.get(apiUrl + '/api/User/Delete?id=' + selections[0].id, function (data) {
+                            if (data.code == 0) {
+                                methods.getUsers();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}
+

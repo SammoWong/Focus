@@ -20,17 +20,34 @@ namespace Focus.Domain
                 if (!context.Users.Any())//添加用户种子数据
                 {
                     var salt = PasswordHelper.GenerateSalt();
-                    var user = new User
+                    var users = new List<User>
                     {
-                        Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
-                        Account = "admin",
-                        Salt = salt,
-                        Password = PasswordHelper.ComputeHash("123456", salt),
-                        RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
-                        CreatedTime = DateTime.Now,
-                        Enabled = true
+                        new User
+                        {
+                            Id = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
+                            Account = "admin",
+                            Salt = salt,
+                            Password = PasswordHelper.ComputeHash("123456", salt),
+                            RoleId = "938858c1-e722-4360-a645-7ace8b1cf683",
+                            CreatedTime = DateTime.Now,
+                            Enabled = true,
+                            IsDeleted = false,
+                            CompanyId = "b735380d-e292-4bf4-b735-1286b165d5e1",
+                        },
+                        new User
+                        {
+                            Id = "962fa3fe-d29a-4bc6-b137-62aa90d713e2",
+                            Account = "system",
+                            Salt = salt,
+                            Password = PasswordHelper.ComputeHash("123456", salt),
+                            RoleId = "d3390e64-0ea4-47dc-9159-07c16ca905aa",
+                            CreatedTime = DateTime.Now,
+                            Enabled = true,
+                            IsDeleted = false,
+                            CompanyId = "b735380d-e292-4bf4-b735-1286b165d5e1"
+                        },
                     };
-                    context.Users.Add(user);
+                    context.Users.AddRange(users);
                 }
                 if (!context.Roles.Any())//添加角色种子数据
                 {
@@ -39,16 +56,24 @@ namespace Focus.Domain
                         new Role
                         {
                             Id = "938858c1-e722-4360-a645-7ace8b1cf683",
-                            Name = "管理员",
+                            Code = "system",
+                            Name = "系统管理员",
                             CreatedTime = DateTime.Now,
-                            Enabled = true
+                            Enabled = true,
+                            CreatedBy = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
+                            IsDeleted = false,
+                            CompanyId = "b735380d-e292-4bf4-b735-1286b165d5e1"
                         },
                         new Role
                         {
                             Id = "d3390e64-0ea4-47dc-9159-07c16ca905aa",
+                            Code = "administrator",
                             Name = "超级管理员",
                             CreatedTime = DateTime.Now,
-                            Enabled = true
+                            Enabled = true,
+                            CreatedBy = "ede7cad9-692c-4563-9adb-7eb2a37048a9",
+                            IsDeleted = false,
+                            CompanyId = "b735380d-e292-4bf4-b735-1286b165d5e1"
                         }
                     };
                     context.Roles.AddRange(roles);

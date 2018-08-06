@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewData["Title"] = "角色管理";
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>操作</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table id="bootstrapTable" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    getRoles: function () {
+                        _.get(apiUrl + '/api/Roles/', null, this.bindRoles, false);
+                    },
+                    bindRoles: function (data) {
+                        if (data.code != 0) {
+                            toastr.error(data.message);
+                            return;
+                        }
+                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
+                            data: data.data.length == 0 ? [] : data.data,
+                            search: true,
+                            pagination: true,
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 20, 50],
+                            sortable: true,
+                            sortOrder: "asc",
+                            showRefresh: true,
+                            showToggle: true,
+                            showColumns: true,
+                            clickToSelect: true,
+                            iconSize: 'outline',
+                            icons: {
+                                refresh: 'glyphicon-repeat',
+                                toggle: 'glyphicon-list-alt',
+                                columns: 'glyphicon-list'
+                            },
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'name',
+                                    title: '角色名称',
+                                    sortable: true,
+                                }, {
+                                    field: 'code',
+                                    title: '角色代码',
+                                    sortable: true,
+                                }, {
+                                    field: 'createdTime',
+                                    title: '创建时间',
+                                    sortable: true,
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+                                    }
+                                }, {
+                                    field: 'isDeleted',
+                                    title: '是否删除',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-toggle-off text-danger\">已删除</i>" : "<i class=\"fa fa-toggle-on text-navy\">未删除</i>";
+                                    }
+                                }, {
+                                    field: 'description',
+                                    title: '角色描述'
+                                }
+                            ]
+                        });
+                    },
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    $('#bootstrapTable').bootstrapTable();
+                    methods.getRoles();
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+
+                    $('#btnEdit').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要编辑的角色');
+                            return false;
+                        }
+                        $("#updateDetailForm").formSerialize(selections[0]);
+                    });
+
+                    $('#btnDelete').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的角色');
+                            return false;
+                        }
+                        var data = '';
+                        for (var i = 0; i < selections.length; i++) {
+                            data += selections[i].id + ',';
+                        }
+                        _.get(apiUrl + '/api/DictionaryDetail/Delete?idStr=' + data, function (data) {
+                            if (data.code == 0) {
+                                methods.getDictionaryDetails(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}
+

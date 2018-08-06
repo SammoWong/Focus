@@ -196,6 +196,12 @@
             conf = { url: url, method: 'get', data: data, success: success, async: async, dataType: 'json' };
         }
         conf.headers = { 'Authorization': "Bearer " + access_token };
+        conf.beforeSend = function () {
+            showLoading();
+        };
+        conf.complete = function () {
+            hideLoading();
+        }
         $.ajax(conf);
     };
 
@@ -213,6 +219,12 @@
             conf = { url: url, method: 'post', data: data, success: success, async: async, dataType: 'json' };
         }
         conf.headers = { 'Authorization': "Bearer " + access_token };
+        conf.beforeSend = function () {
+            showLoading();
+        };
+        conf.complete = function () {
+            hideLoading();
+        }
         $.ajax(conf);
     };
 

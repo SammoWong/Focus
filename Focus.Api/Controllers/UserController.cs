@@ -1,0 +1,94 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Focus.Domain.Entities;
+using Focus.Domain.Services;
+using Focus.Infrastructure;
+using Focus.Infrastructure.Web.Common;
+using Focus.Model.User;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Focus.Api.Controllers
+{
+    public class UserController : FocusApiControllerBase
+    {
+        [HttpGet]
+        [Route("api/Users")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var service = Ioc.Get<IUserService>();
+            var users = await service.GetAllAsync();
+            return Ok(new StandardResult().Succeed(null, users));
+        }
+
+        [HttpPost]
+        [Route("api/User/Add")]
+        public async Task<IActionResult> AddAsync([FromForm]AddUserInputModel model)
+        {
+            var service = Ioc.Get<IUserService>();
+            if (await service.IsAccountExist(model.Account))
+                return Ok(new StandardResult().Fail(StandardCode.LogicError, "账号已存在"));
+
+            var salt = PasswordHelper.GenerateSalt();
+            var user = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                RealName = model.RealName,
+                Account = model.Account,
+                Salt = salt,
+                Password = PasswordHelper.ComputeHash("123456", salt),
+                IdCard = model.IdCard,
+                Email = model.Email,
+                Birthday = model.Birthday,
+                Mobile = model.Mobile,
+                CreatedTime = DateTime.Now,
+                CreatedBy = CurrentUserId,
+                Enabled = model.Enabled
+            };
+            await service.AddAsync(user);
+            return Ok(new StandardResult().Succeed("添加成功"));
+        }
+
+        [HttpPost]
+        [Route("api/User/Update")]
+        public async Task<IActionResult> UpdateAsync([FromForm]UpdateUserInputModel model)
+        {
+            var service = Ioc.Get<IUserService>();
+            var user = await service.GetUserById(model.Id);
+            if(user == null)
+            {
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "用户不存在"));
+            }
+            user.RealName = model.RealName;
+            user.IdCard = model.IdCard;
+            user.Email = model.Email;
+            user.Birthday = model.Birthday;
+            user.Mobile = model.Mobile;
+            user.Enabled = model.Enabled;
+            user.ModifiedBy = CurrentUserId;
+            user.ModifiedTime = DateTime.Now;
+            await service.UpdateAsync(user);
+            return Ok(new StandardResult().Succeed("更新成功"));
+        }
+
+        //TODO:修改POST请求
+        [HttpGet]
+        [Route("api/User/Delete")]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            var service = Ioc.Get<IUserService>();
+            var user = await service.GetUserById(id);
+            if (user == null)
+            {
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "用户不存在"));
+            }
+            user.IsDeleted = true;
+            user.DeletedBy = CurrentUserId;
+            user.DeletedTime = DateTime.Now;
+            await service.UpdateAsync(user);
+            return Ok(new StandardResult().Succeed("删除成功"));
+        }
+    }
+}
