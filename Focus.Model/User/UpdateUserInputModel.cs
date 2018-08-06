@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Focus.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -20,6 +21,8 @@ namespace Focus.Model.User
         public DateTime? Birthday { get; set; }
 
         public string Mobile { get; set; }
+
+        public Gender Gender { get; set; }
 
         public bool Enabled { get; set; }
     }

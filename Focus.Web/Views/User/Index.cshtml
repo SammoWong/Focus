@@ -104,6 +104,9 @@
                                     field: 'gender',
                                     title: '性别',
                                     sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value == 1 ? "<i class=\"fa fa-male\"></i>" : value == 2 ? "<i class=\"fa fa-female\"></i>" : "-";
+                                    }
                                 }, {
                                     field: 'mobile',
                                     title: '手机号码',

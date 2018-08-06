@@ -1,11 +1,8 @@
-﻿using Focus.Domain.Entities;
-using Focus.Domain.Services;
-using Focus.Model.Module;
+﻿using Focus.Model.Module;
+using Focus.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Focus.Service

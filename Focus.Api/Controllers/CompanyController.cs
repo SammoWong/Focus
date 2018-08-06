@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Focus.Domain.Services;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

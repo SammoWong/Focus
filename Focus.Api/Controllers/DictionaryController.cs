@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
-using Focus.Domain.Services;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
 using Focus.Model.Dictionary;
-using Microsoft.AspNetCore.Http;
+using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Api.Controllers

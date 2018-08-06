@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
-using Focus.Domain.Services;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
 using Focus.Model.User;
-using Microsoft.AspNetCore.Http;
+using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Api.Controllers
@@ -43,6 +40,7 @@ namespace Focus.Api.Controllers
                 Email = model.Email,
                 Birthday = model.Birthday,
                 Mobile = model.Mobile,
+                Gender = model.Gender,
                 CreatedTime = DateTime.Now,
                 CreatedBy = CurrentUserId,
                 Enabled = model.Enabled
@@ -66,6 +64,7 @@ namespace Focus.Api.Controllers
             user.Email = model.Email;
             user.Birthday = model.Birthday;
             user.Mobile = model.Mobile;
+            user.Gender = model.Gender;
             user.Enabled = model.Enabled;
             user.ModifiedBy = CurrentUserId;
             user.ModifiedTime = DateTime.Now;

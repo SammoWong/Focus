@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Focus.Auth.Models;
-using Focus.Domain.Services;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Service.Interfaces;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;

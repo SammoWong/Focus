@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Focus.Domain.Services;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
-using Microsoft.AspNetCore.Authorization;
+using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Api.Controllers

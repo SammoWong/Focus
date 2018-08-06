@@ -1,9 +1,10 @@
 ﻿using Focus.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Focus.Domain.Services
+namespace Focus.Service.Interfaces
 {
     public interface IUserService
     {
