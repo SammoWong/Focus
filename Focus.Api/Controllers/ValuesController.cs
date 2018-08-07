@@ -13,11 +13,28 @@ namespace Focus.Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        [AllowAnonymous]
-        public ActionResult<IEnumerable<string>> Get()
+        [Authorize]
+        public ActionResult<IEnumerable<string>> Get(int skip, int take)
         {
             //throw new Exception("一个已知的异常");
-            return new string[] { "value1", "value2" };
+            //return new string[] { "value1", "value2" };
+            var result = new List<object>();
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            result.Add(new { id = 1, name = "name1" });
+            return Ok(new { total = result.Count, rows = result.Skip(skip).Take(take) });
         }
 
         // GET api/values/5

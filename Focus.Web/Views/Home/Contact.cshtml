@@ -1,4 +1,91 @@
 ﻿@{
     ViewData["Title"] = "Contact";
 }
-@await Html.PartialAsync("_Error500")
+@*@await Html.PartialAsync("_Error500")*@
+
+<div class="col-sm-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id="bootstrapTable" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    getUsers: function () {
+                        _.get(apiUrl + '/api/values', null, this.bindUsers, false);
+                    },
+                    bindUsers: function (data) {
+                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
+                            //data: data.rows,
+                            url: apiUrl + '/api/values',
+                            //search: true,
+                            pagination: true,
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 20, 50],
+                            sortable: true,
+                            sortOrder: "asc",
+                            showRefresh: true,
+                            showToggle: true,
+                            showColumns: true,
+                            clickToSelect: true,
+                            sidePagination: "server", //服务端处理分页
+                            queryParams: function (params) {//自定义参数，这里的参数是传给后台的，我这是是分页用的
+                                return {//这里的params是table提供的
+                                    skip: params.offset,//从数据库第几条记录开始
+                                    take: params.limit//找多少条
+                                };
+                            },
+                            ajaxOptions: {
+                                headers: { "Authorization": "Bearer "+ access_token }
+                            },
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'id',
+                                    title: '账号',
+                                    sortable: true,
+                                }, {
+                                    field: 'name',
+                                    title: '姓名',
+                                    sortable: true,
+                                } 
+                            ]
+                        });
+                    },
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    $('#bootstrapTable').bootstrapTable();
+                    methods.bindUsers();
+                },
+                bindEvents: function () {
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}
