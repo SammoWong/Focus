@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Focus.Infrastructure.Web.Common;
+using Focus.Infrastructure.Web.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +16,7 @@ namespace Focus.Api.Controllers
         // GET api/values
         [HttpGet]
         [Authorize]
-        public ActionResult<IEnumerable<string>> Get(int skip, int take)
+        public ActionResult<IEnumerable<string>> Get()
         {
             //throw new Exception("一个已知的异常");
             //return new string[] { "value1", "value2" };
@@ -34,7 +36,7 @@ namespace Focus.Api.Controllers
             result.Add(new { id = 1, name = "name1" });
             result.Add(new { id = 1, name = "name1" });
             result.Add(new { id = 1, name = "name1" });
-            return Ok(new { total = result.Count, rows = result.Skip(skip).Take(take) });
+            return Ok(new StandardResult().Succeed(null, result));
         }
 
         // GET api/values/5

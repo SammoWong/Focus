@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Infrastructure.Web.Pagination;
 using Focus.Model.User;
 using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +15,11 @@ namespace Focus.Api.Controllers
     {
         [HttpGet]
         [Route("api/Users")]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery]PaginationRequest request)
         {
             var service = Ioc.Get<IUserService>();
             var users = await service.GetAllAsync();
-            return Ok(new StandardResult().Succeed(null, users));
+            return Ok(new StandardResult().Succeed(null, new PaginationResult(users.Count(), users.Skip(request.Start).Take(request.Take))));
         }
 
         [HttpPost]

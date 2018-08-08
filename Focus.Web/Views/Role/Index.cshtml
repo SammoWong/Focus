@@ -54,33 +54,9 @@
                     this.bindEvents();
                 },
                 methods: {
-                    getRoles: function () {
-                        _.get(apiUrl + '/api/Roles/', null, this.bindRoles, false);
-                    },
-                    bindRoles: function (data) {
-                        if (data.code != 0) {
-                            toastr.error(data.message);
-                            return;
-                        }
-                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
-                            data: data.data.length == 0 ? [] : data.data,
-                            search: true,
-                            pagination: true,
-                            pageNumber: 1,
-                            pageSize: 10,
-                            pageList: [10, 20, 50],
-                            sortable: true,
-                            sortOrder: "asc",
-                            showRefresh: true,
-                            showToggle: true,
-                            showColumns: true,
-                            clickToSelect: true,
-                            iconSize: 'outline',
-                            icons: {
-                                refresh: 'glyphicon-repeat',
-                                toggle: 'glyphicon-list-alt',
-                                columns: 'glyphicon-list'
-                            },
+                    bindRoles: function () {
+                        $('#bootstrapTable').clientSidePagination({
+                            url: apiUrl + '/api/Roles',
                             columns: [
                                 {
                                     radio: true
@@ -121,11 +97,10 @@
                 initPage: function () {
                     var methods = this.methods;
                     $('#bootstrapTable').bootstrapTable();
-                    methods.getRoles();
+                    methods.bindRoles();
                 },
                 bindEvents: function () {
                     var methods = this.methods;
-
                     $('#btnEdit').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
                         if (selections.length <= 0) {

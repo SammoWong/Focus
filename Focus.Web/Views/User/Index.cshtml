@@ -58,33 +58,9 @@
                     this.bindEvents();
                 },
                 methods: {
-                    getUsers: function () {
-                        _.get(apiUrl + '/api/Users/', null, this.bindUsers, false);
-                    },
-                    bindUsers: function (data) {
-                        if (data.code != 0) {
-                            toastr.error(data.message);
-                            return;
-                        }
-                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
-                            data: data.data.length == 0 ? [] : data.data,
-                            search: true,
-                            pagination: true,
-                            pageNumber: 1,
-                            pageSize: 10,
-                            pageList: [10, 20, 50],
-                            sortable: true,
-                            sortOrder: "asc",
-                            showRefresh: true,
-                            showToggle: true,
-                            showColumns: true,
-                            clickToSelect: true,
-                            iconSize: 'outline',
-                            icons: {
-                                refresh: 'glyphicon-repeat',
-                                toggle: 'glyphicon-list-alt',
-                                columns: 'glyphicon-list'
-                            },
+                    bindUsers: function () {
+                        $('#bootstrapTable').serverSidePagination({
+                            url: apiUrl + '/api/Users',
                             columns: [
                                 {
                                     radio: true
@@ -140,8 +116,7 @@
                 },
                 initPage: function () {
                     var methods = this.methods;
-                    $('#bootstrapTable').bootstrapTable();
-                    methods.getUsers();
+                    methods.bindUsers();
                 },
                 bindEvents: function () {
                     var methods = this.methods;

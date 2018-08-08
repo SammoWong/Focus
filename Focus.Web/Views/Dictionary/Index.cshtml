@@ -79,33 +79,12 @@
                     loadDictionaryTypes: function () {
                         bindJsTree('jstree', apiUrl + '/api/DictionaryTypes');
                     },
-                    getDictionaryDetails: function (typeId) {
-                        _.get(apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails', null, this.bindDictionaryDetails, false);
-                    },
-                    bindDictionaryDetails: function (data) {
-                        if (data.code != 0) {
-                            toastr.error(data.message);
-                            return;
+                    bindDictionaryDetails: function (typeId) {
+                        if (typeId == null) {
+                            return false;
                         }
-                        $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
-                            data: data.data.length == 0 ? [] : data.data,
-                            search: true,
-                            pagination: true,
-                            pageNumber: 1,
-                            pageSize: 10,
-                            pageList: [10, 20, 50],
-                            sortable: true,
-                            sortOrder: "asc",
-                            showRefresh: true,
-                            showToggle: true,
-                            showColumns: true,
-                            clickToSelect: true,
-                            iconSize: 'outline',
-                            icons: {
-                                refresh: 'glyphicon-repeat',
-                                toggle: 'glyphicon-list-alt',
-                                columns: 'glyphicon-list'
-                            },
+                        $('#bootstrapTable').clientSidePagination({
+                            url: apiUrl + '/api/DictionaryType/' + typeId + '/DictionaryDetails',
                             columns: [
                                 {
                                     checkbox: true
@@ -161,7 +140,7 @@
                     var id = '';
                     $('#jstree').on("changed.jstree", function (e, data) {
                         id = data.node.id;
-                        methods.getDictionaryDetails(id);
+                        methods.bindDictionaryDetails(id);
                     });
 
                     $('#btnEdit').click(function () {
@@ -184,7 +163,7 @@
                         var data = $('#updateDetailForm').formSerialize();
                         _.post(apiUrl + '/api/DictionaryDetail/Update', data, function (data) {
                             if (data.code == 0) {
-                                methods.getDictionaryDetails(id);
+                                methods.bindDictionaryDetails(id);
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);
@@ -201,7 +180,7 @@
                         data['TypeId'] = id;
                         _.post(apiUrl + '/api/DictionaryDetail/Add', data, function (data) { 
                             if (data.code == 0) {
-                                methods.getDictionaryDetails(id);
+                                methods.bindDictionaryDetails(id);
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);
@@ -221,7 +200,7 @@
                         }
                         _.get(apiUrl + '/api/DictionaryDetail/Delete?idStr=' + data, function (data) {
                             if (data.code == 0) {
-                                methods.getDictionaryDetails(id);
+                                methods.bindDictionaryDetails(id);
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);

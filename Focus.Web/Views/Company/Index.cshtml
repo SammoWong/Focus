@@ -53,33 +53,9 @@
                 this.bindEvents();
             },
             methods: {
-                getCompanies: function () {
-                    _.get(apiUrl + '/api/Companies/', null, this.bindCompanies, false);
-                },
-                bindCompanies: function (data) {
-                    if (data.code != 0) {
-                        toastr.error(data.message);
-                        return;
-                    }
-                    $('#bootstrapTable').bootstrapTable('destroy').bootstrapTable({
-                        data: data.data.length == 0 ? [] : data.data,
-                        search: true,
-                        pagination: true,
-                        pageNumber: 1,
-                        pageSize: 10,
-                        pageList: [10, 20, 50],
-                        sortable: true,
-                        sortOrder: "asc",
-                        showRefresh: true,
-                        showToggle: true,
-                        showColumns: true,
-                        clickToSelect: true,
-                        iconSize: 'outline',
-                        icons: {
-                            refresh: 'glyphicon-repeat',
-                            toggle: 'glyphicon-list-alt',
-                            columns: 'glyphicon-list'
-                        },
+                bindCompanies: function () {
+                    $('#bootstrapTable').clientSidePagination({
+                        url: apiUrl + '/api/Companies',
                         columns: [
                             {
                                 radio: true
@@ -144,7 +120,7 @@
             initPage: function () {
                 var methods = this.methods;
                 $('#bootstrapTable').bootstrapTable();
-                methods.getCompanies();
+                methods.bindCompanies();
             },
             bindEvents: function () {
                 var methods = this.methods;

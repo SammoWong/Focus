@@ -59,6 +59,17 @@
                             ajaxOptions: {
                                 headers: { "Authorization": "Bearer "+ access_token }
                             },
+                            responseHandler: function(result) {
+                                if (result.code != 0) {
+                                    toastr.error(result.message);
+                                    return false;
+                                }
+                                //如果没有错误则返回数据，渲染表格
+                                return {
+                                    total: result.data.total, //总页数,前面的key必须为"total"
+                                    rows: result.data.rows //行数据，前面的key要与之前设置的dataField的值一致.
+                                };
+                            },
                             columns: [
                                 {
                                     radio: true
@@ -77,8 +88,22 @@
                 },
                 initPage: function () {
                     var methods = this.methods;
-                    $('#bootstrapTable').bootstrapTable();
-                    methods.bindUsers();
+                    $('#bootstrapTable').clientSidePagination({
+                        url: apiUrl + '/api/values',
+                        columns: [
+                            {
+                                radio: true
+                            }, {
+                                field: 'id',
+                                title: '账号',
+                                sortable: true,
+                            }, {
+                                field: 'name',
+                                title: '姓名',
+                                sortable: true,
+                            }
+                        ]
+                    });
                 },
                 bindEvents: function () {
                 }
