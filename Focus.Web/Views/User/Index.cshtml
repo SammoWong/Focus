@@ -132,7 +132,7 @@
                         var data = $('#addUserForm').formSerialize();
                         _.post(apiUrl + '/api/User/Add', data, function (data) {
                             if (data.code == 0) {
-                                methods.getUsers();
+                                methods.bindUsers();
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);
@@ -156,7 +156,7 @@
                         var data = $('#updateUserForm').formSerialize();
                         _.post(apiUrl + '/api/User/Update', data, function (data) {
                             if (data.code == 0) {
-                                methods.getUsers();
+                                methods.bindUsers();
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);
@@ -172,7 +172,7 @@
                         }
                         _.get(apiUrl + '/api/User/Delete?id=' + selections[0].id, function (data) {
                             if (data.code == 0) {
-                                methods.getUsers();
+                                methods.bindUsers();
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);

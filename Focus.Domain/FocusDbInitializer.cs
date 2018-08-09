@@ -167,6 +167,20 @@ namespace Focus.Domain
                             IsDeleted = false,
                             CreatedTime = DateTime.Now,
                             Enabled = true
+                        },
+                        new Module
+                        {
+                            Id = "0d5c486f-4ee1-4c7c-90e5-73f01173bbe0",
+                            ParentId = "6ae17edf-d645-43f0-b6f0-f081e27f7c4a",
+                            Name = "模块管理",
+                            Url = "/Module/Index",
+                            Category = Domain.Enums.ModuleCategory.Page,
+                            Rank = 2,
+                            SortNumber = 4,
+                            IsExpanded = false,
+                            IsDeleted = false,
+                            CreatedTime = DateTime.Now,
+                            Enabled = true
                         }
                     };
                     context.Modules.AddRange(modules);
