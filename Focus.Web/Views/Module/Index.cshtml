@@ -2,6 +2,96 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h2>Index</h2>
-
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>模块菜单</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div id="jstree">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="ibox left-e-margins">
+                <div class="ibox-title">
+                    <h5>操作</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    bindModules: function () {
+                        bindJsTree('jstree', apiUrl + '/api/Modules/Tree');
+                    },
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    methods.bindModules();
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+                    var id = '';
+                    $('#jstree').on("changed.jstree", function (e, data) {
+                        id = data.node.id;
+                        toastr.info(id);
+                    });
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}

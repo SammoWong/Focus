@@ -1,4 +1,6 @@
-﻿using Focus.Model.Module;
+﻿using Focus.Domain.Entities;
+using Focus.Model;
+using Focus.Model.Module;
 using Focus.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -36,6 +38,44 @@ namespace Focus.Service
                     moduleList.Add(parent);
                 }
                 return moduleList;
+            }
+        }
+
+        public async Task<IEnumerable<TreeJsonModel>> GetTreeAsync()
+        {
+            using (var db = NewDbContext())
+            {
+                var modules = (await db.Modules
+                            .OrderBy(e => e.SortNumber).ToListAsync())
+                            .Select(d => new TreeJsonModel()
+                            {
+                                Id = d.Id,
+                                Text = d.Name,
+                                ParentId = d.ParentId
+                            }).ToList();
+
+                var treeJsonModel = new List<TreeJsonModel>();
+                foreach (var parent in modules.Where(d => d.ParentId == string.Empty))
+                {
+                    foreach (var child in modules)
+                    {
+                        if (child.ParentId == parent.Id)
+                        {
+                            parent.Children.Add(child);
+                        }
+                    }
+                    treeJsonModel.Add(parent);
+                }
+                return treeJsonModel;
+            }
+        }
+
+        public async Task<Module> GetByIdAsync(string id)
+        {
+            using (var db = NewDbContext())
+            {
+                var module = await db.Modules.FirstOrDefaultAsync(e => e.Id == id);
+                return module;
             }
         }
     }
