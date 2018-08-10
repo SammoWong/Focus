@@ -1,0 +1,93 @@
+﻿<div class="modal inmodal fade" id="addModuleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">添加模块菜单</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addModuleForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">上级</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="parentId" id="parentId"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="模块名称" class="form-control" name="name" id="name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">编码</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="模块编码" class="form-control" name="code" id="code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">类别</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="category" id="category">
+                                <option value=1>目录</option>
+                                <option value=2>页面</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Url</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Url地址" class="form-control" name="url" id="url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Icon</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Icon" class="form-control" name="icon" id="icon">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">层级</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="模块层级" class="form-control" name="rank" id="rank">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排序</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="排序码" class="form-control" name="sortNumber" id="sortNumber">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否展开</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="isExpanded" id="isExpanded">
+                                <option value='false'>否</option>
+                                <option value='true'>是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">有效</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="enabled" id="enabled">
+                                <option value='true'>是</option>
+                                <option value='false'>否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="备注" class="form-control" name="remark" id="remark">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnSaveAddModuleForm" data-dismiss="modal">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -173,7 +173,6 @@
 
                     $('#btnSaveAddDetailForm').click(function () {
                         if (!$('#addDetailForm').formValid()) {
-                            toastr.error('error');
                             return false;
                         }
                         var data = $('#addDetailForm').formSerialize();

@@ -15,5 +15,9 @@ namespace Focus.Service.Interfaces
         Task<IEnumerable<TreeJsonModel>> GetTreeAsync();
 
         Task<Module> GetByIdAsync(string id);
+
+        Task UpdateAsync(Module module);
+
+        Task AddAsync(Module module);
     }
 }

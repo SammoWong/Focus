@@ -79,6 +79,36 @@
     };
 
     /**
+     * 如果value不包含任何值，返回true
+     * 对于字符串和数组对象，如果length属性为0，则返回true
+     * 对于空对象也返回true
+     * @param {any} value
+     */
+    var isEmpty = function (value) {
+        var flag = true;
+        if (isNumber(value)) {
+            flag = true;
+        }
+        if (isNull(value) || isUndefined(value)) {
+            flag = true;
+        }
+        if (isBoolean(value) || isDate(value) || isFunction(value)) {
+            flag = false;
+        }
+        if (isArray(value) || isString(value)) {
+            flag = value.length > 0 ? false : true;
+        }
+        if (isObject(value)) {
+            for (var key in value) {
+                if (value.hasOwnProperty(key)) {
+                    flag = false;
+                }
+            }
+        }
+        return flag;
+    }
+
+    /**
      * 去除字符串左右空格
      * @param {string} value
      */
@@ -352,6 +382,7 @@
         isNull: isNull,
         isUndefined: isUndefined,
         isDate: isDate,
+        isEmpty: isEmpty,
         trim: trim,
         clearSpace: clearSpace,
         existCN: existCN,

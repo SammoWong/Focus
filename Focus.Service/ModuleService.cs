@@ -26,7 +26,7 @@ namespace Focus.Service
                     ParentId = m.ParentId
                 }).ToList();
                 List<ModuleOutputModel> moduleList = new List<ModuleOutputModel>();
-                foreach (var parent in modules.Where(t => t.ParentId == string.Empty))
+                foreach (var parent in modules.Where(t => string.IsNullOrEmpty(t.ParentId)))
                 {
                     foreach (var module in modules)
                     {
@@ -55,7 +55,7 @@ namespace Focus.Service
                             }).ToList();
 
                 var treeJsonModel = new List<TreeJsonModel>();
-                foreach (var parent in modules.Where(d => d.ParentId == string.Empty))
+                foreach (var parent in modules.Where(d => string.IsNullOrEmpty(d.ParentId)))
                 {
                     foreach (var child in modules)
                     {
@@ -76,6 +76,24 @@ namespace Focus.Service
             {
                 var module = await db.Modules.FirstOrDefaultAsync(e => e.Id == id);
                 return module;
+            }
+        }
+
+        public async Task UpdateAsync(Module module)
+        {
+            using (var db = NewDbContext())
+            {
+                db.Modules.Update(module);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddAsync(Module module)
+        {
+            using (var db = NewDbContext())
+            {
+                await db.Modules.AddAsync(module);
+                await db.SaveChangesAsync();
             }
         }
     }

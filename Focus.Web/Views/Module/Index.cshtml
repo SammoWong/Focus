@@ -37,14 +37,12 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addModuleModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
                     <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>详情</h5>
@@ -58,11 +56,113 @@
                     </div>
                 </div>
                 <div class="ibox-content">
+                    <form class="form-horizontal" id="updateModuleForm">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">编号</label>
+                            <div class="col-sm-10">
+                                <input type="text" disabled="" placeholder="编号" class="form-control" name="id" id="id">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">上级</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="parentId" id="parentId"></select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="模块名称" class="form-control" name="name" id="name" required>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">编码</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="模块编码" class="form-control" name="code" id="code">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">类别</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="category" id="category">
+                                    <option value=1>目录</option>
+                                    <option value=2>页面</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Url</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Url地址" class="form-control" name="url" id="url">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Icon</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Icon" class="form-control" name="icon" id="icon">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">层级</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="模块层级" class="form-control" name="rank" id="rank">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="排序码" class="form-control" name="sortNumber" id="sortNumber">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否展开</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="isExpanded" id="isExpanded">
+                                    <option value='false'>否</option>
+                                    <option value='true'>是</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">有效</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="enabled" id="enabled">
+                                    <option value='true'>是</option>
+                                    <option value='false'>否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="备注" class="form-control" name="remark" id="remark">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="button" id="saveUpdateModuleForm">保存</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@await Html.PartialAsync("_AddModule")
+
 @section scripts{
     <script>
         var viewModel = function () {
@@ -75,17 +175,75 @@
                     bindModules: function () {
                         bindJsTree('jstree', apiUrl + '/api/Modules/Tree');
                     },
+                    bindDropdown: function () {
+                        $('[id=parentId]').empty();
+                        _.get(apiUrl + '/api/Modules/Tree', function (data) {
+                            $('[id=parentId]').append("<option value=''>Focus管理系统</option>");
+                            var result = data.data;
+                            $(result).each(function (key) {
+                                var option = $("<option></option>").text(result[key].text).val(result[key].id);
+                                $('[id=parentId]').append(option);
+                            });
+                        })
+                    },
+                    getModule: function (id) {
+                        _.get(apiUrl + '/api/Modules/' + id, function (data) {
+                            if (data.code == 0) {
+                                $('#updateModuleForm').formSerialize(data.data);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        }, false)
+                    }
                 },
                 initPage: function () {
                     var methods = this.methods;
                     methods.bindModules();
+                    methods.bindDropdown();
                 },
                 bindEvents: function () {
                     var methods = this.methods;
-                    var id = '';
                     $('#jstree').on("changed.jstree", function (e, data) {
-                        id = data.node.id;
-                        toastr.info(id);
+                        var id = data.node.id;
+                        methods.getModule(id);
+                    });
+
+                    $('#saveUpdateModuleForm').click(function () {
+                        if (_.isEmpty($('#id').val())) {
+                            toastr.error('请选择要修改的模块菜单');
+                            return false;
+                        }
+                        if (!$('#updateModuleForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateModuleForm').formSerialize();
+                        _.post(apiUrl + '/api/Module/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindModules();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
+                    });
+
+                    $('#btnAdd').click(function () {
+                        methods.bindDropdown();
+                    });
+
+                    $('#btnSaveAddModuleForm').click(function () {
+                        if (!$('#addModuleForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addModuleForm').formSerialize();
+                        _.post(apiUrl + '/api/Module/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindModules();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
                     });
                 }
             }
