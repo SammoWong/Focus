@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 <div class="wrapper wrapper-content  animated fadeInRight">
@@ -41,6 +40,7 @@
                     <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                    <button class="btn btn-white" type="button" id="btnButtonDetail" data-target="#buttonDetailModal" data-toggle="modal"><i class="fa fa-pencil"></i> 按钮管理</button>
                 </div>
             </div>
             <div class="ibox float-e-margins">
@@ -162,7 +162,7 @@
     </div>
 </div>
 @await Html.PartialAsync("_AddModule")
-
+@await Html.PartialAsync("_ButtonDetail")
 @section scripts{
     <script>
         var viewModel = function () {
@@ -203,8 +203,9 @@
                 },
                 bindEvents: function () {
                     var methods = this.methods;
+                    var id = '';
                     $('#jstree').on("changed.jstree", function (e, data) {
-                        var id = data.node.id;
+                        id = data.node.id;
                         methods.getModule(id);
                     });
 
@@ -244,6 +245,17 @@
                                 toastr.error(data.message);
                             }
                         });
+                    });
+
+                    $('#btnDelete').click(function () {
+                        _.get(apiUrl + '/api/Module/' + id + '/Delete', function (data) {
+                            if (data.code == 0) {
+                                methods.bindModules();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
                     });
                 }
             }

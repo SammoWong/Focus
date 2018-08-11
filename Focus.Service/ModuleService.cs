@@ -96,5 +96,22 @@ namespace Focus.Service
                 await db.SaveChangesAsync();
             }
         }
+
+        public async Task<bool> Haschildren(string id)
+        {
+            using(var db = NewDbContext())
+            {
+                return await db.Modules.AnyAsync(e => e.ParentId == id);
+            }
+        }
+
+        public async Task DeleteAsync(Module module)
+        {
+            using(var db = NewDbContext())
+            {
+                db.Modules.Remove(module);
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }
