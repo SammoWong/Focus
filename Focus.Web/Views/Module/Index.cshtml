@@ -163,6 +163,8 @@
 </div>
 @await Html.PartialAsync("_AddModule")
 @await Html.PartialAsync("_ButtonDetail")
+@await Html.PartialAsync("_AddButton")
+@await Html.PartialAsync("_UpdateButton")
 @section scripts{
     <script>
         var viewModel = function () {
@@ -194,6 +196,51 @@
                                 toastr.error(data.message);
                             }
                         }, false)
+                    },
+                    bindButtons: function (id) {
+                        $('#bootstrapTable').clientSidePagination({
+                            url: apiUrl + '/api/Module/' + id + '/Buttons',
+                            toolbar: '#tableEventsToolbar',
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'name',
+                                    title: '名称',
+                                    sortable: true,
+                                }, {
+                                    field: 'code',
+                                    title: '编码',
+                                    sortable: true,
+                                }, {
+                                    field: 'jsEvent',
+                                    title: 'Js事件',
+                                    sortable: true,
+                                }, {
+                                    field: 'url',
+                                    title: 'URL地址',
+                                    sortable: true,
+                                }, {
+                                    field: 'icon',
+                                    title: 'ICON',
+                                    sortable: true,
+                                }, {
+                                    field: 'sortNumber',
+                                    title: '排序码',
+                                    sortable: true,
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+                                    }
+                                }, {
+                                    field: 'remark',
+                                    title: '备注'
+                                }
+                            ]
+                        });
                     }
                 },
                 initPage: function () {
@@ -251,6 +298,73 @@
                         _.get(apiUrl + '/api/Module/' + id + '/Delete', function (data) {
                             if (data.code == 0) {
                                 methods.bindModules();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnButtonDetail').click(function () {
+                        if (_.isEmpty(id)) {
+                            toastr.error('请选择要查看的模块菜单');
+                            return false;
+                        }
+                        methods.bindButtons(id);
+                    });
+
+                    $('#btnAddButton').click(function () {
+                        $('#moduleId').val(id);
+                    });
+
+                    $('#btnSaveAddButtonForm').click(function () {
+                        if (!$('#addButtonForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addButtonForm').formSerialize();
+                        _.post(apiUrl + '/api/Button/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindButtons(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnUpdateButton').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要编辑的按钮详情');
+                            return false;
+                        }
+                        $("#updateButtonForm").formSerialize(selections[0]);
+                    });
+
+                    $('#btnSaveUpdateButtonForm').click(function () {
+                        if (!$('#updateButtonForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateButtonForm').formSerialize();
+                        _.post(apiUrl + '/api/Button/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindButtons(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
+                    });
+
+                    $('#btnDeleteButton').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的按钮详情');
+                            return false;
+                        }
+                        _.get(apiUrl + '/api/Button/' + selections[0].id + '/Delete', function (data) {
+                            if (data.code == 0) {
+                                methods.bindButtons(id);
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);
