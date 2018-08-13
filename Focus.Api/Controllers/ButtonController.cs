@@ -39,7 +39,9 @@ namespace Focus.Api.Controllers
                 JsEvent = model.JsEvent,
                 SortNumber = model.SortNumber ?? 1,
                 Enabled = model.Enabled,
-                Remark = model.Remark
+                Remark = model.Remark,
+                CreatedBy = CurrentUserId,
+                CreatedTime = DateTime.Now
             };
             await service.AddAsync(button);
             return Ok(new StandardResult().Succeed("添加成功"));
@@ -62,6 +64,8 @@ namespace Focus.Api.Controllers
             button.SortNumber = model.SortNumber;
             button.Enabled = model.Enabled;
             button.Remark = model.Remark;
+            button.ModifiedBy = CurrentUserId;
+            button.ModifiedTime = DateTime.Now;
             await service.UpdateAsync(button);
             return Ok(new StandardResult().Succeed("修改成功"));
         }
