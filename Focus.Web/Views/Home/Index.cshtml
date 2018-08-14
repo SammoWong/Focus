@@ -29,13 +29,28 @@
             return {
                 init: function () {
                     this.initPage();
+                    this.bindEvents();
                 },
                 methods: {
-
+                    logout: function () {
+                        
+                    },
+                    getIdentity: function () {
+                        _.get(apiUrl + '/api/Identity', function (data) {
+                            $('#account').html(data.data.account);
+                            $('#role').html(data.data.role);
+                        });
+                    }
                 },
                 initPage: function () {
                     var methods = this.methods;
-
+                    methods.getIdentity();
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+                    $('#logout').click(function () {
+                        methods.logout();
+                    })
                 }
             }
         }();

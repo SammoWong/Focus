@@ -35,6 +35,17 @@ namespace Focus.Auth
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //添加跨域支持
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder =>
+                {
+                    builder.AllowAnyOrigin()//允许任何来源的主机访问
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             services.AddIdentityServer(options =>
                     {
                         options.UserInteraction.LoginUrl = "/Account/Login";
@@ -64,7 +75,7 @@ namespace Focus.Auth
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseCors("default");
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseIdentityServer();

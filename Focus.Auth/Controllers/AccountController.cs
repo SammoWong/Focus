@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Focus.Auth.Models;
 using Focus.Infrastructure;
@@ -6,6 +7,7 @@ using Focus.Infrastructure.Web.Common;
 using Focus.Service.Interfaces;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +59,15 @@ namespace Focus.Auth.Controllers
                 return Json(new StandardResult().Fail(StandardCode.InternalError, result.Item1));
             }
             return Json(new StandardResult().Fail(StandardCode.ArgumentError, "参数有误"));
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme);
+            await HttpContext.SignOutAsync();
+            return NoContent();
         }
 
         [HttpGet]
