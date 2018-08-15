@@ -217,22 +217,49 @@
      * @param {any} url
      * @param {any} data
      * @param {any} success
+     * @param {any} options
      */
-    var get = function (url, data, success, async) {
-        var conf;
-        if (isFunction(data)) {
-            conf = { url: url, method: 'get', success: data, async: async, dataType: 'json' };
-        } else {
-            conf = { url: url, method: 'get', data: data, success: success, async: async, dataType: 'json' };
-        }
-        conf.headers = { 'Authorization': "Bearer " + access_token };
-        conf.beforeSend = function () {
-            showLoading();
+    var get = function (url, data, success, options) {
+        var defaults = {
+            url: '',
+            method: "GET",
+            data: {},
+            async: true,
+            headers: { 'Authorization': "Bearer " + access_token },
+            dataType: 'json',
+            beforeSend: function () {
+                showLoading();
+            },
+            complete: function () {
+                hideLoading();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // 状态码
+                console.log(XMLHttpRequest.status);
+                // 状态
+                console.log(XMLHttpRequest.readyState);
+                // 错误信息   
+                console.log(textStatus);
+            }
         };
-        conf.complete = function () {
-            hideLoading();
+        if (isFunction(data)) {
+            defaults.url = url;
+            defaults.success = data;
+            $.extend(defaults, success);
+        } else if (isObject(success)) {
+            defaults.url = url;
+            defaults.success = data;
+            $.extend(defaults, success);
+        } else {
+            defaults.url = url;
+            defaults.data = data;
+            defaults.success = success;
         }
-        $.ajax(conf);
+
+        if (options)
+            $.extend(defaults, options);
+
+        $.ajax(defaults);
     };
 
     /**
@@ -240,23 +267,96 @@
      * @param {any} url
      * @param {any} data
      * @param {any} success
+     * @param {any} options
      */
-    var post = function (url, data, success, async) {
-        var conf;
-        if (isFunction(data)) {
-            conf = { url: url, method: 'post', success: data, async: async, dataType: 'json' };
-        } else {
-            conf = { url: url, method: 'post', data: data, success: success, async: async, dataType: 'json' };
-        }
-        conf.headers = { 'Authorization': "Bearer " + access_token };
-        conf.beforeSend = function () {
-            showLoading();
+    var post = function (url, data, success, options) {
+        var defaults = {
+            url: '',
+            method: "POST",
+            data: {},
+            async: true,
+            headers: { 'Authorization': "Bearer " + access_token },
+            dataType: 'json',
+            beforeSend: function () {
+                showLoading();
+            },
+            complete: function () {
+                hideLoading();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // 状态码
+                console.log(XMLHttpRequest.status);
+                // 状态
+                console.log(XMLHttpRequest.readyState);
+                // 错误信息   
+                console.log(textStatus);
+            }
         };
-        conf.complete = function () {
-            hideLoading();
+        if (isFunction(data)) {
+            defaults.url = url;
+            defaults.success = data;
+            $.extend(defaults, success);
+        } else if (isObject(success)) {
+            defaults.url = url;
+            defaults.success = data;
+            $.extend(defaults, success);
+        } else {
+            defaults.url = url;
+            defaults.data = data;
+            defaults.success = success;
         }
-        $.ajax(conf);
+
+        if (options)
+            $.extend(defaults, options);
+
+        $.ajax(defaults);
     };
+
+    ///**
+    // * GET请求
+    // * @param {any} url
+    // * @param {any} data
+    // * @param {any} success
+    // */
+    //var get = function (url, data, success, async) {
+    //    var conf;
+    //    if (isFunction(data)) {
+    //        conf = { url: url, method: 'get', success: data, async: async, dataType: 'json' };
+    //    } else {
+    //        conf = { url: url, method: 'get', data: data, success: success, async: async, dataType: 'json' };
+    //    }
+    //    conf.headers = { 'Authorization': "Bearer " + access_token };
+    //    conf.beforeSend = function () {
+    //        showLoading();
+    //    };
+    //    conf.complete = function () {
+    //        hideLoading();
+    //    }
+    //    $.ajax(conf);
+    //};
+
+    ///**
+    // * POST请求
+    // * @param {any} url
+    // * @param {any} data
+    // * @param {any} success
+    // */
+    //var post = function (url, data, success, async) {
+    //    var conf;
+    //    if (isFunction(data)) {
+    //        conf = { url: url, method: 'post', success: data, async: async, dataType: 'json' };
+    //    } else {
+    //        conf = { url: url, method: 'post', data: data, success: success, async: async, dataType: 'json' };
+    //    }
+    //    conf.headers = { 'Authorization': "Bearer " + access_token };
+    //    conf.beforeSend = function () {
+    //        showLoading();
+    //    };
+    //    conf.complete = function () {
+    //        hideLoading();
+    //    }
+    //    $.ajax(conf);
+    //};
 
     /**
      * 设置cookie
