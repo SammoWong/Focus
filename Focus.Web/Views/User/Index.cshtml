@@ -170,7 +170,7 @@
                             toastr.error('请选择要删除的用户');
                             return false;
                         }
-                        _.get(apiUrl + '/api/User/Delete?id=' + selections[0].id, function (data) {
+                        _.post(apiUrl + '/api/User/Delete', { id: selections[0].id }, function (data) {
                             if (data.code == 0) {
                                 methods.bindUsers();
                                 toastr.success(data.message);

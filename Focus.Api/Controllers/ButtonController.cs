@@ -70,15 +70,14 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("修改成功"));
         }
 
-        //TODO:修改为POST
-        [HttpGet]
-        [Route("api/Button/{id}/Delete")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        [HttpPost]
+        [Route("api/Button/Delete")]
+        public async Task<IActionResult> DeleteAsync([FromForm]DeleteButtonInputModel model)
         {
             var service = Ioc.Get<IButtonService>();
-            var button = await service.GetByIdAsync(id);
+            var button = await service.GetByIdAsync(model.Id);
             if (button == null)
-                return NotFound(new StandardResult().Fail(StandardCode.ArgumentError, "按钮不存在"));
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "按钮不存在"));
 
             await service.DeteleAsync(button);
             return Ok(new StandardResult().Succeed("删除成功"));

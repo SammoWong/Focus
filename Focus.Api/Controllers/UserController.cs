@@ -74,13 +74,12 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("更新成功"));
         }
 
-        //TODO:修改POST请求
-        [HttpGet]
+        [HttpPost]
         [Route("api/User/Delete")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> DeleteAsync([FromForm]DeleteUserInputModel model)
         {
             var service = Ioc.Get<IUserService>();
-            var user = await service.GetUserById(id);
+            var user = await service.GetUserById(model.Id);
             if (user == null)
             {
                 return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "用户不存在"));

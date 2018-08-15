@@ -92,16 +92,15 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("添加成功"));
         }
 
-        //TODO:修改为POST请求
-        [HttpGet]
-        [Route("api/Module/{id}/Delete")]
-        public async Task<IActionResult> DeleteModuleAsync(string id)
+        [HttpPost]
+        [Route("api/Module/Delete")]
+        public async Task<IActionResult> DeleteModuleAsync([FromForm]DeleteModuleInputModel model)
         {
             var moduleService = Ioc.Get<IModuleService>();
-            if(await moduleService.Haschildren(id))
+            if(await moduleService.Haschildren(model.Id))
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "删除失败：该模块含有子模块"));
 
-            var module = await moduleService.GetByIdAsync(id);
+            var module = await moduleService.GetByIdAsync(model.Id);
             await moduleService.DeleteAsync(module);
             return Ok(new StandardResult().Succeed("删除成功"));
         }

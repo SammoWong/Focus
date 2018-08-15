@@ -294,7 +294,7 @@
                     });
 
                     $('#btnDelete').click(function () {
-                        _.get(apiUrl + '/api/Module/' + id + '/Delete', function (data) {
+                        _.post(apiUrl + '/api/Module/Delete', { id: id }, function (data) {
                             if (data.code == 0) {
                                 methods.bindModules();
                                 toastr.success(data.message);
@@ -361,7 +361,7 @@
                             toastr.error('请选择要删除的按钮详情');
                             return false;
                         }
-                        _.get(apiUrl + '/api/Button/' + selections[0].id + '/Delete', function (data) {
+                        _.post(apiUrl + '/api/Button/Delete', { id: selections[0].id }, function (data) {
                             if (data.code == 0) {
                                 methods.bindButtons(id);
                                 toastr.success(data.message);
