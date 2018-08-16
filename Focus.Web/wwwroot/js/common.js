@@ -288,3 +288,17 @@ $.fn.formValid = function () {
         }
     });
 }
+
+function bindAuthorizedButtons(url) {
+    $('#buttonList button').attr('authorized', false);
+    _.get(url, function (data) {
+        if (data.code == 0) {
+            $.each(data.data, function (i) {
+                $('#buttonList').find('[code=' + data.data[i].code + ']').attr('authorized', true);
+            });
+            $('#buttonList').find('[authorized=false]').remove();
+        } else {
+            toastr.error(data.message);
+        }
+    });
+}

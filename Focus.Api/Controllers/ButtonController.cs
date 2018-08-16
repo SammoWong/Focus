@@ -82,5 +82,14 @@ namespace Focus.Api.Controllers
             await service.DeteleAsync(button);
             return Ok(new StandardResult().Succeed("删除成功"));
         }
+
+        [HttpGet]
+        [Route("api/Module/{moduleId}/PermissionButtons")]
+        public async Task<IActionResult> GetPermissionButtonsAsync(string moduleId)
+        {
+            var service = Ioc.Get<IButtonService>();
+            var result = await service.GetPermissionButtonsByModuleIdAsync(moduleId);
+            return Ok(new StandardResult().Succeed(null, result));
+        }
     }
 }

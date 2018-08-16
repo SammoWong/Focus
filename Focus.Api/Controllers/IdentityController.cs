@@ -24,11 +24,11 @@ namespace Focus.Api.Controllers
             UserInfo user = new UserInfo();
             foreach (var item in result)
             {
-                if(item.Type == nameof(user.Account).ToLower())
+                if (item.Type == nameof(user.Account).ToLower())
                 {
                     user.Account = item.Value;
                 }
-                if(item.Type == nameof(user.Role).ToLower())
+                if (item.Type == nameof(user.Role).ToLower())
                 {
                     user.Role = item.Value;
                 }

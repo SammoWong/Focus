@@ -45,6 +45,14 @@ namespace Focus.Service
             }
         }
 
+        public async Task<IEnumerable<Button>> GetPermissionButtonsByModuleIdAsync(string moduleId)
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.Buttons.Where(e => e.Module.Id == moduleId && e.Enabled == true).ToListAsync();
+            }
+        }
+
         public async Task UpdateAsync(Button button)
         {
             using(var db = NewDbContext())

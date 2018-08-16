@@ -17,5 +17,7 @@ namespace Focus.Service.Interfaces
         Task DeteleAsync(Button button);
             
         Task<IEnumerable<Button>> GetButtonsByModuleIdAsync(string moduleId);
+
+        Task<IEnumerable<Button>> GetPermissionButtonsByModuleIdAsync(string moduleId);
     }
 }
