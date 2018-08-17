@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
@@ -151,6 +151,7 @@
                             toastr.error('只能选择一条要编辑的数据字典');
                             return false;
                         }
+                        $('#updateDetailModal').modal('show');
                         $("#updateDetailForm").formSerialize(selections[0]);
                     });
 
@@ -167,6 +168,10 @@
                                 toastr.error(data.message);
                             }
                         });
+                    });
+
+                    $('#btnAdd').click(function () {
+                        $('#addDetailModal').modal('show');
                     });
 
                     $('#btnSaveAddDetailForm').click(function () {

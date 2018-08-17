@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addUserModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateUserModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
@@ -122,6 +122,7 @@
                     var methods = this.methods;
 
                     $('#btnAdd').click(function () {
+                        $('#addUserModal').modal('show');
                         $('#addUserForm')[0].reset();
                     });
 
@@ -146,6 +147,7 @@
                             toastr.error('请选择要编辑的用户');
                             return false;
                         }
+                        $('#updateUserModal').modal('show');
                         $("#updateUserForm").formSerialize(selections[0]);
                     });
 

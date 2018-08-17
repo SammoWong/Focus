@@ -36,10 +36,9 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addModuleModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
-                    <button class="btn btn-white" type="button" id="btnButtonDetail" data-target="#buttonDetailModal" data-toggle="modal"><i class="fa fa-pencil"></i> 按钮管理</button>
+                    <button class="btn btn-white" type="button" id="btnButtonDetail"><i class="fa fa-pencil"></i> 按钮管理</button>
                 </div>
             </div>
             <div class="ibox float-e-margins">
@@ -275,6 +274,7 @@
                     });
 
                     $('#btnAdd').click(function () {
+                        $('#addModuleModal').modal('show');
                         methods.bindDropdown();
                     });
 
@@ -309,10 +309,12 @@
                             toastr.error('请选择要查看的模块菜单');
                             return false;
                         }
+                        $('#buttonDetailModal').modal('show');
                         methods.bindButtons(id);
                     });
 
                     $('#btnAddButton').click(function () {
+                        $('#addButtonModal').modal('show');
                         $('#moduleId').val(id);
                     });
 
@@ -337,6 +339,7 @@
                             toastr.error('请选择要编辑的按钮详情');
                             return false;
                         }
+                        $('#updateButtonModal').modal('show');
                         $("#updateButtonForm").formSerialize(selections[0]);
                     });
 
