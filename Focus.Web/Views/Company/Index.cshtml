@@ -45,6 +45,8 @@
     </div>
 </div>
 @await Html.PartialAsync("_Detail")
+@await Html.PartialAsync("_UpdateCompany")
+@await Html.PartialAsync("_AddCompany")
 
 @section scripts{
     <script>
@@ -124,19 +126,10 @@
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindCompanies();
                     var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
-                    bindAuthorizedButtons(url);
+                    //bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
                     var methods = this.methods;
-
-                    $('#btnEdit').click(function () {
-                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
-                        if (selections.length <= 0) {
-                            toastr.error('请选择要编辑的公司');
-                            return false;
-                        }
-                        $("#updateDetailForm").formSerialize(selections[0]);
-                    });
 
                     $('#btnDelete').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
@@ -185,6 +178,51 @@
                         $('#createdTime').html(selections[0].createdTime);
                         $('#address').html(selections[0].address);
                         $('#description').html(selections[0].description);
+                    });
+
+                    $('#btnEdit').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要修改的公司');
+                            return false;
+                        }
+                        $('#updateCompanyModal').modal('show');
+                        $("#updateCompanyForm").formSerialize(selections[0]);
+                    });
+
+                    $('#btnSaveUpdateCompanyForm').click(function () {
+                        if (!$('#updateCompanyForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateCompanyForm').formSerialize();
+                        _.post(apiUrl + '/api/Company/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindCompanies();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
+                    });
+
+                    $('#btnAdd').click(function () {
+                        $('#addCompanyModal').modal('show');
+                        $('#addCompanyForm')[0].reset();
+                    });
+
+                    $('#btnSaveAddCompanyForm').click(function () {
+                        if (!$('#addCompanyForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addCompanyForm').formSerialize();
+                        _.post(apiUrl + '/api/Company/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindCompanies();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
                     });
                 }
             }

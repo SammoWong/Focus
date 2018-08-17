@@ -13,6 +13,47 @@ namespace Focus.Api.Controllers
     [ApiController]
     public class DictionaryController : FocusApiControllerBase
     {
+        [HttpPost]
+        [Route("api/DictionaryType/Add")]
+        public async Task<IActionResult> AddDictionaryType([FromForm]AddDictionaryTypeInputModel model)
+        {
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            if(await dictionaryService.IsDictionaryTypeExistAsync(model.Name))
+                return Ok(new StandardResult().Fail(StandardCode.LogicError, "此数据字典类型已存在"));
+
+            var dictionaryType = new DictionaryType
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = model.Name,
+                SortNumber = model.SortNumber,
+                Remark = model.Remark,
+                Enabled = model.Enabled,
+                CreatedBy = CurrentUserId,
+                CreatedTime = DateTime.Now
+            };
+            await dictionaryService.AddDictionaryTypeAsync(dictionaryType);
+            return Ok(new StandardResult().Succeed("添加成功"));
+        }
+
+        [HttpPost]
+        [Route("api/DictionaryType/Update")]
+        public async Task<IActionResult> UpdateDictionaryType([FromForm]UpdateDictionaryTypeInputModel model)
+        {
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            var dictionaryType = await dictionaryService.GetDictionaryTypeById(model.Id);
+            if (dictionaryType == null)
+                return Ok(new StandardResult().Fail(StandardCode.LogicError, "数据类型不存在"));
+
+            dictionaryType.Name = model.Name;
+            dictionaryType.SortNumber = model.SortNumber;
+            dictionaryType.Enabled = model.Enabled;
+            dictionaryType.Remark = model.Remark;
+            dictionaryType.CreatedBy = CurrentUserId;
+            dictionaryType.CreatedTime = DateTime.Now;
+            await dictionaryService.UpdateDictionaryTypeAsync(dictionaryType);
+            return Ok(new StandardResult().Succeed("修改成功"));
+        }
+
         [Route("api/DictionaryTypes")]
         [HttpGet]
         public async Task<IActionResult> GetDictionaryTypesAsync()

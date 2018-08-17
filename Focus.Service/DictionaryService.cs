@@ -102,5 +102,39 @@ namespace Focus.Service
                 await db.SaveChangesAsync();
             }
         }
+
+        public async Task AddDictionaryTypeAsync(DictionaryType entity)
+        {
+            using(var db = NewDbContext())
+            {
+                await db.DictionaryTypes.AddAsync(entity);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateDictionaryTypeAsync(DictionaryType entity)
+        {
+            using (var db = NewDbContext())
+            {
+                db.DictionaryTypes.Update(entity);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> IsDictionaryTypeExistAsync(string name)
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.DictionaryTypes.AnyAsync(e => e.Name == name);
+            }
+        }
+
+        public async Task<DictionaryType> GetDictionaryTypeById(string id)
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.DictionaryTypes.SingleOrDefaultAsync(e => e.Id == id);
+            }
+        }
     }
 }

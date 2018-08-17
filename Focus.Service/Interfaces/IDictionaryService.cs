@@ -21,5 +21,13 @@ namespace Focus.Service.Interfaces
         Task AddDictionaryDetailAsync(DictionaryDetail entity);
 
         Task BatchDeleteDictionaryDetailsAsync(List<string> ids, string currentUserId);
+
+        Task AddDictionaryTypeAsync(DictionaryType entity);
+
+        Task UpdateDictionaryTypeAsync(DictionaryType entity);
+
+        Task<bool> IsDictionaryTypeExistAsync(string name);
+
+        Task<DictionaryType> GetDictionaryTypeById(string id);
     }
 }
