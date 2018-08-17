@@ -17,10 +17,10 @@
                     </div>
                 </div>
                 <div class="ibox-content" id="buttonList">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
-                    <button code="Company-Delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-close"></i> 删除</button>
-                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
+                    <button code="company-delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-close"></i> 删除</button>
+                    <button code="company-detail" class="btn btn-success" type="button" id="btnDetail"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
         </div>
@@ -44,129 +44,153 @@
         </div>
     </div>
 </div>
+@await Html.PartialAsync("_Detail")
+
 @section scripts{
-<script>
-    var viewModel = function () {
-        return {
-            init: function () {
-                this.initPage();
-                this.bindEvents();
-            },
-            methods: {
-                bindCompanies: function () {
-                    $('#bootstrapTable').clientSidePagination({
-                        url: apiUrl + '/api/Companies',
-                        columns: [
-                            {
-                                radio: true
-                            }, {
-                                field: 'fullName',
-                                title: '公司全称',
-                                sortable: true,
-                            }, {
-                                field: 'shortName',
-                                title: '公司简称',
-                                sortable: true,
-                            }, {
-                                field: 'nature',
-                                title: '公司性质',
-                                sortable: true,
-                            }, {
-                                field: 'creator',
-                                title: '创建人',
-                                sortable: true,
-                            }, {
-                                field: 'contact',
-                                title: '联系人',
-                                sortable: true,
-                            }, {
-                                field: 'address',
-                                title: '地址',
-                                sortable: true,
-                            }, {
-                                field: 'website',
-                                title: '网址',
-                                sortable: true,
-                            }, {
-                                field: 'createdTime',
-                                title: '创建时间',
-                                sortable: true,
-                            }, {
-                                field: 'sortNumber',
-                                title: '排序码',
-                                sortable: true
-                            }, {
-                                field: 'enabled',
-                                title: '是否有效',
-                                sortable: true,
-                                formatter: function (value, row, index) {
-                                    return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    bindCompanies: function () {
+                        $('#bootstrapTable').clientSidePagination({
+                            url: apiUrl + '/api/Companies',
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'fullName',
+                                    title: '公司全称',
+                                    sortable: true,
+                                }, {
+                                    field: 'shortName',
+                                    title: '公司简称',
+                                    sortable: true,
+                                }, {
+                                    field: 'nature',
+                                    title: '公司性质',
+                                    sortable: true,
+                                }, {
+                                    field: 'creator',
+                                    title: '创建人',
+                                    sortable: true,
+                                }, {
+                                    field: 'contact',
+                                    title: '联系人',
+                                    sortable: true,
+                                }, {
+                                    field: 'address',
+                                    title: '地址',
+                                    sortable: true,
+                                }, {
+                                    field: 'website',
+                                    title: '网址',
+                                    sortable: true,
+                                }, {
+                                    field: 'createdTime',
+                                    title: '创建时间',
+                                    sortable: true,
+                                }, {
+                                    field: 'sortNumber',
+                                    title: '排序码',
+                                    sortable: true
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+                                    }
+                                }, {
+                                    field: 'isDeleted',
+                                    title: '是否删除',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-toggle-off text-danger\">已删除</i>" : "<i class=\"fa fa-toggle-on text-navy\">未删除</i>";
+                                    }
+                                }, {
+                                    field: 'description',
+                                    title: '公司描述'
                                 }
-                            }, {
-                                field: 'isDeleted',
-                                title: '是否删除',
-                                sortable: true,
-                                formatter: function (value, row, index) {
-                                    return value ? "<i class=\"fa fa-toggle-off text-danger\">已删除</i>" : "<i class=\"fa fa-toggle-on text-navy\">未删除</i>";
+                            ]
+                        });
+                    }
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    $('#bootstrapTable').bootstrapTable();
+                    methods.bindCompanies();
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    bindAuthorizedButtons(url);
+                },
+                bindEvents: function () {
+                    var methods = this.methods;
+
+                    $('#btnEdit').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要编辑的公司');
+                            return false;
+                        }
+                        $("#updateDetailForm").formSerialize(selections[0]);
+                    });
+
+                    $('#btnDelete').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的公司');
+                            return false;
+                        }
+                        swal({
+                            title: "是否确定删除？",
+                            text: "删除后将无法恢复，请谨慎操作！",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "删除",
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false
+                        }, function () {
+                            _.post(apiUrl + '/api/Company/Delete', { id: selections[0].id }, function (data) {
+                                if (data.code == 0) {
+                                    methods.bindCompanies();
+                                    swal("删除成功！", "您已经永久删除了这条信息", "success");
+                                } else {
+                                    toastr.error(data.message);
                                 }
-                            }, {
-                                field: 'description',
-                                title: '公司描述'
-                            }
-                        ]
+                            })
+                        });
+                    });
+
+                    $('#btnDetail').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要查看的公司');
+                            return false;
+                        }
+                        $('#detailModal').modal('show');
+                        $('#fullName').html(selections[0].fullName);
+                        $('#shortName').html(selections[0].shortName);
+                        $('#website').html(selections[0].website);
+                        $('#website').attr("href", selections[0].website);
+                        $('#nature').html(selections[0].nature);
+                        $('#creator').html(selections[0].creator);
+                        $('#contact').html(selections[0].contact);
+                        $('#email').html(selections[0].email);
+                        $('#mobile').html(selections[0].mobile);
+                        $('#phone').html(selections[0].phone);
+                        $('#createdTime').html(selections[0].createdTime);
+                        $('#address').html(selections[0].address);
+                        $('#description').html(selections[0].description);
                     });
                 }
-            },
-            initPage: function () {
-                var methods = this.methods;
-                $('#bootstrapTable').bootstrapTable();
-                methods.bindCompanies();
-                var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
-                bindAuthorizedButtons(url);
-            },
-            bindEvents: function () {
-                var methods = this.methods;
-
-                $('#btnEdit').click(function () {
-                    var selections = $('#bootstrapTable').bootstrapTable('getSelections');
-                    if (selections.length <= 0) {
-                        toastr.error('请选择要编辑的公司');
-                        return false;
-                    }
-                    $("#updateDetailForm").formSerialize(selections[0]);
-                });
-
-                $('#btnDelete').click(function () {
-                    var selections = $('#bootstrapTable').bootstrapTable('getSelections');
-                    if (selections.length <= 0) {
-                        toastr.error('请选择要删除的公司');
-                        return false;
-                    }
-                    swal({
-                        title: "是否确定删除？",
-                        text: "删除后将无法恢复，请谨慎操作！",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "删除",
-                        cancelButtonText: "取消",
-                        closeOnConfirm: false
-                    }, function () {
-                        _.post(apiUrl + '/api/Company/Delete', { id: selections[0].id }, function (data) {
-                            if (data.code == 0) {
-                                methods.bindCompanies();
-                                swal("删除成功！", "您已经永久删除了这条信息", "success");
-                            } else {
-                                toastr.error(data.message);
-                            }
-                        })
-                    });
-                });
             }
+        }();
+        window.onload = function () {
+            viewModel.init();
         }
-    }();
-    window.onload = function () {
-        viewModel.init();
-    }
-</script>
+    </script>
 }

@@ -83,6 +83,7 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("删除成功"));
         }
 
+        //TODO:需要关联Permission
         [HttpGet]
         [Route("api/Module/{moduleId}/PermissionButtons")]
         public async Task<IActionResult> GetPermissionButtonsAsync(string moduleId)
