@@ -37,8 +37,36 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                            <i class="fa fa-plus"></i>
+                            添加 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="font-bold" id="btnAddType">添加字典类型</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="font-bold" id="btnAddDetail">添加字典详情</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+                            <i class="fa fa-edit"></i>
+                            修改 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="font-bold" id="btnUpdateType">修改字典类型</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="font-bold" id="btnUpdateDetail">修改字典详情</a>
+                            </li>
+                        </ul>
+                    </div>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
@@ -64,6 +92,8 @@
 </div>
 @await Html.PartialAsync("_UpdateDetail")
 @await Html.PartialAsync("_AddDetail")
+@await Html.PartialAsync("_AddType")
+@await Html.PartialAsync("_UpdateType")
 
 @section scripts{
     <script>
@@ -74,6 +104,15 @@
                     this.bindEvents();
                 },
                 methods: {
+                    bindParentTypes: function () {
+                        _.get(apiUrl + '/api/DictionaryTypes', function (data) {
+                            var result = data.data;
+                            $(result).each(function (key) {
+                                var option = $("<option></option>").text(result[key].text).val(result[key].id);
+                                $('[id=parentId]').append(option);
+                            });
+                        });
+                    },
                     loadDictionaryTypes: function () {
                         bindJsTree('jstree', apiUrl + '/api/DictionaryTypes');
                     },
@@ -141,7 +180,33 @@
                         methods.bindDictionaryDetails(id);
                     });
 
-                    $('#btnEdit').click(function () {
+                    $('#btnUpdateType').click(function () {
+                        if (_.isEmpty(id)) {
+                            toastr.error('请选择要修改的数据字典类型');
+                            return false;
+                        }
+                        $('#updateTypeModal').modal('show');
+                        _.get(apiUrl + '/api/DictionaryType/' + id, function (data) {
+                            $("#updateTypeForm").formSerialize(data.data);
+                        })
+                    });
+
+                    $('#btnSaveUpdateTypeForm').click(function () {
+                        if (!$('#updateTypeForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateTypeForm').formSerialize();
+                        _.post(apiUrl + '/api/DictionaryType/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.loadDictionaryTypes();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
+                    });
+
+                    $('#btnUpdateDetail').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
                         if (selections.length <= 0) {
                             toastr.error('请选择要编辑的数据字典');
@@ -170,7 +235,27 @@
                         });
                     });
 
-                    $('#btnAdd').click(function () {
+                    $('#btnAddType').click(function () {
+                        $('#addTypeModal').modal('show');
+                        methods.bindParentTypes();
+                    });
+
+                    $('#btnSaveAddTypeForm').click(function () {
+                        if (!$('#addTypeForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addTypeForm').formSerialize();
+                        _.post(apiUrl + '/api/DictionaryType/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.loadDictionaryTypes();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnAddDetail').click(function () {
                         $('#addDetailModal').modal('show');
                     });
 
@@ -180,7 +265,7 @@
                         }
                         var data = $('#addDetailForm').formSerialize();
                         data['TypeId'] = id;
-                        _.post(apiUrl + '/api/DictionaryDetail/Add', data, function (data) { 
+                        _.post(apiUrl + '/api/DictionaryDetail/Add', data, function (data) {
                             if (data.code == 0) {
                                 methods.bindDictionaryDetails(id);
                                 toastr.success(data.message);

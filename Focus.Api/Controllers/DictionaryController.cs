@@ -13,6 +13,18 @@ namespace Focus.Api.Controllers
     [ApiController]
     public class DictionaryController : FocusApiControllerBase
     {
+        [Route("api/DictionaryType/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetDictionaryTypeAsync(string id)
+        {
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            var dictionaryType = await dictionaryService.GetDictionaryTypeById(id);
+            if (dictionaryType == null)
+                return Ok(new StandardResult().Fail(StandardCode.LogicError, "数据类型不存在"));
+
+            return Ok(new StandardResult().Succeed(null, dictionaryType));
+        }
+
         [HttpPost]
         [Route("api/DictionaryType/Add")]
         public async Task<IActionResult> AddDictionaryType([FromForm]AddDictionaryTypeInputModel model)
@@ -24,6 +36,7 @@ namespace Focus.Api.Controllers
             var dictionaryType = new DictionaryType
             {
                 Id = Guid.NewGuid().ToString(),
+                ParentId = model.ParentId,
                 Name = model.Name,
                 SortNumber = model.SortNumber,
                 Remark = model.Remark,
@@ -44,6 +57,7 @@ namespace Focus.Api.Controllers
             if (dictionaryType == null)
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "数据类型不存在"));
 
+            dictionaryType.ParentId = model.ParentId;
             dictionaryType.Name = model.Name;
             dictionaryType.SortNumber = model.SortNumber;
             dictionaryType.Enabled = model.Enabled;

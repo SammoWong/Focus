@@ -7,7 +7,6 @@ namespace Focus.Model.Dictionary
 {
     public class AddDictionaryTypeInputModel
     {
-        [Display(Name = "ParentId"), Required(ErrorMessage = "{0}不能为空")]
         public string ParentId { get; set; }
 
         [Display(Name = "名称"), Required(ErrorMessage = "{0}不能为空")]

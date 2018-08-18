@@ -10,6 +10,8 @@ namespace Focus.Model.Dictionary
         [Display(Name = "主键"), Required(ErrorMessage = "{0}不能为空")]
         public string Id { get; set; }
 
+        public string ParentId { get; set; }
+
         [Display(Name = "名称"), Required(ErrorMessage = "{0}不能为空")]
         public string Name { get; set; }
 

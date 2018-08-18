@@ -24,7 +24,7 @@ namespace Focus.Service
                                                      }).ToList();
 
                 var dictionaryTypeList = new List<Model.TreeJsonModel>();
-                foreach (var parent in types.Where(d => d.ParentId == string.Empty))
+                foreach (var parent in types.Where(d => string.IsNullOrEmpty(d.ParentId)))
                 {
                     foreach (var dictionaryType in types)
                     {
@@ -105,7 +105,7 @@ namespace Focus.Service
 
         public async Task AddDictionaryTypeAsync(DictionaryType entity)
         {
-            using(var db = NewDbContext())
+            using (var db = NewDbContext())
             {
                 await db.DictionaryTypes.AddAsync(entity);
                 await db.SaveChangesAsync();
