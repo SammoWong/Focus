@@ -11,5 +11,15 @@ namespace Focus.Service.Interfaces
         Task AddAsync(Role role);
 
         Task<IEnumerable<Role>> GetAllAsync();
+
+        Task<bool> IsRoleExistAsync(string name);
+
+        Task<Role> GetByIdAsync(string id);
+
+        Task UpdateAsync(Role role);
+
+        Task DeleteAsync(Role role);
+
+        Task<bool> HasUserContained(Role role);
     }
 }

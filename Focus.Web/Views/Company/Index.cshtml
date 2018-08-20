@@ -126,7 +126,7 @@
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindCompanies();
                     var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
-                    //bindAuthorizedButtons(url);
+                    bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
                     var methods = this.methods;

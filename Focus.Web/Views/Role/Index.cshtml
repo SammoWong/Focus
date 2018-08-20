@@ -18,10 +18,9 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd" data-target="#addDetailModal" data-toggle="modal"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit" data-target="#updateDetailModal" data-toggle="modal"><i class="fa fa-edit"></i> 编辑</button>
+                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button class="btn btn-info" type="button" id="btnUpdate"><i class="fa fa-edit"></i> 修改</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
-                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
         </div>
@@ -45,6 +44,9 @@
         </div>
     </div>
 </div>
+@await Html.PartialAsync("_AddRole")
+@await Html.PartialAsync("_UpdateRole")
+
 @section scripts{
     <script>
         var viewModel = function () {
@@ -101,13 +103,49 @@
                 },
                 bindEvents: function () {
                     var methods = this.methods;
-                    $('#btnEdit').click(function () {
+                    $('#btnAdd').click(function () {
+                        $('#addRoleModal').modal('show');
+                        $('#addRoleForm')[0].reset();
+                    });
+
+                    $('#btnSaveAddRoleForm').click(function () {
+                        if (!$('#addRoleForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#addRoleForm').formSerialize();
+                        _.post(apiUrl + '/api/Role/Add', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindRoles();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnUpdate').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
                         if (selections.length <= 0) {
                             toastr.error('请选择要编辑的角色');
                             return false;
                         }
-                        $("#updateDetailForm").formSerialize(selections[0]);
+                        $("#updateRoleForm").formSerialize(selections[0]);
+                        $('#updateRoleModal').modal('show');
+                    });
+
+                    $('#btnSaveUpdateRoleForm').click(function () {
+                        if (!$('#updateRoleForm').formValid()) {
+                            return false;
+                        }
+                        var data = $('#updateRoleForm').formSerialize();
+                        _.post(apiUrl + '/api/Role/Update', data, function (data) {
+                            if (data.code == 0) {
+                                methods.bindRoles();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        });
                     });
 
                     $('#btnDelete').click(function () {
@@ -116,13 +154,9 @@
                             toastr.error('请选择要删除的角色');
                             return false;
                         }
-                        var data = '';
-                        for (var i = 0; i < selections.length; i++) {
-                            data += selections[i].id + ',';
-                        }
-                        _.get(apiUrl + '/api/DictionaryDetail/Delete?idStr=' + data, function (data) {
+                        _.post(apiUrl + '/api/Role/Delete', { id: selections[0].id }, function (data) {
                             if (data.code == 0) {
-                                methods.getDictionaryDetails(id);
+                                methods.bindRoles();
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);

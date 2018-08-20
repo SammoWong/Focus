@@ -97,7 +97,7 @@ namespace Focus.Service
             }
         }
 
-        public async Task<bool> Haschildren(string id)
+        public async Task<bool> HasChildren(string id)
         {
             using(var db = NewDbContext())
             {

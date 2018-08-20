@@ -20,7 +20,7 @@ namespace Focus.Service.Interfaces
 
         Task AddAsync(Module module);
 
-        Task<bool> Haschildren(string id);
+        Task<bool> HasChildren(string id);
 
         Task DeleteAsync(Module module);
     }

@@ -97,7 +97,7 @@ namespace Focus.Api.Controllers
         public async Task<IActionResult> DeleteModuleAsync([FromForm]DeleteModuleInputModel model)
         {
             var moduleService = Ioc.Get<IModuleService>();
-            if(await moduleService.Haschildren(model.Id))
+            if(await moduleService.HasChildren(model.Id))
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "删除失败：该模块含有子模块"));
 
             var module = await moduleService.GetByIdAsync(model.Id);

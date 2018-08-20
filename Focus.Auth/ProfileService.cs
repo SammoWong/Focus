@@ -28,7 +28,8 @@ namespace Focus.Auth
                 new Claim(JwtClaimTypes.Email, user.Email ?? string.Empty),
                 new Claim("userName", user.Account),
                 new Claim("account", user.Account),
-                new Claim(JwtClaimTypes.Role, user.Role.Name)
+                new Claim(JwtClaimTypes.Role, user.Role.Name),
+                new Claim("companyId", user.CompanyId)
             };
             context.IssuedClaims.AddRange(claims);
             return Task.FromResult(0);
