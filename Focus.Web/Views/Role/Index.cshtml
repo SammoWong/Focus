@@ -21,6 +21,7 @@
                     <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
                     <button class="btn btn-info" type="button" id="btnUpdate"><i class="fa fa-edit"></i> 修改</button>
                     <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <button class="btn btn-success" type="button" id="btnDetail"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
         </div>
@@ -46,6 +47,7 @@
 </div>
 @await Html.PartialAsync("_AddRole")
 @await Html.PartialAsync("_UpdateRole")
+@await Html.PartialAsync("_Detail")
 
 @section scripts{
     <script>
@@ -95,11 +97,33 @@
                             ]
                         });
                     },
+                    initSteps: function () { 
+                        $("#wizard").steps({
+                            transitionEffect: "slideLeft",
+                            onStepChanging: function (event, currentIndex, newIndex) {
+                                if (currentIndex > newIndex) {
+                                    return true;
+                                }
+                                return true;
+                            },
+                            onCanceled: function (event) {
+                                $('#detailModal').modal('hide');
+                            },
+                            onFinishing: function (event, currentIndex) {// 完成时得监听
+                                alert('onFinishing');
+                            },
+                            onFinished: function(event, currentIndex) { 
+                                alert('onFinished');
+                                $('#detailModal').modal('hide');
+                            }
+                        });
+                    }
                 },
                 initPage: function () {
                     var methods = this.methods;
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindRoles();
+                    methods.initSteps();
                 },
                 bindEvents: function () {
                     var methods = this.methods;
@@ -162,6 +186,10 @@
                                 toastr.error(data.message);
                             }
                         })
+                    });
+
+                    $('#btnDetail').click(function () {
+                        $('#detailModal').modal('show');
                     });
                 }
             }
