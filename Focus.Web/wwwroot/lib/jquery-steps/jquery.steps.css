@@ -147,8 +147,8 @@
     border-radius: 5px;
 }
 
-.wizard-big.wizard > .content {
-    min-height: 320px;
+.wizard-250.wizard > .content {
+    min-height: 250px;
 }
 .wizard.vertical > .content
 {

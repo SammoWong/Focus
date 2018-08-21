@@ -10,7 +10,7 @@ namespace Focus.Service.Interfaces
 {
     public interface IModuleService
     {
-        Task<IEnumerable<ModuleOutputModel>> GetAllAsync();
+        Task<IEnumerable<Module>> GetAllAsync();
 
         Task<IEnumerable<TreeJsonModel>> GetTreeAsync();
 

@@ -10,6 +10,8 @@ namespace Focus.Model
 
         public string Text { get; set; }
 
+        public string Url { get; set; }
+
         public string Icon { get; set; }
 
         public State State { get; set; }
@@ -17,6 +19,7 @@ namespace Focus.Model
         public List<TreeJsonModel> Children = new List<TreeJsonModel>();
         
         public string ParentId { get; set; }
+
     }
 
     public class State
@@ -26,5 +29,21 @@ namespace Focus.Model
         public bool Disabled { get; set; }
 
         public bool Selected { get; set; }
+    }
+
+    public static class TreeModel
+    {
+        public static List<TreeJsonModel> ToTreeModel(this List<TreeJsonModel> data, string parentId = "")
+        {
+            List<TreeJsonModel> result = data.FindAll(t => t.ParentId == parentId);
+            if(result.Count > 0)
+            {
+                foreach (var item in result)
+                {
+                    item.Children = ToTreeModel(data, item.Id);
+                }
+            }
+            return result;
+        }
     }
 }

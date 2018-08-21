@@ -11,36 +11,6 @@ namespace Focus.Service
 {
     public class ModuleService : FocusServiceBase, IModuleService
     {
-        public async Task<IEnumerable<ModuleOutputModel>> GetAllAsync()
-        {
-            using (var db = NewDbContext())
-            {
-                var modules = (await db.Modules.Where(e => e.Enabled == true).OrderBy(e => e.SortNumber).ToListAsync()).Select(m => new ModuleOutputModel()
-                {
-                    Id = m.Id,
-                    Name = m.Name,
-                    Url = m.Url,
-                    Icon = m.Icon,
-                    Rank = m.Rank,
-                    IsExpanded = m.IsExpanded,
-                    ParentId = m.ParentId
-                }).ToList();
-                List<ModuleOutputModel> moduleList = new List<ModuleOutputModel>();
-                foreach (var parent in modules.Where(t => string.IsNullOrEmpty(t.ParentId)))
-                {
-                    foreach (var module in modules)
-                    {
-                        if (module.ParentId == parent.Id)
-                        {
-                            parent.Children.Add(module);
-                        }
-                    }
-                    moduleList.Add(parent);
-                }
-                return moduleList;
-            }
-        }
-
         public async Task<IEnumerable<TreeJsonModel>> GetTreeAsync()
         {
             using (var db = NewDbContext())
@@ -111,6 +81,14 @@ namespace Focus.Service
             {
                 db.Modules.Remove(module);
                 await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Module>> GetAllAsync()
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.Modules.Where(e => e.Enabled == true).OrderBy(e => e.SortNumber).ToListAsync();
             }
         }
     }

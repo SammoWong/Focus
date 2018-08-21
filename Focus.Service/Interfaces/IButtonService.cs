@@ -8,6 +8,8 @@ namespace Focus.Service.Interfaces
 {
     public interface IButtonService
     {
+        Task<IEnumerable<Button>> GetAllAsync();
+
         Task<Button> GetByIdAsync(string id);
 
         Task AddAsync(Button button);

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Model;
 using Focus.Model.Module;
 using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,20 @@ namespace Focus.Api.Controllers
         {
             var moduleService = Ioc.Get<IModuleService>();
             var modules = await moduleService.GetAllAsync();
-            return Ok(new StandardResult().Succeed(null, modules));
+            var result = new List<TreeJsonModel>();
+            foreach (var item in modules)
+            {
+                var model = new TreeJsonModel
+                {
+                    Id = item.Id,
+                    ParentId = item.ParentId,
+                    Text = item.Name,
+                    Url = item.Url,
+                    Icon = item.Icon
+                };
+                result.Add(model);
+            }
+            return Ok(new StandardResult().Succeed(null, result.ToTreeModel()));
         }
 
         [HttpGet]

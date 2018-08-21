@@ -50,7 +50,7 @@
 @await Html.PartialAsync("_Detail")
 
 @section scripts{
-    <script>
+<script>
         var viewModel = function () {
             return {
                 init: function () {
@@ -97,8 +97,9 @@
                             ]
                         });
                     },
-                    initSteps: function () { 
+                    initSteps: function () {
                         $("#wizard").steps({
+                            bodyTag: "fieldset",
                             transitionEffect: "slideLeft",
                             onStepChanging: function (event, currentIndex, newIndex) {
                                 if (currentIndex > newIndex) {
@@ -112,18 +113,22 @@
                             onFinishing: function (event, currentIndex) {// 完成时得监听
                                 alert('onFinishing');
                             },
-                            onFinished: function(event, currentIndex) { 
+                            onFinished: function(event, currentIndex) {
                                 alert('onFinished');
                                 $('#detailModal').modal('hide');
                             }
                         });
-                    }
+                    },
+                    bindModules: function () {
+                        bindJsTree('jstree', apiUrl + '/api/Permission/All', true);
+                    },
                 },
                 initPage: function () {
                     var methods = this.methods;
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindRoles();
                     methods.initSteps();
+                    methods.bindModules();
                 },
                 bindEvents: function () {
                     var methods = this.methods;
@@ -197,6 +202,6 @@
         window.onload = function () {
             viewModel.init();
         }
-    </script>
+</script>
 }
 

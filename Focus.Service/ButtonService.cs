@@ -11,6 +11,14 @@ namespace Focus.Service
 {
     public class ButtonService : FocusServiceBase, IButtonService
     {
+        public async Task<IEnumerable<Button>> GetAllAsync()
+        {
+            using (var db = NewDbContext())
+            {
+                return await db.Buttons.Where(e => e.Enabled == true).OrderBy(e => e.SortNumber).ToListAsync();
+            }
+        }
+
         public async Task AddAsync(Button button)
         {
             using (var db = NewDbContext())
