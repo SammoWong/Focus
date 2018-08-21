@@ -1,4 +1,5 @@
 ﻿using Focus.Domain.Entities;
+using Focus.Model;
 using Focus.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,32 +11,12 @@ namespace Focus.Service
 {
     public class DictionaryService : FocusServiceBase, IDictionaryService
     {
-        public async Task<IEnumerable<Model.TreeJsonModel>> GetDictionaryTypesAsync()
+        public async Task<IEnumerable<DictionaryType>> GetDictionaryTypesAsync()
         {
             using (var db = NewDbContext())
             {
-                var types = (await db.DictionaryTypes.Where(e => e.Enabled == true && e.IsDeleted == false)
-                                                     .OrderBy(e => e.SortNumber).ToListAsync())
-                                                     .Select(d => new Model.TreeJsonModel()
-                                                     {
-                                                         Id = d.Id,
-                                                         Text = d.Name,
-                                                         ParentId = d.ParentId
-                                                     }).ToList();
-
-                var dictionaryTypeList = new List<Model.TreeJsonModel>();
-                foreach (var parent in types.Where(d => string.IsNullOrEmpty(d.ParentId)))
-                {
-                    foreach (var dictionaryType in types)
-                    {
-                        if (dictionaryType.ParentId == parent.Id)
-                        {
-                            parent.Children.Add(dictionaryType);
-                        }
-                    }
-                    dictionaryTypeList.Add(parent);
-                }
-                return dictionaryTypeList;
+                return await db.DictionaryTypes.Where(e => e.Enabled == true && e.IsDeleted == false)
+                                               .OrderBy(e => e.SortNumber).ToListAsync();
             }
         }
 

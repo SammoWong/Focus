@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Focus.Domain.Entities;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Model;
 using Focus.Model.Dictionary;
 using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -74,7 +75,13 @@ namespace Focus.Api.Controllers
         {
             var dictionaryService = Ioc.Get<IDictionaryService>();
             var dictionaryTypes = await dictionaryService.GetDictionaryTypesAsync();
-            return Ok(new StandardResult().Succeed(null, dictionaryTypes));
+            var result = dictionaryTypes.Select(d => new TreeJsonModel
+            {
+                Id = d.Id,
+                Text = d.Name,
+                ParentId = d.ParentId
+            }).ToList();
+            return Ok(new StandardResult().Succeed(null, result.ToTreeModel()));
         }
 
         [Route("api/DictionaryType/{typeId}/DictionaryDetails")]

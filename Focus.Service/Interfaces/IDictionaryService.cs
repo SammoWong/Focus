@@ -8,7 +8,7 @@ namespace Focus.Service.Interfaces
 {
     public interface IDictionaryService
     {
-        Task<IEnumerable<Model.TreeJsonModel>> GetDictionaryTypesAsync();
+        Task<IEnumerable<DictionaryType>> GetDictionaryTypesAsync();
 
         Task<IEnumerable<DictionaryDetail>> GetDictionaryDetailsByTypeIdAsync(string typeId);
 

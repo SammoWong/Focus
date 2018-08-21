@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
 using Focus.Infrastructure;
@@ -20,19 +21,14 @@ namespace Focus.Api.Controllers
         {
             var moduleService = Ioc.Get<IModuleService>();
             var modules = await moduleService.GetAllAsync();
-            var result = new List<TreeJsonModel>();
-            foreach (var item in modules)
+            var result = modules.Select(m => new TreeJsonModel
             {
-                var model = new TreeJsonModel
-                {
-                    Id = item.Id,
-                    ParentId = item.ParentId,
-                    Text = item.Name,
-                    Url = item.Url,
-                    Icon = item.Icon
-                };
-                result.Add(model);
-            }
+                Id = m.Id,
+                ParentId = m.ParentId,
+                Text = m.Name,
+                Url = m.Url,
+                Icon = m.Icon
+            }).ToList();
             return Ok(new StandardResult().Succeed(null, result.ToTreeModel()));
         }
 
