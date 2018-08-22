@@ -267,9 +267,10 @@ function bindAuthorizedButtons(url) {
     _.get(url, function (data) {
         if (data.code == 0) {
             $.each(data.data, function (i) {
-                $('#buttonList').find('[code=' + data.data[i].code + ']').attr('authorized', true);
+                $('[id=buttonList]').find('[code=' + data.data[i].code + ']').attr('authorized', true);
             });
-            $('#buttonList').find('[authorized=false]').remove();
+            //$('#buttonList').find('[authorized=false]').remove();
+            $('[id=buttonList]').find('[authorized=false]').remove();//可能同一个页面有多个相同id的情况
         } else {
             toastr.error(data.message);
         }

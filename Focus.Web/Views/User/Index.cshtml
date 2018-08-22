@@ -17,10 +17,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
-                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                <div class="ibox-content" id="buttonList">
+                    <button code="user-add" class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button code="user-update" class="btn btn-info" type="button" id="btnEdit"><i class="fa fa-edit"></i> 编辑</button>
+                    <button code="user-delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
@@ -117,6 +117,8 @@
                 initPage: function () {
                     var methods = this.methods;
                     methods.bindUsers();
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
                     var methods = this.methods;

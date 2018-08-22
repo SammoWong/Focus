@@ -35,10 +35,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content">
-                    <button class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
-                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
-                    <button class="btn btn-white" type="button" id="btnButtonDetail"><i class="fa fa-pencil"></i> 按钮管理</button>
+                <div class="ibox-content" id="buttonList">
+                    <button code="module-add" class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button code="module-delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <button code="module-buttonDetail" class="btn btn-white" type="button" id="btnButtonDetail"><i class="fa fa-pencil"></i> 按钮管理</button>
                 </div>
             </div>
             <div class="ibox float-e-margins">
@@ -149,8 +149,8 @@
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-2">
-                                <button class="btn btn-primary" type="button" id="saveUpdateModuleForm">保存</button>
+                            <div class="col-sm-4 col-sm-offset-2" id="buttonList">
+                                <button code="module-update" class="btn btn-primary" type="button" id="saveUpdateModuleForm">保存</button>
                             </div>
                         </div>
                     </form>
@@ -245,6 +245,8 @@
                     var methods = this.methods;
                     methods.bindModules();
                     methods.bindDropdown();
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
                     var methods = this.methods;
