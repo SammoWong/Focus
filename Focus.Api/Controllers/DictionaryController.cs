@@ -84,6 +84,23 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed(null, result.ToTreeModel()));
         }
 
+        [HttpPost]
+        [Route("api/DictionaryType/Delete")]
+        public async Task<IActionResult> DeleteDictionaryTypeAsync([FromForm]DeleteDictionaryTypeInputModel model)
+        {
+            var dictionaryService = Ioc.Get<IDictionaryService>();
+            var dictionaryType = await dictionaryService.GetDictionaryTypeById(model.Id);
+            if(dictionaryType == null)
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "数据字典类型不存在"));
+
+            var dictionaryDetails = await dictionaryService.GetDictionaryDetailsByTypeIdAsync(model.Id);
+            if (dictionaryDetails.Any())
+                return Ok(new StandardResult().Fail(StandardCode.ArgumentError, "删除失败：存在数据字典详情"));
+
+            await dictionaryService.DeleteDictianaryTypeAsync(dictionaryType);
+            return Ok(new StandardResult().Succeed("更新成功"));
+        }
+
         [Route("api/DictionaryType/{typeId}/DictionaryDetails")]
         [HttpGet]
         public async Task<IActionResult> GetDictionaryDetailsByTypeIdAsync(string typeId)

@@ -67,7 +67,21 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-times"></i> 删除</button>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-danger dropdown-toggle">
+                            <i class="fa fa-close"></i>
+                            删除 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="font-bold" id="btnDeleteType">删除字典类型</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="font-bold" id="btnDeleteDetail">删除字典详情</a>
+                            </li>
+                        </ul>
+                    </div>
                     <button class="btn btn-success" type="button"><i class="fa fa-search"></i> 查看</button>
                 </div>
             </div>
@@ -275,7 +289,7 @@
                         })
                     });
 
-                    $('#btnDelete').click(function () {
+                    $('#btnDeleteDetail').click(function () {
                         var selections = $('#bootstrapTable').bootstrapTable('getSelections');
                         if (selections.length <= 0) {
                             toastr.error('请选择要删除的字典详情');
@@ -288,6 +302,21 @@
                         _.get(apiUrl + '/api/DictionaryDetail/Delete?idStr=' + data, function (data) {
                             if (data.code == 0) {
                                 methods.bindDictionaryDetails(id);
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        })
+                    });
+
+                    $('#btnDeleteType').click(function () {
+                        if (_.isEmpty(id)) {
+                            toastr.error('请选择要删除的数据字典类型');
+                            return false;
+                        }
+                        _.post(apiUrl + '/api/DictionaryType/Delete', { id: id }, function (data) {
+                            if (data.code == 0) {
+                                methods.loadDictionaryTypes();
                                 toastr.success(data.message);
                             } else {
                                 toastr.error(data.message);

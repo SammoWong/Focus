@@ -1,6 +1,6 @@
 ﻿function bindJsTree(treeName, url, checkbox, loadedfunction) {
     var control = $('#' + treeName)
-    control.data('jstree', false);//清空数据，必须
+    control.data('jstree', false).empty();//清空数据，必须
 
     var isCheck = arguments[2] || false; //设置checkbox默认值为false
     if (isCheck) {
@@ -18,21 +18,6 @@
                 'types': {
                     'default': {
                         'icon': 'fa fa-folder'
-                    },
-                    'html': {
-                        'icon': 'fa fa-file-code-o'
-                    },
-                    'svg': {
-                        'icon': 'fa fa-file-picture-o'
-                    },
-                    'css': {
-                        'icon': 'fa fa-file-code-o'
-                    },
-                    'img': {
-                        'icon': 'fa fa-file-image-o'
-                    },
-                    'js': {
-                        'icon': 'fa fa-file-text-o'
                     }
                 }
             }).bind('loaded.jstree', loadedfunction);
@@ -52,24 +37,12 @@
                 'types': {
                     'default': {
                         'icon': 'fa fa-folder'
-                    },
-                    'html': {
-                        'icon': 'fa fa-file-code-o'
-                    },
-                    'svg': {
-                        'icon': 'fa fa-file-picture-o'
-                    },
-                    'css': {
-                        'icon': 'fa fa-file-code-o'
-                    },
-                    'img': {
-                        'icon': 'fa fa-file-image-o'
-                    },
-                    'js': {
-                        'icon': 'fa fa-file-text-o'
                     }
                 }
-            }).bind('loaded.jstree', loadedfunction);
+            }).bind('loaded.jstree', loadedfunction)
+                .bind('select_node.jstree', function (event, data) {  //绑定的点击事件
+                    //alert(data.node.id);
+            });
         });
     }
 }

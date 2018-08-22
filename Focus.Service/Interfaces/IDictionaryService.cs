@@ -29,5 +29,7 @@ namespace Focus.Service.Interfaces
         Task<bool> IsDictionaryTypeExistAsync(string name);
 
         Task<DictionaryType> GetDictionaryTypeById(string id);
+
+        Task DeleteDictianaryTypeAsync(DictionaryType entity);
     }
 }

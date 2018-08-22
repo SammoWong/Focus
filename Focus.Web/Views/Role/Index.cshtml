@@ -111,6 +111,8 @@
                                 $('#detailModal').modal('hide');
                             },
                             onFinishing: function (event, currentIndex) {// 完成时得监听
+                                var ref = $("#jstree").jstree(true);
+                                var sel = ref.get_selected();
                                 alert('onFinishing');
                             },
                             onFinished: function(event, currentIndex) {

@@ -117,5 +117,14 @@ namespace Focus.Service
                 return await db.DictionaryTypes.SingleOrDefaultAsync(e => e.Id == id);
             }
         }
+
+        public async Task DeleteDictianaryTypeAsync(DictionaryType entity)
+        {
+            using (var db = NewDbContext())
+            {
+                db.DictionaryTypes.Remove(entity);
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }
