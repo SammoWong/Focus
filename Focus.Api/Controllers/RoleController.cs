@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Focus.Domain.Entities;
+using Focus.Domain.Enums;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
 using Focus.Model.Role;
@@ -26,7 +29,7 @@ namespace Focus.Api.Controllers
         {
             var service = Ioc.Get<IRoleService>();
             if (await service.IsRoleExistAsync(model.Name))
-                return Ok(new StandardResult().Fail(StandardCode.LogicError, "角色名已存在"));
+                return new JsonResult(new StandardResult().Fail(StandardCode.LogicError, "角色名已存在"));
 
             var role = new Role
             {
@@ -39,7 +42,28 @@ namespace Focus.Api.Controllers
                 CreatedTime = DateTime.Now,
                 CompanyId = CurrentCompanyId
             };
-            await service.AddAsync(role);
+            List<Permission> permissions = new List<Permission>();
+            if (model.PermissionAccessIds != null)
+            {
+                var modules = await Ioc.Get<IModuleService>().GetAllAsync();
+                var buttons = await Ioc.Get<IButtonService>().GetAllAsync();
+                foreach (var accessId in model.PermissionAccessIds)
+                {
+                    Permission permission = new Permission
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        MasterType = (short)PermissionMasterType.Role,
+                        MasterId = role.Id,
+                        AccessType = modules.Any(m => m.Id == accessId) ? (short)PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? (short)PermissionAccessType.Button : (short)0,
+                        AccessId = accessId,
+                        Enabled = true,
+                        CreatedBy = CurrentUserId,
+                        CreatedTime = DateTime.Now,
+                    };
+                    permissions.Add(permission);
+                }
+            }
+            await service.AddAsync(role, permissions);
             return Ok(new StandardResult().Succeed("添加成功"));
         }
 
@@ -49,7 +73,7 @@ namespace Focus.Api.Controllers
         {
             var service = Ioc.Get<IRoleService>();
             var role = await service.GetByIdAsync(model.Id);
-            if(role == null)
+            if (role == null)
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "角色不存在"));
 
             role.Name = model.Name;
@@ -71,7 +95,7 @@ namespace Focus.Api.Controllers
             if (role == null)
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "角色不存在"));
 
-            if(await service.HasUserContained(role))
+            if (await service.HasUserContained(role))
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, "删除失败：该角色下包含用户"));
 
             await service.DeleteAsync(role);

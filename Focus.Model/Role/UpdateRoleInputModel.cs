@@ -18,5 +18,7 @@ namespace Focus.Model.Role
         public string Description { get; set; }
 
         public bool Enabled { get; set; }
+
+        public IEnumerable<string> PermissionAccessIds { get; set; }
     }
 }

@@ -67,5 +67,19 @@ namespace Focus.Service
                 return await db.Roles.Where(e=>e.Id == role.Id).AnyAsync(e => e.Users.Count > 0);
             }
         }
+
+        public async Task AddAsync(Role role, IEnumerable<Permission> permissions)
+        {
+            using(var db = NewDbContext())
+            {
+                using(var tran = await db.Database.BeginTransactionAsync())
+                {
+                    await db.Roles.AddAsync(role);
+                    await db.Permissions.AddRangeAsync(permissions);
+                    await db.SaveChangesAsync();
+                    tran.Commit();
+                }
+            }
+        }
     }
 }

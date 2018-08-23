@@ -21,5 +21,7 @@ namespace Focus.Service.Interfaces
         Task DeleteAsync(Role role);
 
         Task<bool> HasUserContained(Role role);
+
+        Task AddAsync(Role role, IEnumerable<Permission> permissions);
     }
 }
