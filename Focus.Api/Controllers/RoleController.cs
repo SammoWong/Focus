@@ -33,7 +33,6 @@ namespace Focus.Api.Controllers
 
             var role = new Role
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = model.Name,
                 Code = model.Code,
                 Description = model.Description,
@@ -63,7 +62,7 @@ namespace Focus.Api.Controllers
                     permissions.Add(permission);
                 }
             }
-            await service.AddAsync(role, permissions);
+            await service.SaveAsync(role, permissions);
             return Ok(new StandardResult().Succeed("添加成功"));
         }
 
@@ -82,7 +81,30 @@ namespace Focus.Api.Controllers
             role.Enabled = model.Enabled;
             role.ModifiedBy = CurrentUserId;
             role.ModifiedTime = DateTime.Now;
-            await service.UpdateAsync(role);
+            role.CompanyId = CurrentCompanyId;
+
+            List<Permission> permissions = new List<Permission>();
+            if (model.PermissionAccessIds != null)
+            {
+                var modules = await Ioc.Get<IModuleService>().GetAllAsync();
+                var buttons = await Ioc.Get<IButtonService>().GetAllAsync();
+                foreach (var accessId in model.PermissionAccessIds)
+                {
+                    Permission permission = new Permission
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        MasterType = (short)PermissionMasterType.Role,
+                        MasterId = role.Id,
+                        AccessType = modules.Any(m => m.Id == accessId) ? (short)PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? (short)PermissionAccessType.Button : (short)0,
+                        AccessId = accessId,
+                        Enabled = true,
+                        CreatedBy = CurrentUserId,
+                        CreatedTime = DateTime.Now,
+                    };
+                    permissions.Add(permission);
+                }
+            }
+            await service.SaveAsync(role, permissions);
             return Ok(new StandardResult().Succeed("修改成功"));
         }
 

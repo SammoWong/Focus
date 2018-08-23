@@ -1,6 +1,7 @@
 ﻿using Focus.Domain.Entities;
 using Focus.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,13 +69,24 @@ namespace Focus.Service
             }
         }
 
-        public async Task AddAsync(Role role, IEnumerable<Permission> permissions)
+        public async Task SaveAsync(Role role, IEnumerable<Permission> permissions)
         {
             using(var db = NewDbContext())
             {
                 using(var tran = await db.Database.BeginTransactionAsync())
                 {
-                    await db.Roles.AddAsync(role);
+                    var roleId = Guid.NewGuid().ToString();
+                    if (string.IsNullOrEmpty(role.Id))
+                    {
+                        role.Id = roleId;
+                        await db.Roles.AddAsync(role);
+                    }
+                    else
+                    {
+                        db.Roles.Update(role);
+                    }
+                    permissions.ToList().ForEach(p => p.MasterId = role.Id);
+                    db.Permissions.RemoveRange(db.Permissions.Where(p => p.MasterId == role.Id));
                     await db.Permissions.AddRangeAsync(permissions);
                     await db.SaveChangesAsync();
                     tran.Commit();

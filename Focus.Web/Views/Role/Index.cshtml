@@ -45,8 +45,7 @@
         </div>
     </div>
 </div>
-@await Html.PartialAsync("_AddRole")
-@await Html.PartialAsync("_UpdateRole")
+@await Html.PartialAsync("_Wizard")
 
 @section scripts{
 <script>
@@ -97,37 +96,51 @@
                         });
                     },
                     initSteps: function () {
-                        $("#addRoleForm").steps({
+                        $("#wizardForm").steps({
                             bodyTag: "fieldset",
                             transitionEffect: "slideLeft",
                             onStepChanging: function (event, currentIndex, newIndex) {
                                 if (currentIndex > newIndex) {
                                     return true;
                                 }
-                                return $('#addRoleForm').formValid();
+                                return $('#wizardForm').formValid();
                             },
                             onCanceled: function (event) {
-                                $('#addRoleModal').modal('hide');
+                                $('#wizardModal').modal('hide');
                             },
                             onFinishing: function (event, currentIndex) {// 点击完成时事件
                                 var ref = $("#jstree").jstree(true);
                                 var sel = ref.get_selected();
-                                var data = $('#addRoleForm').formSerialize();
+                                var data = $('#wizardForm').formSerialize();
                                 data['permissionAccessIds'] = sel;
-                                _.post(apiUrl + '/api/Role/Add', data, function (data) {
-                                    if (data.code == 0) {
-                                        viewModel.methods.bindRoles();
-                                        toastr.success(data.message);
-                                        $('#addRoleModal').modal('hide');
-                                        return true;
-                                    } else {
-                                        toastr.error(data.message);
-                                        return false;
-                                    }
-                                });
+                                if (_.isEmpty(data.id)) {
+                                    _.post(apiUrl + '/api/Role/Add', data, function (data) {
+                                        if (data.code == 0) {
+                                            viewModel.methods.bindRoles();
+                                            toastr.success(data.message);
+                                            $('#wizardModal').modal('hide');
+                                            return true;
+                                        } else {
+                                            toastr.error(data.message);
+                                            return false;
+                                        }
+                                    });
+                                } else {
+                                    _.post(apiUrl + '/api/Role/Update', data, function (data) {
+                                        if (data.code == 0) {
+                                            viewModel.methods.bindRoles();
+                                            toastr.success(data.message);
+                                            $('#wizardModal').modal('hide');
+                                            return true;
+                                        } else {
+                                            toastr.error(data.message);
+                                            return false;
+                                        }
+                                    });
+                                }
                             },
                             onFinished: function(event, currentIndex) {//完成后事件
-                                $('#addRoleModal').modal('hide');
+                                $('#wizardModal').modal('hide');
                             }
                         });
                     },
@@ -147,8 +160,8 @@
                 bindEvents: function () {
                     var methods = this.methods;
                     $('#btnAdd').click(function () {
-                        $('#addRoleModal').modal('show');
-                        $('#addRoleForm')[0].reset();
+                        $('#wizardModal').modal('show');
+                        $('#wizardForm')[0].reset();
                     });
 
                     $('#btnUpdate').click(function () {
@@ -157,23 +170,8 @@
                             toastr.error('请选择要编辑的角色');
                             return false;
                         }
-                        $("#updateRoleForm").formSerialize(selections[0]);
-                        $('#updateRoleModal').modal('show');
-                    });
-
-                    $('#btnSaveUpdateRoleForm').click(function () {
-                        if (!$('#updateRoleForm').formValid()) {
-                            return false;
-                        }
-                        var data = $('#updateRoleForm').formSerialize();
-                        _.post(apiUrl + '/api/Role/Update', data, function (data) {
-                            if (data.code == 0) {
-                                methods.bindRoles();
-                                toastr.success(data.message);
-                            } else {
-                                toastr.error(data.message);
-                            }
-                        });
+                        $("#wizardForm").formSerialize(selections[0]);
+                        $('#wizardModal').modal('show');
                     });
 
                     $('#btnDelete').click(function () {
