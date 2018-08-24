@@ -245,7 +245,7 @@
                     var methods = this.methods;
                     methods.bindModules();
                     methods.bindDropdown();
-                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/AuthorizedButtons';
                     bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {

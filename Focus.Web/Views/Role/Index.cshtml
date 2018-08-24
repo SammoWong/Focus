@@ -153,7 +153,7 @@
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindRoles();
                     methods.initSteps();
-                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/AuthorizedButtons';
                     bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {

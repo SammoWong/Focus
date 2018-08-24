@@ -17,5 +17,7 @@ namespace Focus.Api.Controllers
         protected string CurrentUserName => IsAuthenticated ? User.Claims.First(u => u.Type == "account").Value : null;
 
         protected string CurrentCompanyId => IsAuthenticated ? User.Claims.First(u => u.Type == "companyId").Value : null;
+
+        protected string CurrentRoleId => IsAuthenticated ? User.Claims.First(u => u.Type == "roleId").Value : null;
     }
 }

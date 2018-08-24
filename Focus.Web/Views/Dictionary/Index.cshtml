@@ -185,7 +185,7 @@
                     var methods = this.methods;
                     methods.loadDictionaryTypes();
                     $('#bootstrapTable').bootstrapTable();
-                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/AuthorizedButtons';
                     bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {

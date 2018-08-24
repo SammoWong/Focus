@@ -125,7 +125,7 @@
                     var methods = this.methods;
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindCompanies();
-                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
+                    var url = apiUrl + '/api/Module/' + request('moduleId') + '/AuthorizedButtons';
                     bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
