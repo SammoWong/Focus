@@ -107,6 +107,7 @@
                             },
                             onCanceled: function (event) {
                                 $('#wizardModal').modal('hide');
+                                $("#wizardForm").steps("previous");
                             },
                             onFinishing: function (event, currentIndex) {// 点击完成时事件
                                 var ref = $("#jstree").jstree(true);
@@ -119,6 +120,7 @@
                                             viewModel.methods.bindRoles();
                                             toastr.success(data.message);
                                             $('#wizardModal').modal('hide');
+                                            $("#wizardForm").steps("previous");
                                             return true;
                                         } else {
                                             toastr.error(data.message);
@@ -131,6 +133,7 @@
                                             viewModel.methods.bindRoles();
                                             toastr.success(data.message);
                                             $('#wizardModal').modal('hide');
+                                            $("#wizardForm").steps("previous");
                                             return true;
                                         } else {
                                             toastr.error(data.message);
@@ -138,14 +141,11 @@
                                         }
                                     });
                                 }
-                            },
-                            onFinished: function(event, currentIndex) {//完成后事件
-                                $('#wizardModal').modal('hide');
                             }
                         });
                     },
-                    bindModules: function () {
-                        bindJsTree('jstree', apiUrl + '/api/Permission/All', true);
+                    bindPermissions: function (roleId) {
+                        bindJsTree('jstree', apiUrl + '/api/Master/' + roleId + '/Permission', true);
                     },
                 },
                 initPage: function () {
@@ -153,13 +153,13 @@
                     $('#bootstrapTable').bootstrapTable();
                     methods.bindRoles();
                     methods.initSteps();
-                    methods.bindModules();
                     var url = apiUrl + '/api/Module/' + request('moduleId') + '/PermissionButtons';
                     bindAuthorizedButtons(url);
                 },
                 bindEvents: function () {
                     var methods = this.methods;
                     $('#btnAdd').click(function () {
+                        methods.bindPermissions();
                         $('#wizardModal').modal('show');
                         $('#wizardForm')[0].reset();
                     });
@@ -170,6 +170,7 @@
                             toastr.error('请选择要编辑的角色');
                             return false;
                         }
+                        methods.bindPermissions(selections[0].id);
                         $("#wizardForm").formSerialize(selections[0]);
                         $('#wizardModal').modal('show');
                     });

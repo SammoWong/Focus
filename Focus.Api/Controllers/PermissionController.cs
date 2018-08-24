@@ -15,14 +15,15 @@ namespace Focus.Api.Controllers
     public class PermissionController : FocusApiControllerBase
     {
         [HttpGet]
-        [Route("api/Permission/All")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllAsync(string roleId)
+        [Route("api/Master/{masterId}/Permission")]
+        public async Task<IActionResult> GetAsync(string masterId)
         {
             var moduleService = Ioc.Get<IModuleService>();
             var buttonService = Ioc.Get<IButtonService>();
+            var permissionService = Ioc.Get<IPermissionService>();
             var moduleResult = await moduleService.GetAllAsync();
             var buttonResult = await buttonService.GetAllAsync();
+            var permissions = await permissionService.GetAsync(masterId);
             var treeResult = new List<TreeJsonModel>();
             foreach (var item in moduleResult)
             {
@@ -31,7 +32,8 @@ namespace Focus.Api.Controllers
                     Id = item.Id,
                     ParentId = item.ParentId,
                     Text = item.Name,
-                    Icon = item.Icon
+                    Icon = item.Icon,
+                    State = new State { Selected = permissions.Any(p => p.AccessId == item.Id) }
                 };
                 treeResult.Add(model);
             }
@@ -42,7 +44,8 @@ namespace Focus.Api.Controllers
                     Id = item.Id,
                     ParentId = item.ModuleId,
                     Text = item.Name,
-                    Icon = item.Icon
+                    Icon = item.Icon,
+                    State = new State { Selected = permissions.Any(p => p.AccessId == item.Id) }
                 };
                 treeResult.Add(model);
             }

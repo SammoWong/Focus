@@ -17,7 +17,7 @@ namespace Focus.Model
         public State State { get; set; }
 
         public List<TreeJsonModel> Children = new List<TreeJsonModel>();
-        
+
         public string ParentId { get; set; }
 
     }
@@ -36,7 +36,7 @@ namespace Focus.Model
         public static List<TreeJsonModel> ToTreeModel(this List<TreeJsonModel> data, string parentId = "")
         {
             List<TreeJsonModel> result = data.FindAll(t => t.ParentId == parentId);
-            if(result.Count > 0)
+            if (result.Count > 0)
             {
                 foreach (var item in result)
                 {
