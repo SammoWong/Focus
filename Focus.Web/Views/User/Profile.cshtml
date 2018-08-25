@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">创建于：<i class="fa fa-clock-o" id="createdTime"></i></span>
+                    <h2>个人资料</h2>
+                    <div class="clients-list">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> 基本信息</a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#tab-2"><i class="fa fa-power-off"></i> 拥有权限</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <div class="table-responsive">
+                                        <div class="ibox-content text-center">
+                                            <h1 id="realName"></h1>
+                                            <div class="m-b-sm">
+                                                <img alt="image" class="img-circle" src="~/images/profile_small.jpg">
+                                            </div>
+                                            <p class="font-bold" id="role"></p>
+                                            
+                                            <ul class="list-unstyled m-t-md">
+                                                <li>
+                                                    <span class="fa fa-info m-r-xs"></span>
+                                                    <label>身份证：</label><span id="idCard"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="fa fa-envelope m-r-xs"></span>
+                                                    <label>邮箱:</label>
+                                                    <span id="email"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="fa fa-phone m-r-xs"></span>
+                                                    <label>手机:</label>
+                                                    <span id="mobile"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="fa fa-birthday-cake m-r-xs"></span>
+                                                    <label>生日:</label>
+                                                    <span id="birthday"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="fa fa-male m-r-xs"></span>
+                                                    <label>性别:</label>
+                                                    <span id="gender"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane text-center">
+                                <div class="full-height-scroll">
+                                    <div class="table-responsive">
+                                        <fieldset style="overflow-y: auto;">
+                                            <div id="jstree"></div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                    bindPermissions: function (roleId) {
+                        bindJsTree('jstree', apiUrl + '/api/Master/' + roleId + '/Permission', false);
+                    },
+                    bindProfile: function () {
+                        _.get(apiUrl + '/api/User/Detail', function (data) {
+                            $('#createdTime').html(data.data.createdTime);
+                            $('#realName').html(data.data.realName);
+                            $('#role').html(data.data.role);
+                            $('#email').html(data.data.email);
+                            $('#idCard').html(data.data.idCard);
+                            $('#mobile').html(data.data.mobile);
+                            $('#birthday').html(data.data.birthday);
+                            $('#gender').html(data.data.gender == 1 ? '男' : data.data.gender == 2 ? '女' : '未知');
+                        });
+                    }
+                },
+                initPage: function () {
+                    var methods = this.methods;
+                    methods.bindPermissions();
+                    methods.bindProfile();
+                },
+                bindEvents: function () {
+                    
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}

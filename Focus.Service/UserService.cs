@@ -53,7 +53,7 @@ namespace Focus.Service
         {
             using (var db = NewDbContext())
             {
-                var user = await db.Users.Include(u => u.Role).Where(u => u.Id == id).FirstOrDefaultAsync();
+                var user = await db.Users.Include(u => u.Role).SingleOrDefaultAsync(u => u.Id == id);
                 return user;
             }
         }
