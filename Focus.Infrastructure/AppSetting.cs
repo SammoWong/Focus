@@ -9,6 +9,8 @@
         public const string SqlConnectionString = "Server = (localdb)\\MSSQLLocalDB; Database = FocusDb; Trusted_Connection = True";
         //public const string SqlConnectionString = "Server=.;Database=FocusDb;Trusted_Connection=True";
 
+        public const string FileRootPath = "D:\\Avatar";
+
         public const string DisplayName = "Focus管理系统";
         public const string ClientSecret = "Focus.Secret";
         public const string ApiName = "Focus.Api";

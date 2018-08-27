@@ -21,39 +21,68 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="full-height-scroll">
                                     <div class="table-responsive">
-                                        <div class="ibox-content text-center">
-                                            <h1 id="realName"></h1>
-                                            <div class="m-b-sm">
-                                                <img alt="image" class="img-circle" src="~/images/profile_small.jpg">
+                                        <div class="ibox-content">
+                                            <div class="text-center">
+                                                <img alt="image" id="avatar" class="img-circle" src="~/images/profile_small.jpg">
                                             </div>
-                                            <p class="font-bold" id="role"></p>
-                                            
-                                            <ul class="list-unstyled m-t-md">
-                                                <li>
-                                                    <span class="fa fa-info m-r-xs"></span>
-                                                    <label>身份证：</label><span id="idCard"></span>
-                                                </li>
-                                                <li>
-                                                    <span class="fa fa-envelope m-r-xs"></span>
-                                                    <label>邮箱:</label>
-                                                    <span id="email"></span>
-                                                </li>
-                                                <li>
-                                                    <span class="fa fa-phone m-r-xs"></span>
-                                                    <label>手机:</label>
-                                                    <span id="mobile"></span>
-                                                </li>
-                                                <li>
-                                                    <span class="fa fa-birthday-cake m-r-xs"></span>
-                                                    <label>生日:</label>
-                                                    <span id="birthday"></span>
-                                                </li>
-                                                <li>
-                                                    <span class="fa fa-male m-r-xs"></span>
-                                                    <label>性别:</label>
-                                                    <span id="gender"></span>
-                                                </li>
-                                            </ul>
+                                            <div class="hr-line-dashed"></div>
+                                            <form class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">账号</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="account" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">姓名</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="realName" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">角色</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="role" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">身份证</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="idCard" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">邮箱</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="email" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">生日</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="birthday" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">手机</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="mobile" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">性别</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="gender" disabled="" placeholder="" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -88,14 +117,16 @@
                     },
                     bindProfile: function () {
                         _.get(apiUrl + '/api/User/Detail', function (data) {
-                            $('#createdTime').html(data.data.createdTime);
-                            $('#realName').html(data.data.realName);
-                            $('#role').html(data.data.role);
-                            $('#email').html(data.data.email);
-                            $('#idCard').html(data.data.idCard);
-                            $('#mobile').html(data.data.mobile);
-                            $('#birthday').html(data.data.birthday);
-                            $('#gender').html(data.data.gender == 1 ? '男' : data.data.gender == 2 ? '女' : '未知');
+                            $('#avatar').attr("src", 'http://localhost:5002/api/User/962fa3fe-d29a-4bc6-b137-62aa90d713e2/Avatar');
+                            $('#createdTime').val(data.data.createdTime);
+                            $('#account').val(data.data.account);
+                            $('#realName').val(data.data.realName);
+                            $('#role').val(data.data.role.name);
+                            $('#email').val(data.data.email);
+                            $('#idCard').val(data.data.idCard);
+                            $('#mobile').val(data.data.mobile);
+                            $('#birthday').val(data.data.birthday);
+                            $('#gender').val(data.data.gender == 1 ? '男' : data.data.gender == 2 ? '女' : '未知');
                         });
                     }
                 },

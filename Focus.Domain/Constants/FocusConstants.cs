@@ -34,5 +34,10 @@
                 public const int LongTextContentLength = 20000;
             }
         }
+
+        public class Misc
+        {
+            public const int MaxUploadFileSize = 1024 * 1024 * 4; //4MB
+        }
     }
 }
