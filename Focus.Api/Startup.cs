@@ -51,6 +51,7 @@ namespace Focus.Api
                     {
                         //设置时间格式
                         options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;//处理循环引用问题
                     });
 
             //添加跨域支持

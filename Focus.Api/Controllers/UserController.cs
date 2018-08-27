@@ -91,33 +91,17 @@ namespace Focus.Api.Controllers
             return Ok(new StandardResult().Succeed("删除成功"));
         }
 
-        //TODO:不能直接返回带有include导航属性的实体
         [HttpGet]
         [Route("api/User/Detail")]
-        public async Task<IActionResult> GetByIdAsync()
+        public async Task<IActionResult> GetByIdAsync(string id)
         {
+            id = string.IsNullOrEmpty(id) ? CurrentUserId : id;
             var service = Ioc.Get<IUserService>();
-            var user = await service.GetUserById(CurrentUserId);
+            var user = await service.GetUserById(id);
             if(user == null)
-                return Ok(new StandardResult().Fail(StandardCode.LogicError, "用户不存在"));
+                return new JsonResult(new StandardResult().Fail(StandardCode.LogicError, "用户不存在"));
 
-            var result = new
-            {
-                user.Id,
-                user.RealName,
-                user.Account,
-                user.IdCard,
-                user.Gender,
-                user.Email,
-                user.Mobile,
-                user.Avatar,
-                user.Birthday,
-                user.CreatedTime,
-                user.ModifiedTime,
-                user.Organization,
-                role = user.Role.Name
-            };
-            return Ok(new StandardResult().Succeed(null, result));
+            return Ok(new StandardResult().Succeed(null, user));
         }
     }
 }
