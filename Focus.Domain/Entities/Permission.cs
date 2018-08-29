@@ -1,15 +1,16 @@
 ﻿using Focus.Domain.Entities.Interfaces;
+using Focus.Domain.Enums;
 using System;
 
 namespace Focus.Domain.Entities
 {
     public class Permission : EntityBase, ICreatable, IDeletable, IModifiable
     {
-        public short MasterType { get; set; }
+        public PermissionMasterType MasterType { get; set; }
 
         public string MasterId { get; set; }
 
-        public short AccessType { get; set; }
+        public PermissionAccessType AccessType { get; set; }
 
         public string AccessId { get; set; }
 

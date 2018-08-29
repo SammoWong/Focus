@@ -51,9 +51,9 @@ namespace Focus.Api.Controllers
                     Permission permission = new Permission
                     {
                         Id = Guid.NewGuid().ToString(),
-                        MasterType = (short)PermissionMasterType.Role,
+                        MasterType = PermissionMasterType.Role,
                         MasterId = role.Id,
-                        AccessType = modules.Any(m => m.Id == accessId) ? (short)PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? (short)PermissionAccessType.Button : (short)0,
+                        AccessType = modules.Any(m => m.Id == accessId) ? PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? PermissionAccessType.Button : 0,
                         AccessId = accessId,
                         Enabled = true,
                         CreatedBy = CurrentUserId,
@@ -93,9 +93,9 @@ namespace Focus.Api.Controllers
                     Permission permission = new Permission
                     {
                         Id = Guid.NewGuid().ToString(),
-                        MasterType = (short)PermissionMasterType.Role,
+                        MasterType = PermissionMasterType.Role,
                         MasterId = role.Id,
-                        AccessType = modules.Any(m => m.Id == accessId) ? (short)PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? (short)PermissionAccessType.Button : (short)0,
+                        AccessType = modules.Any(m => m.Id == accessId) ? PermissionAccessType.Module : buttons.Any(b => b.Id == accessId) ? PermissionAccessType.Button : 0,
                         AccessId = accessId,
                         Enabled = true,
                         CreatedBy = CurrentUserId,

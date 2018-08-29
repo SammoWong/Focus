@@ -117,7 +117,7 @@
                     },
                     bindProfile: function () {
                         _.get(apiUrl + '/api/User/Detail', function (data) {
-                            $('#avatar').attr("src", 'http://localhost:5002/api/User/962fa3fe-d29a-4bc6-b137-62aa90d713e2/Avatar');
+                            $('#avatar').attr("src", apiUrl + data.data.avatar);
                             $('#createdTime').val(data.data.createdTime);
                             $('#account').val(data.data.account);
                             $('#realName').val(data.data.realName);
