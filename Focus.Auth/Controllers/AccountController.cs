@@ -5,6 +5,8 @@ using Focus.Auth.Models;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
 using Focus.Service.Interfaces;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -16,9 +18,11 @@ namespace Focus.Auth.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
-        public AccountController(IIdentityServerInteractionService interaction)
+        private readonly IEventService _events;
+        public AccountController(IIdentityServerInteractionService interaction, IEventService events)
         {
             _interaction = interaction;
+            _events = events;
         }
 
         public IActionResult Login(string returnUrl = null)
@@ -60,14 +64,18 @@ namespace Focus.Auth.Controllers
             }
             return Json(new StandardResult().Fail(StandardCode.ArgumentError, "参数有误"));
         }
-
-        [HttpPost]
-        [Route("api/[controller]/Logout")]
-        public async Task<IActionResult> Logout()
+        
+        [HttpGet]
+        [Route("[controller]/Logout")]
+        public async Task<IActionResult> Logout(string logoutId)
         {
-            await HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme);
-            await HttpContext.SignOutAsync();
-            return NoContent();
+            var logout = await _interaction.GetLogoutContextAsync(logoutId);
+            if (User.Identity.IsAuthenticated)
+            {
+                await HttpContext.SignOutAsync();
+                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+            }
+            return Redirect(logout.PostLogoutRedirectUri);
         }
 
         [HttpGet]

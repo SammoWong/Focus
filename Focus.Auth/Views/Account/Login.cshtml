@@ -58,6 +58,21 @@
                     this.initEvents();
                 },
                 methods: {
+                    request: function (url,name) {
+                        var search = url;
+                        var arr = search.split("&");
+                        for (var i = 0; i < arr.length; i++) {
+                            var ar = arr[i].split("=");
+                            if (ar[0].indexOf(name)>=0) {
+                                if (unescape(ar[1]) == 'undefined') {
+                                    return "";
+                                } else {
+                                    return unescape(ar[1]);
+                                }
+                            }
+                        }
+                        return "";
+                    },
                     showLoginMessage: function (message) {
                         $('.login_tips').find('.tips_msg').remove();
                         $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + message + '</div>');
@@ -89,7 +104,11 @@
                                     $("#login").removeAttr('disabled').find('span').html("登录");
                                 } else {
                                     window.setTimeout(function () {
-                                        window.location.href = '@Focus.Infrastructure.AppSetting.WebUrl';
+                                        var redirectUri = viewModel.methods.request(decodeURIComponent(data.data), "redirect_uri");//'@Focus.Infrastructure.AppSetting.WebUrl';
+                                        var link = window.document.createElement('a');
+                                        link.href = redirectUri;
+                                        window.location.href = link.protocol + '//' + link.host;
+                                        //window.location.href = viewModel.methods.request(decodeURIComponent(data.data), "redirect_uri");//'@Focus.Infrastructure.AppSetting.WebUrl';
                                     }, 500);
                                 }
                             }
