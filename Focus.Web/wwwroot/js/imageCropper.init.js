@@ -50,17 +50,3 @@ $(".cropper-scaleX-btn").on("click", function () {
     }
     flagX != flagX;
 });
-
-//裁剪后的处理
-$("#sureCut").on("click", function () {
-    if ($("#tailoringImg").attr("src") == null) {
-        return false;
-    } else {
-        var cas = $('#tailoringImg').cropper('getCroppedCanvas');//获取被裁剪后的canvas
-        var base64url = cas.toDataURL('image/png'); //转换为base64地址形式
-        $("#avatar").prop("src", base64url);//显示为图片的形式
-
-        //关闭裁剪框
-        $('#cropperModal').modal('hide');
-    }
-});

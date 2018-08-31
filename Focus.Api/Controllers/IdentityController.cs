@@ -32,6 +32,10 @@ namespace Focus.Api.Controllers
                 {
                     user.Role = item.Value;
                 }
+                if(item.Type == nameof(user.Avatar).ToLower())
+                {
+                    user.Avatar = item.Value;
+                }
             }
             return Ok(new StandardResult().Succeed(null, user));
         }
@@ -42,5 +46,7 @@ namespace Focus.Api.Controllers
         public string Account { get; set; }
 
         public string Role { get; set; }
+
+        public string Avatar { get; set; }
     }
 }

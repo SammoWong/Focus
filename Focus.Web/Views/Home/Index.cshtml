@@ -39,6 +39,7 @@
                         _.get(apiUrl + '/api/Identity', function (data) {
                             $('#account').html(data.data.account);
                             $('#role').html(data.data.role);
+                            $('#avatar').attr("src", apiUrl + data.data.avatar);
                         });
                     }
                 },

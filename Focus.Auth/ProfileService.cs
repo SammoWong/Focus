@@ -31,6 +31,7 @@ namespace Focus.Auth
                 new Claim(JwtClaimTypes.Role, user.Role.Name),
                 new Claim("companyId", user.CompanyId),
                 new Claim("roleId", user.RoleId),
+                new Claim("avatar", user.Avatar)
             };
             context.IssuedClaims.AddRange(claims);
             return Task.FromResult(0);

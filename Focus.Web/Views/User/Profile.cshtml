@@ -140,14 +140,31 @@
                 bindEvents: function () {
                     $('#avatar').click(function () {
                         $('#cropperModal').modal('show');
-                        //var formData = new FormData($('#fileDialog')[0]);
-                        //formData.append("userId", "");
-                        //_.post(apiUrl + '/api/Avatar/Upload', formData, function (data) {
-                        //    alert(data.message);
-                        //});
                     });
-                    $('#chooseImg').change(function () {
-                        alert(123);
+
+                    //裁剪后的处理
+                    $('#sureCut').click(function () {
+                        if ($("#tailoringImg").attr("src") == null) {
+                            return false;
+                        } else {
+                            var cas = $('#tailoringImg').cropper('getCroppedCanvas');//获取被裁剪后的canvas
+                            var base64url = cas.toDataURL('image/png'); //转换为base64地址形式
+                            $("#avatar").prop("src", base64url);//显示为图片的形式
+
+                            //关闭裁剪框
+                            $('#cropperModal').modal('hide');
+
+                            var data = {};
+                            data.image = base64url;
+                            _.post(apiUrl + '/api/Avatar/UploadImage', function (data) {
+                                if (data.code == 0) {
+                                    toastr.success(data.message);
+                                } else {
+                                    console.log(data.message);
+                                }
+                            }, { contentType: 'application/json; charset=utf-8', data: JSON.stringify(data), dataType: 'json' }
+                            );
+                        }
                     });
                 }
             }
