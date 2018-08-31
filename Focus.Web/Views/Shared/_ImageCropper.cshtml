@@ -1,0 +1,70 @@
+﻿<!--图片裁剪框 start-->
+@*<div style="display: none" class="tailoring-container">
+    <div class="black-cloth" onclick="closeTailor(this)"></div>
+    <div class="tailoring-content">
+        <div class="tailoring-content-one">
+            <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg" class="hidden" onchange="selectImg(this)">
+                选择图片
+            </label>
+            <div class="close-tailoring" onclick="closeTailor(this)">×</div>
+        </div>
+        <div class="tailoring-content-two">
+            <div class="tailoring-box-parcel">
+                <img id="tailoringImg">
+            </div>
+            <div class="preview-box-parcel">
+                <p>图片预览：</p>
+                <div class="square previewImg"></div>
+                <div class="circular previewImg"></div>
+            </div>
+        </div>
+        <div class="tailoring-content-three">
+            <button class="l-btn cropper-reset-btn">复位</button>
+            <button class="l-btn cropper-rotate-btn">旋转</button>
+            <button class="l-btn cropper-scaleX-btn">换向</button>
+            <button class="l-btn sureCut" id="sureCut">确定</button>
+        </div>
+    </div>
+</div>*@
+<!--图片裁剪框 end-->
+
+<div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="tailoring-content">
+                            <div class="tailoring-content-one">
+                                <label title="上传图片" for="chooseImg" class="btn btn-primary choose-btn">
+                                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg" class="hidden" onchange="selectImg(this)">
+                                    选择图片
+                                </label>
+                            </div>
+                            <div class="tailoring-content-two">
+                                <div class="tailoring-box-parcel">
+                                    <img id="tailoringImg">
+                                </div>
+                                <div class="preview-box-parcel">
+                                    <p>图片预览：</p>
+                                    <div class="square previewImg"></div>
+                                    <div class="circular previewImg"></div>
+                                </div>
+                            </div>
+                            <div class="tailoring-content-three">
+                                <button class="btn btn-white cropper-reset-btn">复位</button>
+                                <button class="btn btn-white cropper-rotate-btn">旋转</button>
+                                <button class="btn btn-white cropper-scaleX-btn">换向</button>
+                                <button class="btn btn-primary sureCut" id="sureCut">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

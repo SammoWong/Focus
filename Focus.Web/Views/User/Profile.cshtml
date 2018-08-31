@@ -23,7 +23,7 @@
                                     <div class="table-responsive">
                                         <div class="ibox-content">
                                             <div class="text-center">
-                                                <img alt="image" id="avatar" class="img-circle" src="~/images/profile_small.jpg">
+                                                <img alt="image" id="avatar" class="img-circle m-t-xs" src="~/images/profile.jpg" onerror="this.src='/images/profile.jpg'" />
                                             </div>
                                             <div class="hr-line-dashed"></div>
                                             <form class="form-horizontal">
@@ -103,6 +103,8 @@
         </div>
     </div>
 </div>
+@await Html.PartialAsync("_ImageCropper")
+
 @section scripts{
     <script>
         var viewModel = function () {
@@ -136,12 +138,22 @@
                     methods.bindProfile();
                 },
                 bindEvents: function () {
-                    
+                    $('#avatar').click(function () {
+                        $('#cropperModal').modal('show');
+                        //var formData = new FormData($('#fileDialog')[0]);
+                        //formData.append("userId", "");
+                        //_.post(apiUrl + '/api/Avatar/Upload', formData, function (data) {
+                        //    alert(data.message);
+                        //});
+                    });
+                    $('#chooseImg').change(function () {
+                        alert(123);
+                    });
                 }
             }
         }();
         window.onload = function () {
             viewModel.init();
-        }
+        };
     </script>
 }
