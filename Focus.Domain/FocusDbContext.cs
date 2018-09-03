@@ -42,6 +42,8 @@ namespace Focus.Domain
 
         public DbSet<File> Files { get; set; }
 
+        public DbSet<Article> Articles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //var typesToRegister = System.Reflection.Assembly.GetExecutingAssembly()
@@ -65,6 +67,7 @@ namespace Focus.Domain
             modelBuilder.ApplyConfiguration(new DictionaryTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DictionaryDetailConfiguration());
             modelBuilder.ApplyConfiguration(new FileConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticleConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

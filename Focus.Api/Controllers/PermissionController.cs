@@ -26,7 +26,7 @@ namespace Focus.Api.Controllers
             var treeResult = new List<TreeJsonModel>();
             foreach (var item in moduleResult)
             {
-                if(permissions.Any(p=>p.AccessId == item.Id))
+                if(CurrentRoleId == "d3390e64-0ea4-47dc-9159-07c16ca905aa" || permissions.Any(p=>p.AccessId == item.Id))//超级管理员角色拥有所有权限
                 {
                     var model = new TreeJsonModel
                     {
@@ -51,7 +51,7 @@ namespace Focus.Api.Controllers
             var permissionService = Ioc.Get<IPermissionService>();
             var buttonResult = await buttonService.GetButtonsByModuleIdAsync(moduleId);
             var permissions = await permissionService.GetAsync(CurrentRoleId);
-            var result = buttonResult.Where(b => permissions.Any(p => p.AccessId == b.Id));
+            var result = buttonResult.Where(b => permissions.Any(p => CurrentRoleId == "d3390e64-0ea4-47dc-9159-07c16ca905aa" || p.AccessId == b.Id));//超级管理员角色拥有所有权限
             return Ok(new StandardResult().Succeed(null, result));
         }
 
@@ -75,7 +75,7 @@ namespace Focus.Api.Controllers
                     Text = item.Name,
                     Icon = item.Icon,
                     Url = item.Url,
-                    State = new State { Selected = permissions.Any(p => p.AccessId == item.Id) }
+                    State = new State { Selected = permissions.Any(p => CurrentRoleId == "d3390e64-0ea4-47dc-9159-07c16ca905aa" || p.AccessId == item.Id) }//超级管理员角色拥有所有权限
                 };
                 treeResult.Add(model);
             }
@@ -88,7 +88,7 @@ namespace Focus.Api.Controllers
                     Text = item.Name,
                     Icon = item.Icon,
                     Url = item.Url,
-                    State = new State { Selected = permissions.Any(p => p.AccessId == item.Id) }
+                    State = new State { Selected = permissions.Any(p => CurrentRoleId == "d3390e64-0ea4-47dc-9159-07c16ca905aa" || p.AccessId == item.Id) }//超级管理员角色拥有所有权限
                 };
                 treeResult.Add(model);
             }
