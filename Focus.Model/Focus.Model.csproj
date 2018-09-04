@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Focus.Domain\Focus.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Article\" />
+  </ItemGroup>
+
 </Project>

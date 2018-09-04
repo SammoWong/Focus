@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "内容管理";
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>操作</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content" id="buttonList">
+                    <button code="article-add" class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
+                    <button code="article-update" class="btn btn-info" type="button" id="btnUpdate"><i class="fa fa-edit"></i> 修改</button>
+                    <button code="article-delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-close"></i> 删除</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table id="bootstrapTable" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var viewModel = function () {
+            return {
+                init: function () {
+                    this.initPage();
+                    this.bindEvents();
+                },
+                methods: {
+                },
+                initPage: function () {
+                },
+                bindEvents: function () {
+                    $('#btnAdd').click(function () {
+                        window.location.href = '/Article/Form';
+                    });
+
+                    $('#btnUpdate').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要修改的文章');
+                            return false;
+                        }
+                    });
+                }
+            }
+        }();
+        window.onload = function () {
+            viewModel.init();
+        }
+    </script>
+}
