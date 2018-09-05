@@ -44,6 +44,7 @@
         </div>
     </div>
 </div>
+@await Html.PartialAsync("_Preview")
 @section scripts{
     <script>
         var viewModel = function () {
@@ -96,6 +97,8 @@
                     methods.bindArticles();
                 },
                 bindEvents: function () {
+                    var methods = this.methods;
+
                     $('#btnAdd').click(function () {
                         window.location.href = '/Article/Form';
                     });
@@ -106,6 +109,44 @@
                             toastr.error('请选择要修改的文章');
                             return false;
                         }
+                        window.location.href = '/Article/Form?id=' + selections[0].id;
+                    });
+
+                    $('#btnDelete').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要删除的文章');
+                            return false;
+                        }
+                        swal({
+                            title: "是否确定删除？",
+                            text: "删除后将无法恢复，请谨慎操作！",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "删除",
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false
+                        }, function () {
+                            _.post(apiUrl + '/api/Article/Delete', { id: selections[0].id }, function (data) {
+                                if (data.code == 0) {
+                                    methods.bindArticles();
+                                    swal("删除成功！", "您已经永久删除了这条信息", "success");
+                                } else {
+                                    toastr.error(data.message);
+                                }
+                            })
+                        });
+                    });
+
+                    $('#btnPreview').click(function () {
+                        var selections = $('#bootstrapTable').bootstrapTable('getSelections');
+                        if (selections.length <= 0) {
+                            toastr.error('请选择要预览的文章');
+                            return false;
+                        }
+                        $('#previewModal').modal('show');
+                        $('#content').html(selections[0].content);
                     });
                 }
             }

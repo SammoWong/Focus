@@ -14,6 +14,15 @@ namespace Focus.Api.Controllers
     public class ArticleController : FocusApiControllerBase
     {
         [HttpGet]
+        [Route("api/Article/{id}")]
+        public async Task<IActionResult> GetByIdAsync(string id)
+        {
+            var service = Ioc.Get<IArticleService>();
+            var article = await service.GetByIdAsync(id);
+            return Ok(new StandardResult().Succeed(null, article));
+        }
+
+        [HttpGet]
         [Route("api/Articles")]
         public async Task<IActionResult> GetAllAsync()
         {
