@@ -78,12 +78,15 @@
                         _.get(apiUrl + '/api/Article/' + id, function (data) {
                             $('#articleForm').formSerialize(data.data);
                             $('.summernote').code(data.data.content);
-                            //TODO:实际选中但是页面不显示
                             if (data.data.isTop) {
                                 $('#isTop').iCheck('check');
                             } else {
                                 $('#isTop').iCheck('uncheck');
                             }
+                            $('#isTop').iCheck({
+                                checkboxClass: 'icheckbox_square-green',
+                                radioClass: 'iradio_square-green',
+                            });
                         });
                     }
                 },
