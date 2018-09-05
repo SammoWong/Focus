@@ -55,7 +55,7 @@
                                 <input type="checkbox" class="i-checks" id="isTop">是否置顶
                             </label>
                             <a class="btn btn-danger btn-sm"><i class="fa fa-times"></i> 放弃</a>
-                            <a class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> 保存</a>
+                            <a class="btn btn-primary btn-sm" id="btnSubmit"><i class="fa fa-pencil"></i> 保存</a>
                         </div>
                         <div class="clearfix"></div>
                     </form>
@@ -74,15 +74,32 @@
                     this.bindEvents();
                 },
                 methods: {
+                    
                 },
                 initPage: function () {
                     var note = $(".summernote").summernote({
                         lang: "zh-CN"
                     });
-                    //alert(note.code());
                 },
                 bindEvents: function () {
-
+                    $('#btnSubmit').click(function () {
+                        _.post(apiUrl + '/api/Article/AddOrUpdate',
+                            {
+                                id: $('#id').val(),
+                                category: $('#category').val(),
+                                title: $('#title').val(),
+                                enabled: $('#enabled').val(),
+                                content: $(".summernote").summernote().code(),
+                                isTop: $('#isTop').is(':checked')
+                            }, function (data) {
+                                if (data.code == 0) {
+                                    toastr.success(data.message);
+                                    window.history.go(-1);
+                                } else {
+                                    toastr.error(data.message);
+                                }
+                            });
+                    });
                 }
             }
         }();

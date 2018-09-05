@@ -20,6 +20,7 @@
                     <button code="article-add" class="btn btn-primary" type="button" id="btnAdd"><i class="fa fa-plus"></i> 添加</button>
                     <button code="article-update" class="btn btn-info" type="button" id="btnUpdate"><i class="fa fa-edit"></i> 修改</button>
                     <button code="article-delete" class="btn btn-danger" type="button" id="btnDelete"><i class="fa fa-close"></i> 删除</button>
+                    <button code="article-preview" class="btn btn-white" type="button" id="btnPreview"><i class="fa fa-eye"></i> 预览</button>
                 </div>
             </div>
         </div>
@@ -52,8 +53,47 @@
                     this.bindEvents();
                 },
                 methods: {
+                    bindArticles: function () {
+                        $('#bootstrapTable').clientSidePagination({
+                            url: apiUrl + '/api/Articles',
+                            columns: [
+                                {
+                                    radio: true
+                                }, {
+                                    field: 'title',
+                                    title: '标题',
+                                    sortable: true,
+                                }, {
+                                    field: 'categoryText',
+                                    title: '类别',
+                                    sortable: true,
+                                }, {
+                                    field: 'createdTime',
+                                    title: '发布时间',
+                                    sortable: true,
+                                }, {
+                                    field: 'isTop',
+                                    title: '是否置顶',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-star text-navy\"></i>" : "";
+                                    }
+                                }, {
+                                    field: 'enabled',
+                                    title: '是否有效',
+                                    sortable: true,
+                                    formatter: function (value, row, index) {
+                                        return value ? "<i class=\"fa fa-check text-navy\">有效</i>" : "<i class=\"fa fa-close text-danger\">无效</i>";
+                                    }
+                                }
+                            ]
+                        });
+                    }
                 },
                 initPage: function () {
+                    var methods = this.methods;
+                    $('#bootstrapTable').bootstrapTable();
+                    methods.bindArticles();
                 },
                 bindEvents: function () {
                     $('#btnAdd').click(function () {
