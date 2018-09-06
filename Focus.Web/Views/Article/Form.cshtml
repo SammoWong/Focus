@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "内容编辑";
 }
-<div class="wrapper wrapper-content  animated fadeInRight">
+<div class="wrapper wrapper-content fadeInRight">
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox">
@@ -68,8 +68,7 @@
                 methods: {
                     initSummernote: function () {
                         $(".summernote").summernote({
-                            lang: "zh-CN",
-                            height: 300
+                            lang: "zh-CN"
                         });
                     },
                     getArticle: function (id) {
