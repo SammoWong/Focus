@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Focus.Domain.Constants;
+using Focus.Domain.Enums;
 using Focus.Infrastructure;
 using Focus.Infrastructure.Web.Common;
+using Focus.Infrastructure.Web.Extensions;
 using Focus.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,51 +21,52 @@ namespace Focus.Api.Controllers
     public class FileController : FocusApiControllerBase
     {
         [HttpPost]
-        [Route("api/Avatar/Upload")]
-        [Consumes("application/json", "multipart/form-data")]
-        public async Task<IActionResult> UploadAvatar(IFormCollection formfiles)
+        [Route("api/[controller]/Upload")]
+        //[Produces("application/json")]
+        //[Consumes("application/json", "multipart/form-data")]
+        public async Task<IActionResult> Upload()
         {
-            var files = formfiles.Files;
+            //var files = formfiles.Files;
+            var files = Request.Form.Files;
             if (files == null || files.Count <= 0)
-                return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "请选择上传头像"));
+                return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "文件不能为空"));
 
             if (files.Any(f => f.Length > FocusConstants.Misc.MaxUploadFileSize))
                 return Ok(new StandardResult().Fail(StandardCode.LogicError, string.Format("上传文件大小不能超过{0}MB", FocusConstants.Misc.MaxUploadFileSize / (1024 * 1024))));
 
-            if (!files.All(f => IsImage(f.FileName)))
+            var fileSource = Enum.Parse<FileSource>(Request.Form["fileSource"].ToString());
+            var service = Ioc.Get<IFileService>();
+            if ((fileSource == FileSource.Article || fileSource == FileSource.Avatar) && !files.All(f => service.IsImage(f.FileName)))
                 return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "请选择图片上传"));
 
-            var userService = Ioc.Get<IUserService>();
-            var avatarRootPath = AppSetting.FileRootPath;
-            var userId = formfiles["userId"][0];
-            var user = await userService.GetUserById(userId);
-            if (user == null)
-                return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "用户不存在"));
-
+            var fileRootPath = AppSetting.FileRootPath + fileSource.GetDescriptionByName();
             var fileId = Guid.NewGuid().ToString();
-            var fileName = GenerateFileName(user.Id, files[0].FileName);
-            var fileEntity = new Focus.Domain.Entities.File
+            var fileName = service.GenerateFileName(Path.GetExtension(files[0].FileName), fileId);
+            var fullPath = fileRootPath + "/" + fileName;
+            if (!Directory.Exists(fileRootPath))
+            {
+                Directory.CreateDirectory(fileRootPath);
+            }
+            var fileEntity = new Domain.Entities.File
             {
                 Id = fileId,
                 Name = fileName,
-                Path = avatarRootPath + fileName,
-                Type = Domain.Enums.FileType.Avatar,
+                Path = fullPath,
+                Type = fileSource,
                 CreatedBy = CurrentUserId,
                 CreatedTime = DateTime.Now
             };
-            user.Avatar = "/api/File/" + fileId;
             using (var stream = new FileStream(fileEntity.Path, FileMode.Create))
             {
                 await files[0].CopyToAsync(stream);
             }
-            var fileService = Ioc.Get<IFileService>();
-            await fileService.UploadAvatarAsync(fileEntity, user);
-            return Ok(new StandardResult().Succeed("上传成功"));
+            await service.UploadAsync(fileEntity);
+            return Ok(new StandardResult().Succeed("上传成功", AppSetting.ApiUrl + "/api/File/" + fileId));
         }
 
         [HttpPost]
-        [Route("api/Avatar/UploadImage")]
-        public async Task<IActionResult> UploadByBase64([FromBody]JObject data)
+        [Route("api/Avatar/Upload")]
+        public async Task<IActionResult> UploadAvatarByBase64([FromBody]JObject data)
         {
             var imageBase64 = data["image"].ToObject<string>();
             if (!string.IsNullOrWhiteSpace(imageBase64))
@@ -71,11 +74,15 @@ namespace Focus.Api.Controllers
                 var reg = new Regex("data:image/(.*);base64,");
                 imageBase64 = reg.Replace(imageBase64, "");
                 byte[] imageByte = Convert.FromBase64String(imageBase64);
-                if (!Directory.Exists(AppSetting.FileRootPath))
+                var fileRootPath = AppSetting.FileRootPath + FileSource.Avatar.GetDescriptionByName();
+                if (!Directory.Exists(fileRootPath))
                 {
-                    Directory.CreateDirectory(AppSetting.FileRootPath);
+                    Directory.CreateDirectory(fileRootPath);
                 }
-                string fullPath = AppSetting.FileRootPath + CurrentUserId + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
+                var fileService = Ioc.Get<IFileService>();
+                var fileId = Guid.NewGuid().ToString();
+                var fileName = fileService.GenerateFileName(".png", fileId);
+                string fullPath = fileRootPath + "/" + fileName;
                 using (var fileStream = new FileStream(fullPath, FileMode.Create))
                 {
                     using (var memoryStream = new MemoryStream(imageByte))
@@ -86,18 +93,17 @@ namespace Focus.Api.Controllers
 
                 var userService = Ioc.Get<IUserService>();
                 var user = await userService.GetUserById(CurrentUserId);
-                var fileId = Guid.NewGuid().ToString();
-                var fileEntity = new Focus.Domain.Entities.File
+                var fileEntity = new Domain.Entities.File
                 {
                     Id = fileId,
-                    Name = CurrentUserId + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png",
+                    Name = fileName,
                     Path = fullPath,
-                    Type = Domain.Enums.FileType.Avatar,
+                    Type = FileSource.Avatar,
                     CreatedBy = CurrentUserId,
                     CreatedTime = DateTime.Now
                 };
                 user.Avatar = "/api/File/" + fileId;
-                var fileService = Ioc.Get<IFileService>();
+
                 await fileService.UploadAvatarAsync(fileEntity, user);
                 return Ok(new StandardResult().Succeed("上传成功"));
             }
@@ -107,31 +113,18 @@ namespace Focus.Api.Controllers
         [HttpGet]
         [Route("api/File/{fileId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> DownloadAvatar(string fileId)
+        public async Task<IActionResult> Download(string fileId)
         {
             var service = Ioc.Get<IFileService>();
             var file = await service.GetByIdAsync(fileId);
             if (file == null)
-                return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "头像不存在"));
+                return BadRequest(new StandardResult().Fail(StandardCode.LogicError, "文件不存在"));
 
             var fileExt = Path.GetExtension(file.Path);
             var stream = new FileStream(file.Path, FileMode.Open);
             var provider = new FileExtensionContentTypeProvider();
             var contentType = provider.Mappings[fileExt];
             return File(stream, contentType, Path.GetFileName(file.Name));
-        }
-
-        private bool IsImage(string fileName)
-        {
-            string[] allowExtensions = { ".jpg", ".gif", ".png", ".bmp" };
-            var fileExt = Path.GetExtension(fileName).ToLower();
-            return allowExtensions.Contains(fileExt);
-        }
-
-        private string GenerateFileName(string userId, string fileName)
-        {
-            var extension = Path.GetExtension(fileName);
-            return userId + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + extension;
         }
     }
 }

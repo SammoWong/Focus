@@ -2,12 +2,12 @@
 
 namespace Focus.Domain.Enums
 {
-    public enum FileType : byte
+    public enum FileSource : byte
     {
         [Display(Name = "头像")]
         Avatar = 1,
 
         [Display(Name = "LOGO")]
-        Logo = 2
+        Article = 2
     }
 }

@@ -2,9 +2,7 @@
 using Focus.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Focus.Service
@@ -31,6 +29,28 @@ namespace Focus.Service
                     tran.Commit();
                 }
             }
+        }
+
+        public async Task UploadAsync(File file)
+        {
+            using(var db = NewDbContext())
+            {
+                await db.Files.AddAsync(file);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public string GenerateFileName(string extension, string fileId)
+        {
+            //var extension = System.IO.Path.GetExtension(originalFileName);
+            return DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + fileId + extension;
+        }
+
+        public bool IsImage(string originalFileName)
+        {
+            string[] allowExtensions = { ".jpg", ".gif", ".png", ".bmp" };
+            var fileExt = System.IO.Path.GetExtension(originalFileName).ToLower();
+            return allowExtensions.Contains(fileExt);
         }
     }
 }

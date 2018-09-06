@@ -9,7 +9,7 @@
         public const string SqlConnectionString = "Server = (localdb)\\MSSQLLocalDB; Database = FocusDb; Trusted_Connection = True";
         //public const string SqlConnectionString = "Server=.;Database=FocusDb;Trusted_Connection=True";
 
-        public const string FileRootPath = "D:/Focus/Avatar/";
+        public const string FileRootPath = "D:/Focus_Files/";
 
         public const string DisplayName = "Focus管理系统";
         public const string ClientSecret = "Focus.Secret";

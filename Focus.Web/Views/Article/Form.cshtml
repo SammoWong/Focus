@@ -66,9 +66,27 @@
                     this.bindEvents();
                 },
                 methods: {
+                    uploadFile: function (files, editor, $editable) {
+                        var formData = new FormData();
+                        formData.append('file', files[0]);
+                        formData.append('fileSource', 2);
+                        _.post(apiUrl + '/api/File/Upload', formData, function (data) {
+                            if (data.code == 0) {
+                                $(".summernote").summernote('editor.insertImage', data.data);
+                            } else {
+                                toastr.error(data.message)
+                            }
+                        }, { contentType: false, processData: false, dataType: 'json' });
+                    },
                     initSummernote: function () {
+                        //以base64编码的形式上传
+                        //TODO:改为上传存取图片路径
                         $(".summernote").summernote({
-                            lang: "zh-CN"
+                            lang: "zh-CN",
+                            focus: true,  
+                            //onImageUpload: function (files, editor, $editable) {
+                            //    viewModel.methods.uploadFile(files)
+                            //}
                         });
                     },
                     getArticle: function (id) {

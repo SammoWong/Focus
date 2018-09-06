@@ -11,5 +11,11 @@ namespace Focus.Service.Interfaces
         Task UploadAvatarAsync(File file, User user);
 
         Task<File> GetByIdAsync(string id);
+
+        Task UploadAsync(File file);
+
+        string GenerateFileName(string extension, string fileId);
+
+        bool IsImage(string originalFileName);
     }
 }

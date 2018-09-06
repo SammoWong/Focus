@@ -12,7 +12,7 @@ namespace Focus.Domain.Entities
 
         public string Path { get; set; }
 
-        public FileType Type { get; set; }
+        public FileSource Type { get; set; }
 
         public string CreatedBy { get; set; }
 
