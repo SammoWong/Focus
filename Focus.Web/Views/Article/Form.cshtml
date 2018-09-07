@@ -66,27 +66,26 @@
                     this.bindEvents();
                 },
                 methods: {
-                    uploadFile: function (files, editor, $editable) {
+                    uploadFile: function (files) {
                         var formData = new FormData();
                         formData.append('file', files[0]);
                         formData.append('fileSource', 2);
                         _.post(apiUrl + '/api/File/Upload', formData, function (data) {
                             if (data.code == 0) {
-                                $(".summernote").summernote('editor.insertImage', data.data);
+                                $(".summernote").summernote('insertImage', data.data);
                             } else {
                                 toastr.error(data.message)
                             }
                         }, { contentType: false, processData: false, dataType: 'json' });
                     },
                     initSummernote: function () {
-                        //以base64编码的形式上传
-                        //TODO:改为上传存取图片路径
                         $(".summernote").summernote({
                             lang: "zh-CN",
-                            focus: true,  
-                            //onImageUpload: function (files, editor, $editable) {
-                            //    viewModel.methods.uploadFile(files)
-                            //}
+                            callbacks: {
+                                onImageUpload: function (files) {
+                                    viewModel.methods.uploadFile(files)
+                                }
+                            }
                         });
                     },
                     getArticle: function (id) {
@@ -94,7 +93,7 @@
                             return;
                         _.get(apiUrl + '/api/Article/' + id, function (data) {
                             $('#articleForm').formSerialize(data.data);
-                            $('.summernote').code(data.data.content);
+                            $('.summernote').summernote('code', data.data.content);
                             if (data.data.isTop) {
                                 $('#isTop').iCheck('check');
                             } else {
@@ -135,7 +134,7 @@
                                 category: $('#category').val(),
                                 title: $('#title').val(),
                                 enabled: $('#enabled').val(),
-                                content: $(".summernote").summernote().code(),
+                                content: $(".summernote").summernote('code'),
                                 isTop: $('#isTop').is(':checked')
                             }, function (data) {
                                 if (data.code == 0) {
