@@ -240,6 +240,8 @@
                 console.log(XMLHttpRequest.readyState);
                 // 错误信息   
                 console.log(textStatus);
+
+                toastr.error(XMLHttpRequest.responseJSON.message);
             }
         };
         if (isFunction(data)) {
@@ -290,6 +292,8 @@
                 console.log(XMLHttpRequest.readyState);
                 // 错误信息   
                 console.log(textStatus);
+
+                toastr.error(XMLHttpRequest.responseJSON.message);
             }
         };
         if (isFunction(data)) {

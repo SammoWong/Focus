@@ -13,15 +13,18 @@ namespace Focus.Auth
     public class ProfileService : IProfileService
     {
         private readonly IUserService _userService;
+        private readonly IPermissionService _permissionService;
 
         public ProfileService()
         {
             _userService = new UserService();
+            _permissionService = new PermissionService();
         }
 
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var user = _userService.GetUserById(context.Subject.GetSubjectId()).Result;
+            var buttonPermissionCode = _permissionService.GetButtonPermissionCodeByRoleId(user.Role.Id).Result;
             var claims = new List<Claim>
             {
                 new Claim(JwtClaimTypes.Subject, context.Subject.GetSubjectId()),
@@ -31,7 +34,8 @@ namespace Focus.Auth
                 new Claim(JwtClaimTypes.Role, user.Role.Name),
                 new Claim("companyId", user.CompanyId),
                 new Claim("roleId", user.RoleId),
-                new Claim("avatar", user.Avatar ?? string.Empty)
+                new Claim("avatar", user.Avatar ?? string.Empty),
+                new Claim("buttonPermissionCode", buttonPermissionCode ?? string.Empty)
             };
             context.IssuedClaims.AddRange(claims);
             return Task.FromResult(0);

@@ -19,7 +19,6 @@ namespace Focus.Model
         public List<TreeJsonModel> Children = new List<TreeJsonModel>();
 
         public string ParentId { get; set; }
-
     }
 
     public class State

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Focus.Infrastructure.Web.Attributes;
 using Focus.Infrastructure.Web.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -10,9 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Focus.Api.Controllers
 {
-    [Authorize]
-    [ApiController]
-    public class IdentityController : ControllerBase
+    public class IdentityController : FocusApiControllerBase
     {
         //TODO:需改进
         [HttpGet]
